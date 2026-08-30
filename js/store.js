@@ -1,11 +1,12 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * Store Manager - Gerenciamento de Estado e Persistência (LocalStorage / Supabase)
+ * Store Manager - Gerenciamento de Estado Reativo & Integração Transversal entre Macromódulos
  */
 
 const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v1';
 const STORAGE_KEY_ESTOQUE = 'sgi_fdj_estoque_v1';
 const STORAGE_KEY_USUARIOS = 'sgi_fdj_usuarios_v1';
+const STORAGE_KEY_LOGS = 'sgi_fdj_logs_v1';
 
 // Dados Iniciais Mockados da Fundação Doutor Jesus
 const initialAcolhidos = [
@@ -13,6 +14,7 @@ const initialAcolhidos = [
     id: "FDJ-2026-001",
     nome: "Roberto Carlos Silva",
     cpf: "123.456.789-00",
+    rg: "14.587.963-00",
     status: "ativo",
     fasePTI: 3,
     leito: "Bloco A - Leito 12",
@@ -21,13 +23,13 @@ const initialAcolhidos = [
     dataAdmissao: "2026-01-15",
     dieta: "Normal",
     acompanhamentoMedico: "Exame Cardiológico em dia",
-    rg: "14.587.963-00",
     contatoEmergencia: "(71) 98877-6655 - Esposa (Maria)"
   },
   {
     id: "FDJ-2026-002",
     nome: "Marcos Vinicius Santos",
     cpf: "987.654.321-11",
+    rg: "12.365.478-99",
     status: "triagem",
     fasePTI: 1,
     leito: "Triagem - Leito 04",
@@ -36,13 +38,13 @@ const initialAcolhidos = [
     dataAdmissao: "2026-08-20",
     dieta: "Hipossódica (Pressão Alta)",
     acompanhamentoMedico: "Atendimento Psicológico Semanal",
-    rg: "12.365.478-99",
     contatoEmergencia: "(75) 99123-4567 - Mãe (Ana)"
   },
   {
     id: "FDJ-2026-003",
     nome: "João Pedro Oliveira",
     cpf: "456.789.123-22",
+    rg: "09.874.521-33",
     status: "ativo",
     fasePTI: 4,
     leito: "Bloco C - Leito 08",
@@ -51,7 +53,6 @@ const initialAcolhidos = [
     dataAdmissao: "2025-11-10",
     dieta: "Normal",
     acompanhamentoMedico: "Liberado / Acompanhamento MROSC",
-    rg: "09.874.521-33",
     contatoEmergencia: "(71) 98765-4321 - Irmão (Carlos)"
   }
 ];
@@ -83,6 +84,9 @@ class Store {
     if (!localStorage.getItem(STORAGE_KEY_USUARIOS)) {
       localStorage.setItem(STORAGE_KEY_USUARIOS, JSON.stringify(initialUsuarios));
     }
+    if (!localStorage.getItem(STORAGE_KEY_LOGS)) {
+      localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
+    }
   }
 
   getAcolhidos() {
@@ -93,6 +97,14 @@ class Store {
     return this.getAcolhidos().find(a => a.id === id);
   }
 
+  /**
+   * REAÇÃO TRANSVERSAL:
+   * Ao cadastrar um novo Acolhido na Triagem (Macromódulo 1):
+   * 1. Adiciona o Acolhido na lista principal.
+   * 2. Baixa AUTOMATICAMENTE 1 "Kit de Admissão de Acolhidos" no Almoxarifado (Macromódulo 2).
+   * 3. Registra o Acolhido para acompanhamento médico/dieta na Saúde.
+   * 4. Gera um Log de Auditoria do Sistema.
+   */
   addAcolhido(acolhido) {
     const acolhidos = this.getAcolhidos();
     const newAcolhido = {
@@ -102,9 +114,30 @@ class Store {
       fasePTI: 1,
       ...acolhido
     };
+
     acolhidos.unshift(newAcolhido);
     localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
+
+    // REAÇÃO 1: Baixar Kit de Admissão no Almoxarifado (Macromódulo 2)
+    this.deduzirItemEstoque("EST-04", 1);
+
+    // REAÇÃO 2: Registrar Log de Auditoria
+    this.addLog(`Novo Acolhido cadastrado na Triagem: ${newAcolhido.nome} (${newAcolhido.id}). Kit de Admissão deduzido do estoque.`);
+
     return newAcolhido;
+  }
+
+  deduzirItemEstoque(itemId, quantidade = 1) {
+    const estoque = this.getEstoque();
+    const index = estoque.findIndex(e => e.id === itemId);
+    if (index !== -1 && estoque[index].quantidade >= quantidade) {
+      estoque[index].quantidade -= quantidade;
+      localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(estoque));
+    }
+  }
+
+  getEstoque() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_ESTOQUE)) || [];
   }
 
   updateAcolhido(id, data) {
@@ -113,6 +146,7 @@ class Store {
     if (index !== -1) {
       acolhidos[index] = { ...acolhidos[index], ...data };
       localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
+      this.addLog(`Dados do Acolhido ${id} atualizados.`);
       return acolhidos[index];
     }
     return null;
@@ -123,17 +157,28 @@ class Store {
     if (acolhido && acolhido.fasePTI < 4) {
       const novaFase = acolhido.fasePTI + 1;
       const novoStatus = novaFase >= 2 ? 'ativo' : 'triagem';
-      return this.updateAcolhido(id, { fasePTI: novaFase, status: novoStatus });
+      const updated = this.updateAcolhido(id, { fasePTI: novaFase, status: novoStatus });
+      this.addLog(`Acolhido ${acolhido.nome} avançou para a Fase ${novaFase} do PTI.`);
+      return updated;
     }
     return acolhido;
   }
 
-  getEstoque() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY_ESTOQUE)) || [];
-  }
-
   getUsuarios() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY_USUARIOS)) || [];
+  }
+
+  getLogs() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS)) || [];
+  }
+
+  addLog(mensagem) {
+    const logs = this.getLogs();
+    logs.unshift({
+      timestamp: new Date().toLocaleString('pt-BR'),
+      mensagem
+    });
+    localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs.slice(0, 50)));
   }
 
   getEstatisticas() {
@@ -144,12 +189,14 @@ class Store {
     const totalTriagem = acolhidos.filter(a => a.status === 'triagem').length;
     const totalPTI34 = acolhidos.filter(a => a.fasePTI >= 3).length;
     const estoqueCritico = estoque.filter(e => e.quantidade <= e.estoqueMinimo).length;
+    const totalDietasEspeciais = acolhidos.filter(a => a.dieta && a.dieta !== 'Normal').length;
 
     return {
       totalAtivos,
       totalTriagem,
       totalPTI34,
       estoqueCritico,
+      totalDietasEspeciais,
       totalRefeicoes: 1240
     };
   }

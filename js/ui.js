@@ -1,6 +1,6 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Renderização de Componentes e Macromódulos
+ * UI Manager - Renderização de Componentes e Reatividade entre Macromódulos
  */
 
 class UI {
@@ -15,6 +15,7 @@ class UI {
     const stats = window.store.getEstatisticas();
     const acolhidos = window.store.getAcolhidos();
     const estoque = window.store.getEstoque();
+    const logs = window.store.getLogs();
 
     // Filtrar acolhidos
     const acolhidosFiltrados = acolhidos.filter(a => {
@@ -58,26 +59,22 @@ class UI {
               <i data-lucide="file-badge-2"></i>
               <span>2. Prontuário & PTI</span>
             </button>
-            <button class="btn \${this.currentTab === 'crachas' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('crachas')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="id-card"></i>
-              <span>3. Crachás & Quitação</span>
-            </button>
-            <button class="btn \${this.currentTab === 'transportados' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('transportados')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="bus"></i>
-              <span>4. Transportados</span>
-            </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Outros Módulos
+              Macromódulo 2 & Saúde
             </div>
 
             <button class="btn \${this.currentTab === 'estoque' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('estoque')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="package"></i>
               <span>Almoxarifado FEFO</span>
             </button>
+            <button class="btn \${this.currentTab === 'saude' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('saude')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="heart-pulse"></i>
+              <span>Saúde & Dietas</span>
+            </button>
             <button class="btn \${this.currentTab === 'ti' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('ti')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="shield-check"></i>
-              <span>Módulo 13: TI / Admin</span>
+              <span>Módulo 13: TI & Logs</span>
             </button>
           </nav>
         </aside>
@@ -89,13 +86,13 @@ class UI {
               <h1 style="font-size: 1.25rem; font-weight: 800;">
                 \${this.getTabTitle()}
               </h1>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Sistema de Gestão Integrada</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Integração Transversal Ativa</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem;">
               <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAcolhido()">
                 <i data-lucide="user-plus"></i>
-                <span>Novo Acolhido</span>
+                <span>Novo Acolhido (Triagem)</span>
               </button>
             </div>
           </header>
@@ -127,29 +124,29 @@ class UI {
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
-                  <i data-lucide="award"></i>
+                  <i data-lucide="heart"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>PTI Fases 3 & 4</h4>
-                  <div class="stat-value">\${stats.totalPTI34}</div>
-                  <div class="stat-subtext"><i data-lucide="trending-up"></i> Fase de Reinserção</div>
+                  <h4>Dietas Especiais</h4>
+                  <div class="stat-value">\${stats.totalDietasEspeciais}</div>
+                  <div class="stat-subtext"><i data-lucide="utensils"></i> Restrições na Cozinha</div>
                 </div>
               </div>
 
               <div class="card stat-card">
-                <div class="stat-icon-wrapper" style="background: rgba(37,99,235,0.12); color: #2563eb; border-color: rgba(37,99,235,0.3);">
-                  <i data-lucide="utensils"></i>
+                <div class="stat-icon-wrapper" style="background: rgba(220,38,38,0.12); color: #dc2626; border-color: rgba(220,38,38,0.3);">
+                  <i data-lucide="package-search"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Refeições / Dia</h4>
-                  <div class="stat-value">\${stats.totalRefeicoes}</div>
-                  <div class="stat-subtext"><i data-lucide="heart"></i> Café e Almoço</div>
+                  <h4>Estoque Crítico</h4>
+                  <div class="stat-value">\${stats.estoqueCritico}</div>
+                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-circle"></i> Almoxarifado FEFO</div>
                 </div>
               </div>
             </div>
 
             <!-- Content Area Based on Active Tab -->
-            \${this.renderTabContent(acolhidosFiltrados, estoque)}
+            \${this.renderTabContent(acolhidosFiltrados, estoque, logs)}
           </main>
         </div>
       </div>
@@ -170,20 +167,142 @@ class UI {
 
   getTabTitle() {
     switch (this.currentTab) {
-      case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos & Leitos';
-      case 'pti': return 'Módulo 2: Prontuário Eletrônico & PTI (Plano Terapêutico Individual)';
-      case 'crachás': return 'Módulo 3: Emissão de Crachás de Identificação & Quitação';
-      case 'transportados': return 'Módulo 4: Relação de Transportados & Acompanhamento';
-      case 'estoque': return 'Macromódulo 2: Controle de Estoque FEFO & Refeições';
-      case 'ti': return 'Módulo 13: Administração do Sistema & Organograma';
-      default: return 'Painel Executivo — Fundação Doutor Jesus';
+      case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos & Triagem';
+      case 'pti': return 'Módulo 2: Prontuário Eletrônico & PTI';
+      case 'estoque': return 'Macromódulo 2: Controle de Estoque FEFO & Kits de Admissão';
+      case 'saude': return 'Gestão da Saúde & Controle de Dietas Especiais';
+      case 'ti': return 'Módulo 13: TI & Logs Reativos de Auditoria';
+      default: return 'Painel Executivo — Integração Transversal entre Macromódulos';
     }
   }
 
-  renderTabContent(acolhidos, estoque) {
+  renderTabContent(acolhidos, estoque, logs) {
+    if (this.currentTab === 'estoque') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="boxes" style="vertical-align: middle; margin-right: 0.5rem;"></i> Almoxarifado FEFO (Reflexo Automático das Admissões)</h3>
+            <span class="badge badge-info">Macromódulo 2</span>
+          </div>
+
+          <div class="info-card" style="margin-bottom: 1rem; background: var(--bg-main); border: 1px solid var(--border-highlight);">
+            <p style="margin-bottom: 0; font-size: 0.85rem;">
+              ℹ️ <strong>Integração Ativa:</strong> A cada novo acolhido cadastrado na <strong>Triagem (Macromódulo 1)</strong>, 1 <strong>Kit de Admissão (EST-04)</strong> é deduzido automaticamente deste estoque!
+            </p>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código Item</th>
+                  <th>Descrição do Item</th>
+                  <th>Quantidade Atual</th>
+                  <th>Estoque Mínimo</th>
+                  <th>Setor Responsável</th>
+                  <th>Validade (FEFO)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${estoque.map(e => `
+                  <tr>
+                    <td><strong>\${e.id}</strong></td>
+                    <td>\${e.item}</td>
+                    <td><strong style="font-size: 1.1rem; color: \${e.quantidade <= e.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${e.quantidade} u</strong></td>
+                    <td>\${e.estoqueMinimo} u</td>
+                    <td>\${e.setor}</td>
+                    <td>\${e.validade}</td>
+                    <td>
+                      <span class="badge \${e.quantidade <= e.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
+                        \${e.quantidade <= e.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
+                      </span>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    if (this.currentTab === 'saude') {
+      const acolhidosComDieta = window.store.getAcolhidos().filter(a => a.dieta && a.dieta !== 'Normal');
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="heart-pulse" style="vertical-align: middle; margin-right: 0.5rem;"></i> Controle de Dietas Especiais & Saúde (Reflexo da Admissão)</h3>
+            <span class="badge badge-success">Gestão da Saúde</span>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código FDJ</th>
+                  <th>Acolhido</th>
+                  <th>Dieta Prescrita (Cozinha)</th>
+                  <th>Acompanhamento Médico / Psicossocial</th>
+                  <th>Leito</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${acolhidosComDieta.map(a => `
+                  <tr>
+                    <td><strong>\${a.id}</strong></td>
+                    <td><strong>\${a.nome}</strong></td>
+                    <td><span class="badge badge-warning">\${a.dieta}</span></td>
+                    <td>\${a.acompanhamentoMedico}</td>
+                    <td>\${a.leito}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    if (this.currentTab === 'ti') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> Logs de Auditoria Transversal em Tempo Real (Módulo 13)</h3>
+            <span class="badge badge-primary">SuperAdmin / TI</span>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Horário / Data</th>
+                  <th>Evento do Sistema</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${logs.length > 0 ? logs.map(l => `
+                  <tr>
+                    <td style="width: 200px; font-weight: 700;">\${l.timestamp}</td>
+                    <td>\${l.mensagem}</td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td colspan="2" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                      Nenhum evento registrado até o momento.
+                    </td>
+                  </tr>
+                `}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // Default: Tab Acolhidos / Dashboard
     return `
       <div class="card">
-        <!-- Filter Controls -->
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
           <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
             <div class="form-group" style="margin-bottom: 0; flex: 1;">
@@ -199,14 +318,13 @@ class UI {
           <span class="badge badge-primary">Macromódulo 1: Gestão de Acolhidos</span>
         </div>
 
-        <!-- Table -->
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
                 <th>Código FDJ</th>
                 <th>Nome do Acolhido</th>
-                <th>CPF / RG</th>
+                <th>CPF</th>
                 <th>Status</th>
                 <th>Fase PTI</th>
                 <th>Leito / Bloco</th>
