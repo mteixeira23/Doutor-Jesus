@@ -1,11 +1,23 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * Main Application Initializer (Opção A - Pure Static Engine)
+ * Main Initializer - Invocação Síncrona Implacável
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('SGI Fundação Doutor Jesus — Sistema Inicializado.');
+function runSGIApp() {
   if (window.ui && typeof window.ui.renderApp === 'function') {
     window.ui.renderApp();
   }
-});
+}
+
+// 1. Execução Imediata no carregamento do arquivo
+runSGIApp();
+
+// 2. Execução no DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', runSGIApp);
+} else {
+  runSGIApp();
+}
+
+// 3. Execução no evento load completo
+window.addEventListener('load', runSGIApp);

@@ -1,6 +1,6 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Reconstrução Puramente Estática sem Dependência de Bundler (Opção A)
+ * UI Manager - Engine de Renderização Estática com Invocação Síncrona Imediata
  */
 
 class UI {
@@ -12,29 +12,21 @@ class UI {
   }
 
   renderApp() {
-    if (!this.root) {
-      this.root = document.getElementById('root');
-    }
+    this.root = document.getElementById('root');
     if (!this.root) return;
 
-    const acolhidos = window.store ? window.store.getAcolhidos() : [];
-    const acolhidoAtual = window.store ? window.store.getAcolhidoById(this.selectedAcolhidoId) : {
-      id: "FDJ-2026-001",
-      nome: "Lucas Silva Santos",
-      cpf: "123.456.789-00",
-      status: "ativo",
-      leito: "Leito A-101",
-      oficina: "Oficina de Elétrica",
-      dieta: "Normal"
-    };
+    const acolhidos = window.store ? window.store.getAcolhidos() : [
+      { id: "FDJ-2026-001", nome: "Lucas Silva Santos", cpf: "123.456.789-00", status: "ativo", leito: "Leito A-101 (Térreo PCD)", oficina: "Oficina de Elétrica", dieta: "Normal" },
+      { id: "FDJ-2026-002", nome: "Mateus Santos Oliveira", cpf: "987.654.321-11", status: "triagem", leito: "Leito B-205", oficina: "Horta Orgânica FDJ", dieta: "Hipossódica (Pressão Alta)" }
+    ];
 
+    const acolhidoAtual = window.store ? window.store.getAcolhidoById(this.selectedAcolhidoId) : acolhidos[0];
     const laborterapia = window.store ? window.store.getLaborterapia() : [];
-    const logs = window.store ? window.store.getLogs() : [];
 
     this.root.innerHTML = `
-      <div class="app-container" style="font-family: 'Inter', sans-serif;">
-        <!-- Top Banner Header (Estilo Screenshot 2) -->
-        <header style="padding: 0.75rem 2rem; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+      <div class="app-container" style="font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh;">
+        <!-- Top Banner Header -->
+        <header style="padding: 0.75rem 2rem; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
           <div style="display: flex; align-items: center; gap: 1rem;">
             <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.5rem; color: #dc2626; letter-spacing: -0.03em;">
               Fundação Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">JESUS</span>
@@ -42,22 +34,19 @@ class UI {
           </div>
 
           <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">
-            <span style="color: var(--text-muted);"><i data-lucide="moon"></i> Modo Escuro</span>
             <span style="font-weight: 700; color: var(--primary);">marcos.vinicius2323@...</span>
-            <button class="btn btn-outline btn-sm" onclick="alert('SGI Fundação Doutor Jesus — Sistema em Execução Nativa')">[→ Sair</button>
+            <button class="btn btn-outline btn-sm" onclick="window.ui.renderApp()">[→ Atualizar</button>
           </div>
         </header>
 
         <div style="display: flex; min-height: calc(100vh - 60px);">
-          \${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia, logs)}
+          \${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia)}
         </div>
       </div>
-
-      <div id="modal-container"></div>
     `;
 
     if (window.lucide) {
-      window.lucide.createIcons();
+      try { window.lucide.createIcons(); } catch(e){}
     }
   }
 
@@ -71,12 +60,10 @@ class UI {
     this.renderApp();
   }
 
-  renderViewContent(acolhidos, acolhidoAtual, laborterapia, logs) {
-    // 1. TELA PRINCIPAL: MACROMÓDULO 3 (CARD HOME DA SCREENSHOT 1)
+  renderViewContent(acolhidos, acolhidoAtual, laborterapia) {
     if (this.currentView === 'macro3_home') {
       return `
         <div style="padding: 2rem; width: 100%; max-width: 900px; margin: 0 auto;">
-          <!-- Card 3. Saúde & Equipe Multidisciplinar -->
           <div class="card" style="border-top: 4px solid #0284c7; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); background: #fff; padding: 2rem; border-radius: 12px;">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
               <div style="width: 50px; height: 50px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
@@ -89,7 +76,6 @@ class UI {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <!-- Option 1: Dashboard & Indicadores -->
               <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="alert('Visualizando Gráficos do Corpo Clínico & SUS...')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
@@ -103,7 +89,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 2: Módulo 8: Prontuário -->
               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('mod8_prontuario')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
@@ -117,7 +102,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 3: Módulo 9: Laborterapia -->
               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('mod9_laborterapia')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
@@ -131,7 +115,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 4: Cadastros Saúde & Multidisciplinar -->
               <div class="card" style="background: #fff; border: 1px solid #cbd5e1; border-style: dashed; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('cadastros_saude')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
@@ -150,10 +133,8 @@ class UI {
       `;
     }
 
-    // 2. MÓDULO 8: PRONTUÁRIO SAÚDE (EXATO LAYOUT SCREENSHOT 2 — TOTALMENTE FUNCIONAL)
     if (this.currentView === 'mod8_prontuario') {
       return `
-        <!-- Left Sidebar Navigation for Módulo 8 (Screenshot 2 exact layout) -->
         <aside style="width: 280px; background: #fff; border-right: 1px solid var(--border-color); padding: 1.25rem;">
           <div class="card" style="background: #fff; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 8px;">
             <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.5rem;" onclick="window.ui.setView('macro3_home')">
@@ -200,9 +181,7 @@ class UI {
           </div>
         </aside>
 
-        <!-- Main Content Area for Módulo 8 -->
         <main style="flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto;">
-          <!-- Acolhido Selector Bar -->
           <div class="card" style="margin-bottom: 1.5rem; background: #fff; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
               <div>
@@ -220,13 +199,11 @@ class UI {
             </div>
           </div>
 
-          <!-- Sub-Tab Content -->
           \${this.renderMod8TabContent(acolhidoAtual)}
         </main>
       `;
     }
 
-    // 3. MÓDULO 9: LABORTERAPIA (ROTINA E CERTIFICADO 240H)
     if (this.currentView === 'mod9_laborterapia') {
       return `
         <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
@@ -236,7 +213,6 @@ class UI {
               <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;"><i data-lucide="hammer" style="vertical-align: middle;"></i> Módulo 9: Laborterapia & Oficinas Produtivas</h2>
               <p style="font-size: 0.85rem; color: #64748b;">Rotina diária de trabalho terapêutico e emissão de certificado oficial de 240 horas</p>
             </div>
-
             <span class="badge badge-primary">Supervisão de Laborterapia FDJ</span>
           </div>
 
@@ -284,7 +260,6 @@ class UI {
       `;
     }
 
-    // 4. CADASTROS SAÚDE & MULTIDISCIPLINAR
     return `
       <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
         <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 1rem;">← Voltar à Central</button>
@@ -401,4 +376,12 @@ class UI {
   }
 }
 
+// Instanciação e Execução Síncrona Imediata
 window.ui = new UI();
+
+// Invocação Imediata ao Carregar o Script
+try {
+  window.ui.renderApp();
+} catch(e) {
+  console.warn("Immediate render attempt exception:", e);
+}
