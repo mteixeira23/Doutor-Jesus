@@ -1,12 +1,12 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Renderização dos Macromódulos 1 & 2 (Almoxarifado, Despensa e Frota)
+ * UI Manager - Macromódulo 1: Gestão dos Acolhidos (Padrão RDC 29 ANVISA & Vercel)
  */
 
 class UI {
   constructor() {
     this.root = document.getElementById('root');
-    this.currentTab = 'dashboard';
+    this.currentTab = 'acolhidos';
     this.filtroStatus = 'todos';
     this.termoBusca = '';
   }
@@ -14,9 +14,7 @@ class UI {
   renderApp() {
     const stats = window.store.getEstatisticas();
     const acolhidos = window.store.getAcolhidos();
-    const almoxarifado = window.store.getAlmoxarifado();
-    const despensa = window.store.getDespensa();
-    const frota = window.store.getFrota();
+    const blocos = window.store.getBlocos();
     const logs = window.store.getLogs();
 
     // Filtrar acolhidos
@@ -28,15 +26,6 @@ class UI {
         a.id.toLowerCase().includes(this.termoBusca.toLowerCase());
       return matchStatus && matchBusca;
     });
-
-    // Filtrar Almoxarifado
-    const almoxFiltrado = almoxarifado.filter(a => !this.termoBusca || a.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || a.id.toLowerCase().includes(this.termoBusca.toLowerCase()));
-
-    // Filtrar Despensa
-    const despensaFiltrada = despensa.filter(d => !this.termoBusca || d.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || d.id.toLowerCase().includes(this.termoBusca.toLowerCase()));
-
-    // Filtrar Frota
-    const frotaFiltrada = frota.filter(f => !this.termoBusca || f.modelo.toLowerCase().includes(this.termoBusca.toLowerCase()) || f.placa.toLowerCase().includes(this.termoBusca.toLowerCase()) || f.motorista.toLowerCase().includes(this.termoBusca.toLowerCase()));
 
     this.root.innerHTML = `
       <div class="app-container">
@@ -53,50 +42,36 @@ class UI {
           </div>
 
           <nav class="sidebar-menu" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
-            <button class="btn \${this.currentTab === 'dashboard' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('dashboard')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="layout-dashboard"></i>
-              <span>Painel Executivo</span>
-            </button>
-            
-            <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Macromódulo 1: Acolhidos
+            <div style="font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.5rem 0 0.25rem 0.5rem;">
+              1. Gestão dos Acolhidos (M1)
             </div>
 
             <button class="btn \${this.currentTab === 'acolhidos' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('acolhidos')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="users"></i>
-              <span>1. Gestão Acolhidos</span>
+              <span>1.1. Triagem & Admissão RDC 29</span>
+            </button>
+            <button class="btn \${this.currentTab === 'leitos' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('leitos')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="bed"></i>
+              <span>1.2. Alojamentos & Leitos</span>
             </button>
             <button class="btn \${this.currentTab === 'pti' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('pti')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="file-badge-2"></i>
-              <span>2. Prontuário & PTI</span>
+              <i data-lucide="file-text"></i>
+              <span>2.0. Prontuário & PTI RDC 29</span>
+            </button>
+            <button class="btn \${this.currentTab === 'documentos' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('documentos')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="qr-code"></i>
+              <span>3.0. Crachás, Quitação & WhatsApp</span>
+            </button>
+            <button class="btn \${this.currentTab === 'altas' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('altas')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="user-check"></i>
+              <span>4.0. Altas & Transporte SUS</span>
             </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Macromódulo 2: Gestão Adm.
+              Outros Módulos
             </div>
 
-            <button class="btn \${this.currentTab === 'almoxarifado' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('almoxarifado')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="package"></i>
-              <span>Módulo Almoxarifado</span>
-            </button>
-            <button class="btn \${this.currentTab === 'despensa' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('despensa')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="shopping-bag"></i>
-              <span>Módulo Despensa</span>
-            </button>
-            <button class="btn \${this.currentTab === 'frota' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('frota')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="truck"></i>
-              <span>Módulo Frota</span>
-            </button>
-
-            <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Saúde & TI
-            </div>
-
-            <button class="btn \${this.currentTab === 'saude' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('saude')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="heart-pulse"></i>
-              <span>Saúde & Dietas</span>
-            </button>
-            <button class="btn \${this.currentTab === 'ti' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('ti')" style="justify-content: flex-start; width: 100%;">
+            <button class="btn btn-secondary" onclick="window.ui.setTab('logs')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="shield-check"></i>
               <span>Módulo 13: TI & Logs</span>
             </button>
@@ -110,13 +85,13 @@ class UI {
               <h1 style="font-size: 1.25rem; font-weight: 800;">
                 \${this.getTabTitle()}
               </h1>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Sistema de Gestão Integrada</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Padrão RDC 29 ANVISA</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem;">
-              <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAcolhido()">
+              <button class="btn btn-primary" onclick="window.ui.abrirModalNovaAdmissao()">
                 <i data-lucide="user-plus"></i>
-                <span>Novo Acolhido (Triagem)</span>
+                <span>Nova Admissão (RDC 29)</span>
               </button>
             </div>
           </header>
@@ -131,46 +106,46 @@ class UI {
                 <div class="stat-info">
                   <h4>Acolhidos Ativos</h4>
                   <div class="stat-value">\${stats.totalAtivos}</div>
-                  <div class="stat-subtext"><i data-lucide="check-circle-2"></i> Residentes Ativos</div>
+                  <div class="stat-subtext"><i data-lucide="check-circle-2"></i> Residentes na Instituição</div>
                 </div>
               </div>
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(217,119,6,0.12); color: #d97706; border-color: rgba(217,119,6,0.3);">
-                  <i data-lucide="package"></i>
+                  <i data-lucide="clock"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Almoxarifado Alertas</h4>
-                  <div class="stat-value">\${stats.almoxCritico}</div>
-                  <div class="stat-subtext" style="color: #d97706;"><i data-lucide="alert-circle"></i> Reposição de Materiais</div>
-                </div>
-              </div>
-
-              <div class="card stat-card">
-                <div class="stat-icon-wrapper" style="background: rgba(220,38,38,0.12); color: #dc2626; border-color: rgba(220,38,38,0.3);">
-                  <i data-lucide="shopping-bag"></i>
-                </div>
-                <div class="stat-info">
-                  <h4>Despensa Alertas</h4>
-                  <div class="stat-value">\${stats.despensaCritica}</div>
-                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-triangle"></i> Estoque FEFO Baixo</div>
+                  <h4>Em Triagem RDC 29</h4>
+                  <div class="stat-value">\${stats.totalTriagem}</div>
+                  <div class="stat-subtext" style="color: #d97706;"><i data-lucide="clipboard-check"></i> Adaptação Inicial</div>
                 </div>
               </div>
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
-                  <i data-lucide="truck"></i>
+                  <i data-lucide="bed"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Veículos em Viagem</h4>
-                  <div class="stat-value">\${stats.veiculosEmViagem} / \${stats.totalVeiculos}</div>
-                  <div class="stat-subtext"><i data-lucide="navigation"></i> Frota em Operação</div>
+                  <h4>Ocupação de Leitos</h4>
+                  <div class="stat-value">\${stats.totalLeitosOcupados} / \${stats.totalLeitosTotais}</div>
+                  <div class="stat-subtext"><i data-lucide="home"></i> Capacidade dos Alojamentos</div>
+                </div>
+              </div>
+
+              <div class="card stat-card">
+                <div class="stat-icon-wrapper" style="background: rgba(37,99,235,0.12); color: #2563eb; border-color: rgba(37,99,235,0.3);">
+                  <i data-lucide="award"></i>
+                </div>
+                <div class="stat-info">
+                  <h4>Fase 3 e 4 do PTI</h4>
+                  <div class="stat-value">\${stats.totalPTI34}</div>
+                  <div class="stat-subtext"><i data-lucide="trending-up"></i> Reinserção Social</div>
                 </div>
               </div>
             </div>
 
             <!-- Content Area Based on Active Tab -->
-            \${this.renderTabContent(acolhidosFiltrados, almoxFiltrado, despensaFiltrada, frotaFiltrada, logs)}
+            \${this.renderTabContent(acolhidosFiltrados, blocos, logs)}
           </main>
         </div>
       </div>
@@ -191,65 +166,80 @@ class UI {
 
   getTabTitle() {
     switch (this.currentTab) {
-      case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos & Triagem';
-      case 'pti': return 'Módulo 2: Prontuário Eletrônico & PTI';
-      case 'almoxarifado': return 'Macromódulo 2: Módulo de Almoxarifado';
-      case 'despensa': return 'Macromódulo 2: Módulo de Despensa (Alimentos & FEFO)';
-      case 'frota': return 'Macromódulo 2: Módulo de Frota & Transporte';
-      case 'saude': return 'Gestão da Saúde & Controle de Dietas Especiais';
-      case 'ti': return 'Módulo 13: TI & Logs Reativos de Auditoria';
-      default: return 'Painel Executivo — SGI Fundação Doutor Jesus';
+      case 'acolhidos': return '1.1. Gestão dos Acolhidos — Triagem & Admissão RDC 29';
+      case 'leitos': return '1.2. Gestão de Alojamentos & Ocupação de Leitos';
+      case 'pti': return '2.0. Prontuário Eletrônico & PTI (Plano Terapêutico Individual RDC 29)';
+      case 'documentos': return '3.0. Emissão de Crachás QR Code, Quitação & Boletim WhatsApp';
+      case 'altas': return '4.0. Altas Terapêuticas, Reinserção & Escala de Transporte SUS';
+      case 'logs': return 'Módulo 13: TI & Logs de Auditoria do Sistema';
+      default: return 'Macromódulo 1: Gestão dos Acolhidos — Fundação Doutor Jesus';
     }
   }
 
-  renderTabContent(acolhidos, almoxarifado, despensa, frota, logs) {
-    // 1. MÓDULO DE ALMOXARIFADO
-    if (this.currentTab === 'almoxarifado') {
+  renderTabContent(acolhidos, blocos, logs) {
+    // 1.1. TRIAGEM & ADMISSÃO
+    if (this.currentTab === 'acolhidos') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-            <h3><i data-lucide="package" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Almoxarifado (Materiais, Ferramentas & Enxovais)</h3>
-            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAlmoxarifado()">
-              <i data-lucide="plus-circle"></i> + Novo Material
+            <h3><i data-lucide="users" style="vertical-align: middle; margin-right: 0.5rem;"></i> Cadastros & Admissões RDC 29 ANVISA</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovaAdmissao()">
+              <i data-lucide="user-plus"></i> + Nova Admissão
             </button>
           </div>
 
-          <div style="margin-bottom: 1rem;">
-            <input type="text" class="form-input" placeholder="Buscar material no almoxarifado..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
+          <!-- Search & Filter Bar -->
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+            <input type="text" class="form-input" placeholder="Buscar por Nome, CPF ou Código FDJ..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)" style="flex: 1;">
+            <select class="form-select" style="width: 160px;" onchange="window.ui.filtrarStatus(this.value)">
+              <option value="todos">Todos os Status</option>
+              <option value="ativo">Ativos</option>
+              <option value="triagem">Em Triagem</option>
+            </select>
           </div>
 
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Código</th>
-                  <th>Material / Item</th>
-                  <th>Categoria</th>
-                  <th>Localização</th>
-                  <th>Saldo Atual</th>
-                  <th>Estoque Mínimo</th>
+                  <th>Código FDJ</th>
+                  <th>Nome do Acolhido</th>
+                  <th>CPF / RG</th>
                   <th>Status</th>
+                  <th>Alojamento / Leito</th>
+                  <th>Checklist Admissão RDC 29</th>
+                  <th>Fase PTI</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                \${almoxarifado.map(a => `
+                \${acolhidos.map(a => `
                   <tr>
                     <td><strong>\${a.id}</strong></td>
-                    <td><strong>\${a.item}</strong></td>
-                    <td><span class="badge badge-info">\${a.categoria}</span></td>
-                    <td>\${a.local}</td>
-                    <td><strong style="font-size: 1.05rem; color: \${a.quantidade <= a.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${a.quantidade} u</strong></td>
-                    <td>\${a.estoqueMinimo} u</td>
+                    <td><strong>\${a.nome}</strong></td>
+                    <td>\${a.cpf}</td>
                     <td>
-                      <span class="badge \${a.quantidade <= a.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
-                        \${a.quantidade <= a.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
+                      <span class="badge \${a.status === 'ativo' ? 'badge-success' : 'badge-warning'}">
+                        \${a.status === 'ativo' ? 'Ativo' : 'Em Triagem'}
                       </span>
                     </td>
+                    <td>\${a.leito}</td>
+                    <td>
+                      <div style="display: flex; gap: 0.2rem;">
+                        <span class="badge \${a.checklist && a.checklist.kitHigiene ? 'badge-success' : 'badge-danger'}" title="Kit Higiene">Kit</span>
+                        <span class="badge \${a.checklist && a.checklist.enxovalLeito ? 'badge-success' : 'badge-danger'}" title="Enxoval de Leito">Enxoval</span>
+                        <span class="badge \${a.checklist && a.checklist.crachaIdentificacao ? 'badge-success' : 'badge-danger'}" title="Crachá">Crachá</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Fase \${a.pti ? a.pti.faseAtual : 1} / 4</span></td>
                     <td>
                       <div style="display: flex; gap: 0.3rem;">
-                        <button class="btn btn-secondary btn-sm" onclick="window.ui.alterarAlmoxarifado('\${a.id}', 5)">+ 5</button>
-                        <button class="btn btn-outline btn-sm" onclick="window.ui.alterarAlmoxarifado('\${a.id}', -1)">- 1</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.ui.abrirProntuario('\${a.id}')" title="Prontuário & PTI">
+                          <i data-lucide="file-text"></i> PTI
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.abrirModalTrocaLeito('\${a.id}')" title="Trocar Leito">
+                          <i data-lucide="bed"></i> Leito
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -261,103 +251,27 @@ class UI {
       `;
     }
 
-    // 2. MÓDULO DE DESPENSA
-    if (this.currentTab === 'despensa') {
+    // 1.2. ALOJAMENTOS & LEITOS
+    if (this.currentTab === 'leitos') {
       return `
         <div class="card">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-            <h3><i data-lucide="shopping-bag" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Despensa (Alimentos & Insumos das Refeições)</h3>
-            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAlimentoDespensa()">
-              <i data-lucide="plus-circle"></i> + Novo Alimento
-            </button>
-          </div>
-
-          <div style="margin-bottom: 1rem;">
-            <input type="text" class="form-input" placeholder="Buscar alimento na despensa..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
-          </div>
-
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Alimento / Insumo</th>
-                  <th>Categoria</th>
-                  <th>Saldo em Estoque</th>
-                  <th>Mínimo</th>
-                  <th>Validade (FEFO)</th>
-                  <th>Status</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                \${despensa.map(d => `
-                  <tr>
-                    <td><strong>\${d.id}</strong></td>
-                    <td><strong>\${d.item}</strong></td>
-                    <td><span class="badge badge-primary">\${d.categoria}</span></td>
-                    <td><strong style="font-size: 1.05rem; color: \${d.quantidade <= d.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${d.quantidade} u</strong></td>
-                    <td>\${d.estoqueMinimo} u</td>
-                    <td><span class="badge badge-info">\${d.validade}</span></td>
-                    <td>
-                      <span class="badge \${d.quantidade <= d.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
-                        \${d.quantidade <= d.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
-                      </span>
-                    </td>
-                    <td>
-                      <div style="display: flex; gap: 0.3rem;">
-                        <button class="btn btn-secondary btn-sm" onclick="window.ui.alterarDespensa('\${d.id}', 10)">+ 10</button>
-                        <button class="btn btn-outline btn-sm" onclick="window.ui.alterarDespensa('\${d.id}', -1)">- 1</button>
-                      </div>
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-    }
-
-    // 3. MÓDULO DE FROTA
-    if (this.currentTab === 'frota') {
-      return `
-        <div class="card">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-            <h3><i data-lucide="truck" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Frota & Veículos (Transporte de Acolhidos)</h3>
-            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoVeiculo()">
-              <i data-lucide="plus-circle"></i> + Novo Veículo
-            </button>
-          </div>
-
-          <div style="margin-bottom: 1rem;">
-            <input type="text" class="form-input" placeholder="Buscar modelo, placa ou motorista..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="bed" style="vertical-align: middle; margin-right: 0.5rem;"></i> 1.2. Gestão de Alojamentos & Quadro de Leitos</h3>
+            <span class="badge badge-primary">Direção de Alojamentos</span>
           </div>
 
           <div class="grid-2">
-            \${frota.map(v => `
+            \${blocos.map(b => `
               <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">\${v.modelo}</h4>
-                  <span class="badge \${v.status === 'Em Viagem' ? 'badge-warning' : (v.status === 'Disponível' ? 'badge-success' : 'badge-info')}">
-                    \${v.status}
-                  </span>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">\${b.nome}</h4>
+                  <span class="badge badge-info">\${b.ocupados} / \${b.capacidade} Leitos Ocupados</span>
                 </div>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Placa:</strong> <span class="badge badge-primary">\${v.placa}</span> | <strong>KM:</strong> \${v.quilometragem}</p>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Motorista Responsável:</strong> \${v.motorista}</p>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Tipo:</strong> \${v.tipo}</p>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;"><strong>Destino Atual:</strong> \${v.destino}</p>
-
-                <div style="display: flex; gap: 0.5rem;">
-                  \${v.status === 'Em Viagem' ? `
-                    <button class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.alterarStatusFrota('\${v.id}', 'Disponível', 'Base Fundação')">
-                      <i data-lucide="check"></i> Registrar Retorno à Base
-                    </button>
-                  ` : `
-                    <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.alterarStatusFrota('\${v.id}', 'Em Viagem')">
-                      <i data-lucide="navigation"></i> Lançar Nova Viagem
-                    </button>
-                  `}
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                  <strong>Leitos PCD Térreos Acessíveis:</strong> \${b.pcd} leitos equipados
+                </p>
+                <div style="width: 100%; background: var(--border-color); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                  <div style="width: \${(b.ocupados / b.capacidade) * 100}%; background: var(--primary); height: 100%;"></div>
                 </div>
               </div>
             `).join('')}
@@ -366,14 +280,13 @@ class UI {
       `;
     }
 
-    // OUTRAS TABS (Saúde, TI, Acolhidos)
-    if (this.currentTab === 'saude') {
-      const acolhidosComDieta = window.store.getAcolhidos().filter(a => a.dieta && a.dieta !== 'Normal');
+    // 2.0. PRONTUÁRIO & PTI
+    if (this.currentTab === 'pti') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="heart-pulse" style="vertical-align: middle; margin-right: 0.5rem;"></i> Controle de Dietas Especiais & Saúde</h3>
-            <span class="badge badge-success">Gestão da Saúde</span>
+            <h3><i data-lucide="file-text" style="vertical-align: middle; margin-right: 0.5rem;"></i> 2.0. Prontuário Eletrônico & Evolução PTI (RDC 29 ANVISA)</h3>
+            <span class="badge badge-success">Serviço Social & Psicossocial</span>
           </div>
 
           <div class="table-container">
@@ -382,19 +295,27 @@ class UI {
                 <tr>
                   <th>Código FDJ</th>
                   <th>Acolhido</th>
-                  <th>Dieta Prescrita (Cozinha)</th>
-                  <th>Acompanhamento Médico / Psicossocial</th>
-                  <th>Leito</th>
+                  <th>Alojamento</th>
+                  <th>Fase Atual PTI</th>
+                  <th>Parecer Técnico da Evolução</th>
+                  <th>Ações de Evolução</th>
                 </tr>
               </thead>
               <tbody>
-                \${acolhidosComDieta.map(a => `
+                \${acolhidos.map(a => `
                   <tr>
                     <td><strong>\${a.id}</strong></td>
                     <td><strong>\${a.nome}</strong></td>
-                    <td><span class="badge badge-warning">\${a.dieta}</span></td>
-                    <td>\${a.acompanhamentoMedico}</td>
                     <td>\${a.leito}</td>
+                    <td><span class="badge badge-primary">Fase \${a.pti ? a.pti.faseAtual : 1} / 4</span></td>
+                    <td style="max-width: 300px; font-size: 0.85rem; color: var(--text-muted);">
+                      \${a.pti ? a.pti.parecerTecnico : 'Aguardando parecer inicial.'}
+                    </td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="window.ui.abrirProntuario('\${a.id}')">
+                        <i data-lucide="arrow-right-circle"></i> Evoluir PTI
+                      </button>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -404,35 +325,51 @@ class UI {
       `;
     }
 
-    if (this.currentTab === 'ti') {
+    // 3.0. CRACHÁS, QUITAÇÃO & WHATSAPP
+    if (this.currentTab === 'documentos') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> Logs de Auditoria do Sistema SGI (Módulo 13)</h3>
-            <span class="badge badge-primary">SuperAdmin / TI</span>
+            <h3><i data-lucide="qr-code" style="vertical-align: middle; margin-right: 0.5rem;"></i> 3.0. Crachá QR Code, Declaração de Quitação & Envio via WhatsApp</h3>
+            <span class="badge badge-info">Documentos Oficiais</span>
           </div>
 
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Horário / Data</th>
-                  <th>Evento do Sistema</th>
+                  <th>Código FDJ</th>
+                  <th>Acolhido</th>
+                  <th>Familiar Responsável</th>
+                  <th>Leito</th>
+                  <th>Documentos Oficiais A4</th>
+                  <th>Notificação WhatsApp</th>
                 </tr>
               </thead>
               <tbody>
-                \${logs.length > 0 ? logs.map(l => `
+                \${acolhidos.map(a => `
                   <tr>
-                    <td style="width: 200px; font-weight: 700;">\${l.timestamp}</td>
-                    <td>\${l.mensagem}</td>
-                  </tr>
-                `).join('') : `
-                  <tr>
-                    <td colspan="2" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-                      Nenhum evento registrado até o momento.
+                    <td><strong>\${a.id}</strong></td>
+                    <td><strong>\${a.nome}</strong></td>
+                    <td>\${a.familiarNome || 'Não informado'}</td>
+                    <td>\${a.leito}</td>
+                    <td>
+                      <div style="display: flex; gap: 0.3rem;">
+                        <button class="btn btn-outline btn-sm" onclick="window.ui.abrirCracha('\${a.id}')">
+                          <i data-lucide="qr-code"></i> Crachá A4
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.abrirQuitacao('\${a.id}')">
+                          <i data-lucide="file-check"></i> Quitação A4
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="window.ui.enviarWhatsApp('\${a.id}')">
+                        <i data-lucide="send"></i> Enviar via WhatsApp
+                      </button>
                     </td>
                   </tr>
-                `}
+                `).join('')}
               </tbody>
             </table>
           </div>
@@ -440,74 +377,78 @@ class UI {
       `;
     }
 
-    // Default Tab Acolhidos
-    return `
-      <div class="card">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 280px;">
-            <div class="form-group" style="margin-bottom: 0; flex: 1;">
-              <input type="text" class="form-input" id="search-input" placeholder="Buscar por nome, CPF ou Código FDJ..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
-            </div>
-            <select class="form-select" style="width: 160px; margin-bottom: 0;" onchange="window.ui.filtrarStatus(this.value)">
-              <option value="todos" \${this.filtroStatus === 'todos' ? 'selected' : ''}>Todos os Status</option>
-              <option value="ativo" \${this.filtroStatus === 'ativo' ? 'selected' : ''}>Ativos</option>
-              <option value="triagem" \${this.filtroStatus === 'triagem' ? 'selected' : ''}>Em Triagem</option>
-            </select>
+    // 4.0. ALTAS & TRANSPORTE SUS
+    if (this.currentTab === 'altas') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="user-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> 4.0. Altas Terapêuticas, Desligamentos & Escala de Transporte SUS</h3>
+            <span class="badge badge-success">Reinserção Social</span>
           </div>
 
-          <span class="badge badge-primary">Macromódulo 1: Gestão de Acolhidos</span>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código FDJ</th>
+                  <th>Acolhido</th>
+                  <th>Status Tratamento</th>
+                  <th>Leito Atual</th>
+                  <th>Ações de Encerramento</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${acolhidos.map(a => `
+                  <tr>
+                    <td><strong>\${a.id}</strong></td>
+                    <td><strong>\${a.nome}</strong></td>
+                    <td>
+                      <span class="badge \${a.status === 'alta' ? 'badge-success' : 'badge-primary'}">
+                        \${a.status === 'alta' ? 'Alta Concluída' : 'Em Tratamento'}
+                      </span>
+                    </td>
+                    <td>\${a.leito}</td>
+                    <td>
+                      \${a.status !== 'alta' ? `
+                        <button class="btn btn-danger btn-sm" onclick="window.ui.confirmarAlta('\${a.id}')">
+                          <i data-lucide="check-square"></i> Confirmar Desligamento & Liberar Leito
+                        </button>
+                      ` : `
+                        <span class="badge badge-success">Quitação Emitida</span>
+                      `}
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // MÓDULO 13 LOGS
+    return `
+      <div class="card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <h3><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 13: TI & Logs de Auditoria do Sistema SGI</h3>
+          <span class="badge badge-primary">SuperAdmin / TI</span>
         </div>
 
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Código FDJ</th>
-                <th>Nome do Acolhido</th>
-                <th>CPF</th>
-                <th>Status</th>
-                <th>Fase PTI</th>
-                <th>Leito / Bloco</th>
-                <th>Oficina / Escala</th>
-                <th>Dieta</th>
-                <th>Ações</th>
+                <th>Horário / Data</th>
+                <th>Evento do Sistema</th>
               </tr>
             </thead>
             <tbody>
-              \${acolhidos.length > 0 ? acolhidos.map(a => `
+              \${logs.map(l => `
                 <tr>
-                  <td><strong>\${a.id}</strong></td>
-                  <td><strong>\${a.nome}</strong></td>
-                  <td>\${a.cpf}</td>
-                  <td>
-                    <span class="badge \${a.status === 'ativo' ? 'badge-success' : 'badge-warning'}">
-                      \${a.status === 'ativo' ? 'Ativo' : 'Em Triagem'}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="badge badge-info">Fase \${a.fasePTI} / 4</span>
-                  </td>
-                  <td>\${a.leito}</td>
-                  <td>\${a.oficina}</td>
-                  <td>\${a.dieta}</td>
-                  <td>
-                    <div style="display: flex; gap: 0.4rem;">
-                      <button class="btn btn-outline btn-sm" onclick="window.ui.abrirProntuario('\${a.id}')" title="Ver Prontuário & PTI">
-                        <i data-lucide="file-text"></i> PTI
-                      </button>
-                      <button class="btn btn-primary btn-sm" onclick="window.ui.abrirCracha('\${a.id}')" title="Gerar Crachá A4">
-                        <i data-lucide="credit-card"></i> Crachá
-                      </button>
-                    </div>
-                  </td>
+                  <td style="width: 200px; font-weight: 700;">\${l.timestamp}</td>
+                  <td>\${l.mensagem}</td>
                 </tr>
-              `).join('') : `
-                <tr>
-                  <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-                    Nenhum acolhido encontrado com os filtros selecionados.
-                  </td>
-                </tr>
-              `}
+              `)}
             </tbody>
           </table>
         </div>
@@ -515,82 +456,7 @@ class UI {
     `;
   }
 
-  // --- MÉTODOS DE ALMOXARIFADO & DESPENSA & FROTA ---
-  alterarAlmoxarifado(id, delta) {
-    window.store.alterarQtdAlmoxarifado(id, delta);
-    this.renderApp();
-  }
-
-  alterarDespensa(id, delta) {
-    window.store.alterarQtdDespensa(id, delta);
-    this.renderApp();
-  }
-
-  alterarStatusFrota(id, status, destino) {
-    let dest = destino;
-    if (status === 'Em Viagem' && !dest) {
-      dest = prompt("Destino/Objetivo da viagem:", "Salvador / Atendimento Médico");
-    }
-    if (status === 'Em Viagem' && !dest) return;
-    window.store.alterarStatusVeiculo(id, status, dest);
-    this.renderApp();
-  }
-
-  abrirModalNovoAlmoxarifado() {
-    const item = prompt("Nome do material/item:");
-    if (item && item.trim()) {
-      const categoria = prompt("Categoria (Material de Limpeza / Ferramentas / Vestuário / Enxoval):", "Material de Limpeza") || "Geral";
-      const local = prompt("Localização no almoxarifado:", "Depósito Central") || "Depósito Central";
-      const quantidade = Number(prompt("Quantidade inicial:", "20")) || 20;
-
-      window.store.addAlmoxarifadoItem({
-        item: item.trim(),
-        categoria,
-        local,
-        quantidade,
-        estoqueMinimo: 10
-      });
-      this.renderApp();
-    }
-  }
-
-  abrirModalNovoAlimentoDespensa() {
-    const item = prompt("Nome do alimento/insumo:");
-    if (item && item.trim()) {
-      const categoria = prompt("Categoria (Grãos / Matinais / Óleos / Carnes):", "Grãos & Cereais") || "Geral";
-      const quantidade = Number(prompt("Quantidade inicial:", "50")) || 50;
-      const validade = prompt("Data de validade (AAAA-MM-DD):", "2026-12-31") || "2026-12-31";
-
-      window.store.addDespensaItem({
-        item: item.trim(),
-        categoria,
-        quantidade,
-        estoqueMinimo: 15,
-        validade
-      });
-      this.renderApp();
-    }
-  }
-
-  abrirModalNovoVeiculo() {
-    const modelo = prompt("Modelo do veículo (ex: Van Sprinter, Ônibus):");
-    if (modelo && modelo.trim()) {
-      const placa = prompt("Placa do veículo:", "ABC-1234") || "ABC-1234";
-      const motorista = prompt("Motorista responsável:", "João Silva") || "João Silva";
-      const tipo = prompt("Tipo de transporte (Transporte de Acolhidos / Emergência / Carga):", "Transporte de Acolhidos") || "Transporte de Acolhidos";
-
-      window.store.addVeiculo({
-        modelo: modelo.trim(),
-        placa,
-        motorista,
-        tipo,
-        destino: "Base Fundação",
-        quilometragem: "50.000 km"
-      });
-      this.renderApp();
-    }
-  }
-
+  // --- MÉTODOS DE AÇÃO DO MACROMÓDULO 1 ---
   buscar(termo) {
     this.termoBusca = termo;
     this.renderApp();
@@ -601,20 +467,20 @@ class UI {
     this.renderApp();
   }
 
-  abrirModalNovoAcolhido() {
+  abrirModalNovaAdmissao() {
     const modalContainer = document.getElementById('modal-container');
     modalContainer.innerHTML = `
       <div class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content" style="max-width: 650px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-            <h3 style="font-weight: 800;"><i data-lucide="user-plus" style="vertical-align: middle;"></i> Novo Cadastro de Acolhido (Triagem)</h3>
+            <h3 style="font-weight: 800;"><i data-lucide="user-plus" style="vertical-align: middle;"></i> 1.1. Admissão & Anamnese RDC 29 ANVISA</h3>
             <button class="btn btn-outline btn-sm" onclick="window.ui.fecharModal()"><i data-lucide="x"></i></button>
           </div>
 
-          <form id="form-novo-acolhido" onsubmit="window.ui.salvarNovoAcolhido(event)">
+          <form onsubmit="window.ui.salvarAdmissao(event)">
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">Nome Completo *</label>
+                <label class="form-label">Nome Completo do Acolhido *</label>
                 <input type="text" id="add-nome" class="form-input" required placeholder="Ex: Carlos Eduardo Silva">
               </div>
               <div class="form-group">
@@ -636,28 +502,44 @@ class UI {
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">Leito / Bloco de Destino</label>
-                <input type="text" id="add-leito" class="form-input" value="Triagem - Leito 01">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Dieta Especial</label>
-                <select id="add-dieta" class="form-select">
-                  <option value="Normal">Normal</option>
-                  <option value="Hipossódica (Pressão Alta)">Hipossódica (Pressão Alta)</option>
-                  <option value="Diabética">Diabética</option>
-                  <option value="Sem Glúten">Sem Glúten</option>
+                <label class="form-label">Alojamento / Bloco Destino</label>
+                <select id="add-bloco" class="form-select">
+                  <option value="Bloco A — Restauração">Bloco A — Restauração</option>
+                  <option value="Bloco B — Renovação">Bloco B — Renovação</option>
+                  <option value="Bloco C — Esperança">Bloco C — Esperança</option>
+                  <option value="Bloco D — Graça">Bloco D — Graça</option>
                 </select>
               </div>
+              <div class="form-group">
+                <label class="form-label">Leito Específico</label>
+                <input type="text" id="add-leito" class="form-input" value="Leito A-105 (Térreo PCD)">
+              </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Contato de Emergência</label>
-              <input type="text" id="add-emergencia" class="form-input" placeholder="(71) 99999-8888 - Parentesco">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Familiar Responsável</label>
+                <input type="text" id="add-familiar-nome" class="form-input" placeholder="Nome da Mãe / Responsável">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone WhatsApp Familiar *</label>
+                <input type="text" id="add-familiar-tel" class="form-input" value="5571988421044" placeholder="5571999998888">
+              </div>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+            <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color); margin-bottom: 1rem;">
+              <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">Checklist de Enxoval e Higiene (RDC 29):</h4>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8rem;">
+                <label><input type="checkbox" id="chk-kit" checked> Kit Higiene</label>
+                <label><input type="checkbox" id="chk-enxoval" checked> Enxoval de Leito</label>
+                <label><input type="checkbox" id="chk-vestuario" checked> Vestuário Padrão</label>
+                <label><input type="checkbox" id="chk-cracha" checked> Crachá QR Code</label>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
               <button type="button" class="btn btn-secondary" onclick="window.ui.fecharModal()">Cancelar</button>
-              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Cadastrar Acolhido</button>
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Cadastrar & Admitir</button>
             </div>
           </form>
         </div>
@@ -667,20 +549,26 @@ class UI {
     if (window.lucide) window.lucide.createIcons();
   }
 
-  salvarNovoAcolhido(e) {
+  salvarAdmissao(e) {
     e.preventDefault();
     const nome = document.getElementById('add-nome').value;
     const cpf = document.getElementById('add-cpf').value;
     const rg = document.getElementById('add-rg').value;
     const origem = document.getElementById('add-origem').value;
+    const bloco = document.getElementById('add-bloco').value;
     const leito = document.getElementById('add-leito').value;
-    const dieta = document.getElementById('add-dieta').value;
-    const contatoEmergencia = document.getElementById('add-emergencia').value;
+    const familiarNome = document.getElementById('add-familiar-nome').value;
+    const familiarTel = document.getElementById('add-familiar-tel').value;
 
     window.store.addAcolhido({
-      nome, cpf, rg, origem, leito, dieta, contatoEmergencia,
-      oficina: 'Triagem / Adaptação',
-      acompanhamentoMedico: 'Aguardando Avaliação Médica'
+      nome, cpf, rg, origem, bloco, leito, familiarNome, familiarTel,
+      oficina: "Adaptação & Triagem",
+      checklist: {
+        kitHigiene: document.getElementById('chk-kit').checked,
+        enxovalLeito: document.getElementById('chk-enxoval').checked,
+        vestuarioPadrao: document.getElementById('chk-vestuario').checked,
+        crachaIdentificacao: document.getElementById('chk-cracha').checked
+      }
     });
 
     this.fecharModal();
@@ -696,53 +584,30 @@ class UI {
       <div class="modal-overlay">
         <div class="modal-content" style="max-width: 700px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-            <h3><i data-lucide="file-text" style="vertical-align: middle;"></i> Prontuário Eletrônico & PTI — \${acolhido.nome}</h3>
+            <h3><i data-lucide="file-text" style="vertical-align: middle;"></i> 2.0. Prontuário RDC 29 — \${acolhido.nome}</h3>
             <button class="btn btn-outline btn-sm" onclick="window.ui.fecharModal()"><i data-lucide="x"></i></button>
           </div>
 
-          <div class="grid-2" style="margin-bottom: 1rem;">
-            <div>
-              <p><strong>Código FDJ:</strong> \${acolhido.id}</p>
-              <p><strong>CPF:</strong> \${acolhido.cpf}</p>
-              <p><strong>Leito:</strong> \${acolhido.leito}</p>
-            </div>
-            <div>
-              <p><strong>Data de Admissão:</strong> \${acolhido.dataAdmissao}</p>
-              <p><strong>Oficina Atual:</strong> \${acolhido.oficina}</p>
-              <p><strong>Dieta:</strong> \${acolhido.dieta}</p>
-            </div>
+          <p><strong>Código FDJ:</strong> \${acolhido.id} | <strong>CPF:</strong> \${acolhido.cpf} | <strong>Alojamento:</strong> \${acolhido.leito}</p>
+          
+          <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-highlight); margin: 1rem 0;">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Evolução das Fases do PTI (RDC 29 ANVISA)</h4>
+            <p><strong>Fase Atual:</strong> Fase \${acolhido.pti ? acolhido.pti.faseAtual : 1} de 4</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Parecer Técnico:</strong> \${acolhido.pti ? acolhido.pti.parecerTecnico : ''}</p>
           </div>
 
-          <!-- PTI Progress Card -->
-          <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-highlight); margin-bottom: 1.5rem;">
-            <h4 style="margin-bottom: 0.75rem; color: var(--primary);">Evolução do Plano Terapêutico Individual (PTI)</h4>
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 1rem;">
-              <div style="flex: 1; text-align: center; padding: 0.5rem; border-radius: 6px; background: \${acolhido.fasePTI >= 1 ? 'var(--primary)' : 'var(--border-color)'}; color: #fff; font-size: 0.75rem; font-weight: 700;">
-                Fase 1: Triagem
-              </div>
-              <div style="flex: 1; text-align: center; padding: 0.5rem; border-radius: 6px; background: \${acolhido.fasePTI >= 2 ? 'var(--primary)' : 'var(--border-color)'}; color: #fff; font-size: 0.75rem; font-weight: 700;">
-                Fase 2: Conscientização
-              </div>
-              <div style="flex: 1; text-align: center; padding: 0.5rem; border-radius: 6px; background: \${acolhido.fasePTI >= 3 ? 'var(--primary)' : 'var(--border-color)'}; color: #fff; font-size: 0.75rem; font-weight: 700;">
-                Fase 3: Capacitação
-              </div>
-              <div style="flex: 1; text-align: center; padding: 0.5rem; border-radius: 6px; background: \${acolhido.fasePTI >= 4 ? 'var(--primary)' : 'var(--border-color)'}; color: #fff; font-size: 0.75rem; font-weight: 700;">
-                Fase 4: Reinserção
-              </div>
-            </div>
-
-            <p style="font-size: 0.85rem; color: var(--text-muted);">
-              \${acolhido.fasePTI < 4 ? `O acolhido está atualmente na <strong>Fase \${acolhido.fasePTI}</strong> do processo de recuperação.` : '🎉 <strong>Acolhido completou todas as 4 Fases do PTI!</strong> Pronto para reinserção social e profissional.'}
-            </p>
+          <div class="form-group">
+            <label class="form-label">Atualizar Parecer Técnico da Evolução:</label>
+            <textarea id="novo-parecer" class="form-input" style="height: 70px;">\${acolhido.pti ? acolhido.pti.parecerTecnico : ''}</textarea>
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            \${acolhido.fasePTI < 4 ? `
-              <button class="btn btn-primary" onclick="window.ui.avancarPTI('\${acolhido.id}')">
-                <i data-lucide="arrow-right-circle"></i> Avançar para Fase \${acolhido.fasePTI + 1}
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            \${acolhido.pti && acolhido.pti.faseAtual < 4 ? `
+              <button class="btn btn-primary" onclick="window.ui.evoluirPTI('\${acolhido.id}')">
+                <i data-lucide="arrow-right-circle"></i> Avançar para a Fase \${acolhido.pti.faseAtual + 1}
               </button>
-            ` : '<span></span>'}
-            <button class="btn btn-secondary" onclick="window.ui.fecharModal()">Fechar Prontuário</button>
+            ` : '<span class="badge badge-success">PTI Concluído (Fase 4)</span>'}
+            <button class="btn btn-secondary" onclick="window.ui.fecharModal()">Fechar</button>
           </div>
         </div>
       </div>
@@ -751,10 +616,23 @@ class UI {
     if (window.lucide) window.lucide.createIcons();
   }
 
-  avancarPTI(id) {
-    window.store.avancarPTI(id);
+  evoluirPTI(id) {
+    const parecer = document.getElementById('novo-parecer').value;
+    window.store.avancarPTI(id, parecer);
     this.fecharModal();
     this.renderApp();
+  }
+
+  abrirModalTrocaLeito(id) {
+    const acolhido = window.store.getAcolhidoById(id);
+    if (!acolhido) return;
+
+    const novoBloco = prompt("Novo Bloco de Alojamento:", acolhido.bloco || "Bloco A — Restauração");
+    const novoLeito = prompt("Novo Leito (ex: Leito A-108):", acolhido.leito || "Leito A-108");
+    if (novoBloco && novoLeito) {
+      window.store.trocarLeito(id, novoBloco, novoLeito);
+      this.renderApp();
+    }
   }
 
   abrirCracha(id) {
@@ -764,33 +642,23 @@ class UI {
     const modalContainer = document.getElementById('modal-container');
     modalContainer.innerHTML = `
       <div class="modal-overlay">
-        <div class="modal-content" style="max-width: 500px; text-align: center;">
+        <div class="modal-content" style="max-width: 480px; text-align: center;">
           <div class="no-print" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-            <h3>CRACHÁ DE IDENTIFICAÇÃO — A4</h3>
+            <h3>CRACHÁ OFICIAL QR CODE — A4</h3>
             <button class="btn btn-outline btn-sm" onclick="window.ui.fecharModal()"><i data-lucide="x"></i></button>
           </div>
 
-          <!-- Printable Badge Card -->
-          <div class="printable-cracha-card" style="border: 3px solid #2563eb; border-radius: 12px; padding: 1.5rem; background: #fff; color: #000; text-align: center; margin: 0 auto; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+          <div style="border: 3px solid #2563eb; border-radius: 12px; padding: 1.5rem; background: #fff; color: #000; text-align: center; margin: 0 auto; max-width: 320px;">
             <div style="background: #2563eb; color: #fff; padding: 0.5rem; border-radius: 6px; font-weight: 800; font-size: 0.9rem; margin-bottom: 1rem;">
               FUNDAÇÃO DOUTOR JESUS
             </div>
-
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: #e2e8f0; border: 2px solid #2563eb; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #94a3b8;">
-              👤
-            </div>
-
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">\${acolhido.nome}</h3>
-            <p style="font-size: 0.85rem; color: #2563eb; font-weight: 700; margin-bottom: 0.75rem;">\${acolhido.id}</p>
-
-            <div style="font-size: 0.8rem; border-top: 1px dashed #cbd5e1; padding-top: 0.75rem; text-align: left;">
-              <p style="margin-bottom: 4px;"><strong>CPF:</strong> \${acolhido.cpf}</p>
-              <p style="margin-bottom: 4px;"><strong>Leito:</strong> \${acolhido.leito}</p>
-              <p style="margin-bottom: 4px;"><strong>Oficina:</strong> \${acolhido.oficina}</p>
-            </div>
-
-            <div style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; font-size: 0.65rem; color: #64748b;">
-              Documento de Identificação Interna — Validade 2026
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">👤</div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a;">\${acolhido.nome}</h3>
+            <p style="font-size: 0.85rem; color: #2563eb; font-weight: 700;">\${acolhido.id}</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;"><strong>CPF:</strong> \${acolhido.cpf}</p>
+            <p style="font-size: 0.8rem;"><strong>Alojamento:</strong> \${acolhido.leito}</p>
+            <div style="margin-top: 0.75rem; background: #f1f5f9; padding: 0.5rem; border-radius: 6px; font-size: 0.7rem; color: #475569;">
+              [ QR CODE DE IDENTIFICAÇÃO FDJ ]
             </div>
           </div>
 
@@ -803,6 +671,64 @@ class UI {
     `;
 
     if (window.lucide) window.lucide.createIcons();
+  }
+
+  abrirQuitacao(id) {
+    const acolhido = window.store.getAcolhidoById(id);
+    if (!acolhido) return;
+
+    const modalContainer = document.getElementById('modal-container');
+    modalContainer.innerHTML = `
+      <div class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+          <div class="no-print" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+            <h3>DECLARAÇÃO DE PLENA QUITAÇÃO — A4</h3>
+            <button class="btn btn-outline btn-sm" onclick="window.ui.fecharModal()"><i data-lucide="x"></i></button>
+          </div>
+
+          <div style="border: 1px solid #cbd5e1; padding: 2rem; background: #fff; color: #000; font-family: serif; line-height: 1.6;">
+            <h3 style="text-align: center; font-weight: 800; font-size: 1.1rem; border-bottom: 2px solid #000; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+              DECLARAÇÃO DE PLENA, IRREVOGÁVEL E GERAL QUITAÇÃO
+            </h3>
+            <p>
+              Declaramos para os devidos fins de direito que o(a) acolhido(a) <strong>\${acolhido.nome}</strong>, portador(a) do CPF <strong>\${acolhido.cpf}</strong>, matriculado sob o código <strong>\${acolhido.id}</strong>, cumpriu satisfatoriamente todas as etapas do Plano Terapêutico Individual na Fundação Doutor Jesus (Candeias/BA).
+            </p>
+            <p style="margin-top: 1rem;">
+              Nada mais havendo a constar ou reclamar, concede-se a presente alta com plena quitação.
+            </p>
+            <p style="margin-top: 2rem; text-align: right;">Candeias/BA, \${new Date().toLocaleDateString('pt-BR')}.</p>
+            <div style="margin-top: 3rem; text-align: center; border-top: 1px solid #000; padding-top: 0.5rem;">
+              Assistente Social Valéria (Triagem & Admissão) — CRESS/BA
+            </div>
+          </div>
+
+          <div class="no-print" style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem;">
+            <button class="btn btn-primary" onclick="window.print()"><i data-lucide="printer"></i> Imprimir Declaração A4</button>
+            <button class="btn btn-secondary" onclick="window.ui.fecharModal()">Fechar</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  enviarWhatsApp(id) {
+    const acolhido = window.store.getAcolhidoById(id);
+    if (!acolhido) return;
+
+    const telefone = acolhido.familiarTel || "5571988421044";
+    const texto = encodeURIComponent(`Olá! Este é o Boletim Informativo de Saúde e Evolução de ${acolhido.nome} na Fundação Doutor Jesus (Candeias/BA).\nStatus: ${acolhido.status.toUpperCase()}\nAlojamento: ${acolhido.leito}\nFase PTI: Fase ${acolhido.pti ? acolhido.pti.faseAtual : 1} de 4\nEvolução Psicossocial: Excelente adesão ao tratamento RDC 29.`);
+    
+    window.open(`https://api.whatsapp.com/send?phone=${telefone}&text=${texto}`, '_blank');
+  }
+
+  confirmarAlta(id) {
+    const motivo = prompt("Motivo da alta / desligamento:", "Alta Terapêutica Concluída com Sucesso");
+    if (motivo) {
+      window.store.concluirAlta(id, motivo);
+      this.renderApp();
+    }
   }
 
   fecharModal() {

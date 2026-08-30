@@ -1,69 +1,111 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * Store Manager - Macromódulo 2: Almoxarifado, Despensa & Frota
+ * Store Manager - Macromódulo 1: Gestão dos Acolhidos (Padrão RDC 29 ANVISA & Vercel)
  */
 
 const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v1';
-const STORAGE_KEY_ALMOXARIFADO = 'sgi_fdj_almoxarifado_v1';
-const STORAGE_KEY_DESPENSA = 'sgi_fdj_despensa_v1';
-const STORAGE_KEY_FROTA = 'sgi_fdj_frota_v1';
-const STORAGE_KEY_USUARIOS = 'sgi_fdj_usuarios_v1';
+const STORAGE_KEY_LEITOS = 'sgi_fdj_leitos_v1';
 const STORAGE_KEY_LOGS = 'sgi_fdj_logs_v1';
 
-// Dados Iniciais de Almoxarifado (Materiais de Limpeza, Ferramentas, Vestuário, Kits)
-const initialAlmoxarifado = [
-  { id: "ALM-01", item: "Kit de Admissão de Acolhido (Enxoval)", quantidade: 120, estoqueMinimo: 30, categoria: "Vestuário / Recepção", local: "Prateleira A1" },
-  { id: "ALM-02", item: "Detergente Multiuso 5L", quantidade: 18, estoqueMinimo: 10, categoria: "Material de Limpeza", local: "Depósito Central" },
-  { id: "ALM-03", item: "Sabão em Pó (Caixa 10kg)", quantidade: 25, estoqueMinimo: 15, categoria: "Material de Limpeza", local: "Depósito Central" },
-  { id: "ALM-04", item: "Lâmpadas LED 15W", quantidade: 45, estoqueMinimo: 20, categoria: "Manutenção Elétrica", local: "Oficina Elétrica" }
+// Blocos de Alojamento Oficiais
+const initialBlocos = [
+  { id: "BLOCO-A", nome: "Bloco A — Restauração", capacidade: 25, ocupados: 18, pcd: 5 },
+  { id: "BLOCO-B", nome: "Bloco B — Renovação", capacidade: 25, ocupados: 20, pcd: 5 },
+  { id: "BLOCO-C", nome: "Bloco C — Esperança", capacidade: 25, ocupados: 15, pcd: 4 },
+  { id: "BLOCO-D", nome: "Bloco D — Graça", capacidade: 25, ocupados: 12, pcd: 4 }
 ];
 
-// Dados Iniciais da Despensa (Alimentos & Insumos das Refeições)
-const initialDespensa = [
-  { id: "DES-01", item: "Arroz Tipo 1 (Saco 50kg)", quantidade: 85, estoqueMinimo: 20, validade: "2026-12-10", categoria: "Grãos & Cereais" },
-  { id: "DES-02", item: "Feijão Carioca (Saco 30kg)", quantidade: 14, estoqueMinimo: 25, validade: "2026-09-15", categoria: "Grãos & Cereais" },
-  { id: "DES-03", item: "Óleo de Soja (Caixa 24u)", quantidade: 40, estoqueMinimo: 10, validade: "2027-02-28", categoria: "Óleos & Condimentos" },
-  { id: "DES-04", item: "Açúcar Refinado (Saco 50kg)", quantidade: 18, estoqueMinimo: 15, validade: "2026-10-30", categoria: "Açúcar & Matinais" }
-];
-
-// Dados Iniciais da Frota de Veículos
-const initialFrota = [
-  { id: "VEI-01", modelo: "Van Mercedes Sprinter (16 Lugares)", placa: "OUV-4589", tipo: "Transporte de Acolhidos", motorista: "Carlos Alberto", status: "Em Viagem", destino: "Salvador / Hosp. Geral", quilometragem: "145.800 km" },
-  { id: "VEI-02", modelo: "Ônibus Agrale (44 Lugares)", placa: "PKJ-8821", tipo: "Transporte Coletivo / Eventos", motorista: "Joaquim Souza", status: "Disponível", destino: "Base Fundação", quilometragem: "210.450 km" },
-  { id: "VEI-03", modelo: "Ambulância Renault Master UTI", placa: "QWE-1234", tipo: "Emergência Médica", motorista: "Marcos Enfermeiro", status: "Prontidão", destino: "Posto de Saúde FDJ", quilometragem: "85.200 km" },
-  { id: "VEI-04", modelo: "Caminhão Baú Hyundai HR", placa: "RTY-5678", tipo: "Carga / Despensa & Donativos", motorista: "Roberto Silva", status: "Disponível", destino: "Base Fundação", quilometragem: "112.000 km" }
-];
-
+// Dados Iniciais de Acolhidos (RDC 29 ANVISA)
 const initialAcolhidos = [
   {
     id: "FDJ-2026-001",
-    nome: "Roberto Carlos Silva",
+    nome: "Lucas Silva Santos",
     cpf: "123.456.789-00",
     rg: "14.587.963-00",
     status: "ativo",
-    fasePTI: 3,
-    leito: "Bloco A - Leito 12",
+    bloco: "Bloco A — Restauração",
+    leito: "Leito A-101 (Térreo PCD)",
     oficina: "Oficina de Elétrica",
     origem: "Salvador / BA",
     dataAdmissao: "2026-01-15",
     dieta: "Normal",
-    acompanhamentoMedico: "Exame Cardiológico em dia",
-    contatoEmergencia: "(71) 98877-6655 - Esposa (Maria)"
+    familiarNome: "Maria das Graças Silva (Mãe)",
+    familiarTel: "5571988421044",
+    checklist: {
+      kitHigiene: true,
+      enxovalLeito: true,
+      vestuarioPadrao: true,
+      crachaIdentificacao: true,
+      pendenciaDocumental: false
+    },
+    pti: {
+      faseAtual: 3,
+      progresso: 75,
+      meta1: "Adesão total às atividades do grupo de acolhimento",
+      meta2: "Capacitação profissional na Oficina de Elétrica",
+      meta3: "Fortalecimento do vínculo familiar e espiritualidade",
+      parecerTecnico: "Acolhido apresenta excelente evolução comportamental e participação ativa nas atividades de laborterapia."
+    }
   },
   {
     id: "FDJ-2026-002",
-    nome: "Marcos Vinicius Santos",
+    nome: "Mateus Santos Oliveira",
     cpf: "987.654.321-11",
     rg: "12.365.478-99",
     status: "triagem",
-    fasePTI: 1,
-    leito: "Triagem - Leito 04",
-    oficina: "Horta Orgânica",
+    bloco: "Bloco B — Renovação",
+    leito: "Leito B-205",
+    oficina: "Horta Orgânica FDJ",
     origem: "Feira de Santana / BA",
     dataAdmissao: "2026-08-20",
     dieta: "Hipossódica (Pressão Alta)",
-    acompanhamentoMedico: "Atendimento Psicológico Semanal",
-    contatoEmergencia: "(75) 99123-4567 - Mãe (Ana)"
+    familiarNome: "Ana Oliveira (Irmã)",
+    familiarTel: "5575991234567",
+    checklist: {
+      kitHigiene: true,
+      enxovalLeito: true,
+      vestuarioPadrao: false,
+      crachaIdentificacao: true,
+      pendenciaDocumental: true
+    },
+    pti: {
+      faseAtual: 1,
+      progresso: 25,
+      meta1: "Adaptação à rotina da triagem e exames médicos iniciais",
+      meta2: "Participação nas reuniões de escuta psicossocial",
+      meta3: "Organização do alojamento e higiene pessoal",
+      parecerTecnico: "Acolhido em fase de adaptação inicial. Apresenta boa receptividade às orientações da equipe de triagem."
+    }
+  },
+  {
+    id: "FDJ-2026-003",
+    nome: "Roberto Ferreira",
+    cpf: "456.789.123-22",
+    rg: "09.874.521-33",
+    status: "ativo",
+    bloco: "Bloco C — Esperança",
+    leito: "Leito C-301",
+    oficina: "Cozinha Central",
+    origem: "Camaçari / BA",
+    dataAdmissao: "2025-11-10",
+    dieta: "Normal",
+    familiarNome: "Carlos Ferreira (Pai)",
+    familiarTel: "5571987654321",
+    checklist: {
+      kitHigiene: true,
+      enxovalLeito: true,
+      vestuarioPadrao: true,
+      crachaIdentificacao: true,
+      pendenciaDocumental: false
+    },
+    pti: {
+      faseAtual: 4,
+      progresso: 100,
+      meta1: "Conclusão das 4 fases do tratamento terapêutico",
+      meta2: "Mentoria de padrinhos para reinserção social",
+      meta3: "Encaminhamento para vaga de emprego homologada",
+      parecerTecnico: "Pronto para a alta terapêutica plena com quitação geral emitida."
+    }
   }
 ];
 
@@ -73,113 +115,17 @@ class Store {
   }
 
   init() {
-    if (!localStorage.getItem(STORAGE_KEY_ALMOXARIFADO)) {
-      localStorage.setItem(STORAGE_KEY_ALMOXARIFADO, JSON.stringify(initialAlmoxarifado));
-    }
-    if (!localStorage.getItem(STORAGE_KEY_DESPENSA)) {
-      localStorage.setItem(STORAGE_KEY_DESPENSA, JSON.stringify(initialDespensa));
-    }
-    if (!localStorage.getItem(STORAGE_KEY_FROTA)) {
-      localStorage.setItem(STORAGE_KEY_FROTA, JSON.stringify(initialFrota));
-    }
     if (!localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) {
       localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
+    }
+    if (!localStorage.getItem(STORAGE_KEY_LEITOS)) {
+      localStorage.setItem(STORAGE_KEY_LEITOS, JSON.stringify(initialBlocos));
     }
     if (!localStorage.getItem(STORAGE_KEY_LOGS)) {
       localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
     }
   }
 
-  // --- ALMOXARIFADO ---
-  getAlmoxarifado() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY_ALMOXARIFADO)) || [];
-  }
-
-  addAlmoxarifadoItem(item) {
-    const almoxarifado = this.getAlmoxarifado();
-    const newItem = {
-      id: `ALM-${String(almoxarifado.length + 1).padStart(2, '0')}`,
-      ...item
-    };
-    almoxarifado.unshift(newItem);
-    localStorage.setItem(STORAGE_KEY_ALMOXARIFADO, JSON.stringify(almoxarifado));
-    this.addLog(`Novo item cadastrado no Almoxarifado: ${newItem.item}.`);
-    return newItem;
-  }
-
-  alterarQtdAlmoxarifado(id, delta) {
-    const almoxarifado = this.getAlmoxarifado();
-    const index = almoxarifado.findIndex(a => a.id === id);
-    if (index !== -1) {
-      almoxarifado[index].quantidade = Math.max(0, almoxarifado[index].quantidade + delta);
-      localStorage.setItem(STORAGE_KEY_ALMOXARIFADO, JSON.stringify(almoxarifado));
-      this.addLog(`Almoxarifado (${delta > 0 ? '+' : ''}${delta}): ${almoxarifado[index].item}. Novo saldo: ${almoxarifado[index].quantidade} u.`);
-      return almoxarifado[index];
-    }
-    return null;
-  }
-
-  // --- DESPENSA ---
-  getDespensa() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY_DESPENSA)) || [];
-  }
-
-  addDespensaItem(item) {
-    const despensa = this.getDespensa();
-    const newItem = {
-      id: `DES-${String(despensa.length + 1).padStart(2, '0')}`,
-      ...item
-    };
-    despensa.unshift(newItem);
-    localStorage.setItem(STORAGE_KEY_DESPENSA, JSON.stringify(despensa));
-    this.addLog(`Novo alimento adicionado à Despensa: ${newItem.item}.`);
-    return newItem;
-  }
-
-  alterarQtdDespensa(id, delta) {
-    const despensa = this.getDespensa();
-    const index = despensa.findIndex(d => d.id === id);
-    if (index !== -1) {
-      despensa[index].quantidade = Math.max(0, despensa[index].quantidade + delta);
-      localStorage.setItem(STORAGE_KEY_DESPENSA, JSON.stringify(despensa));
-      this.addLog(`Despensa (${delta > 0 ? '+' : ''}${delta}): ${despensa[index].item}. Saldo restante: ${despensa[index].quantidade} u.`);
-      return despensa[index];
-    }
-    return null;
-  }
-
-  // --- FROTA ---
-  getFrota() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY_FROTA)) || [];
-  }
-
-  addVeiculo(veiculo) {
-    const frota = this.getFrota();
-    const newVeiculo = {
-      id: `VEI-${String(frota.length + 1).padStart(2, '0')}`,
-      status: "Disponível",
-      ...veiculo
-    };
-    frota.unshift(newVeiculo);
-    localStorage.setItem(STORAGE_KEY_FROTA, JSON.stringify(frota));
-    this.addLog(`Novo veículo cadastrado na Frota: ${newVeiculo.modelo} (${newVeiculo.placa}).`);
-    return newVeiculo;
-  }
-
-  alterarStatusVeiculo(id, novoStatus, destino) {
-    const frota = this.getFrota();
-    const index = frota.findIndex(f => f.id === id);
-    if (index !== -1) {
-      frota[index].status = novoStatus;
-      if (destino) frota[index].destino = destino;
-      localStorage.setItem(STORAGE_KEY_FROTA, JSON.stringify(frota));
-      this.addLog(`Status da Frota atualizado: ${frota[index].modelo} agora está '${novoStatus}'.`);
-      return frota[index];
-    }
-    return null;
-  }
-
-  // --- ACOLHIDOS ---
   getAcolhidos() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) || [];
   }
@@ -188,48 +134,82 @@ class Store {
     return this.getAcolhidos().find(a => a.id === id);
   }
 
-  addAcolhido(acolhido) {
+  getBlocos() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_LEITOS)) || initialBlocos;
+  }
+
+  addAcolhido(data) {
     const acolhidos = this.getAcolhidos();
     const newAcolhido = {
       id: `FDJ-2026-${String(acolhidos.length + 1).padStart(3, '0')}`,
       dataAdmissao: new Date().toISOString().split('T')[0],
       status: 'triagem',
-      fasePTI: 1,
-      ...acolhido
+      checklist: {
+        kitHigiene: true,
+        enxovalLeito: true,
+        vestuarioPadrao: true,
+        crachaIdentificacao: true,
+        pendenciaDocumental: false,
+        ...data.checklist
+      },
+      pti: {
+        faseAtual: 1,
+        progresso: 25,
+        meta1: "Adaptação inicial RDC 29 e acolhimento",
+        meta2: "Integração à laborterapia e convivência",
+        meta3: "Desenvolvimento da autonomia e espiritualidade",
+        parecerTecnico: "Admissão efetuada pela Direção de Triagem."
+      },
+      ...data
     };
 
     acolhidos.unshift(newAcolhido);
     localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
-
-    // Deduzir Kit de Admissão no Almoxarifado
-    this.alterarQtdAlmoxarifado("ALM-01", -1);
-    this.addLog(`Novo Acolhido cadastrado na Triagem: ${newAcolhido.nome} (${newAcolhido.id}). Kit de Admissão deduzido do Almoxarifado.`);
-
+    this.addLog(`Admissão RDC 29 realizada: ${newAcolhido.nome} (${newAcolhido.id}) no ${newAcolhido.leito}.`);
     return newAcolhido;
   }
 
-  updateAcolhido(id, data) {
+  avancarPTI(id, parecerNovo) {
     const acolhidos = this.getAcolhidos();
     const index = acolhidos.findIndex(a => a.id === id);
-    if (index !== -1) {
-      acolhidos[index] = { ...acolhidos[index], ...data };
+    if (index !== -1 && acolhidos[index].pti.faseAtual < 4) {
+      acolhidos[index].pti.faseAtual += 1;
+      acolhidos[index].pti.progresso = acolhidos[index].pti.faseAtual * 25;
+      if (parecerNovo) acolhidos[index].pti.parecerTecnico = parecerNovo;
+      if (acolhidos[index].pti.faseAtual >= 2) acolhidos[index].status = 'ativo';
+
       localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
-      this.addLog(`Dados do Acolhido ${id} atualizados.`);
+      this.addLog(`PTI de ${acolhidos[index].nome} avançou para a Fase ${acolhidos[index].pti.faseAtual} (RDC 29).`);
       return acolhidos[index];
     }
     return null;
   }
 
-  avancarPTI(id) {
-    const acolhido = this.getAcolhidoById(id);
-    if (acolhido && acolhido.fasePTI < 4) {
-      const novaFase = acolhido.fasePTI + 1;
-      const novoStatus = novaFase >= 2 ? 'ativo' : 'triagem';
-      const updated = this.updateAcolhido(id, { fasePTI: novaFase, status: novoStatus });
-      this.addLog(`Acolhido ${acolhido.nome} avançou para a Fase ${novaFase} do PTI.`);
-      return updated;
+  trocarLeito(id, novoBloco, novoLeito) {
+    const acolhidos = this.getAcolhidos();
+    const index = acolhidos.findIndex(a => a.id === id);
+    if (index !== -1) {
+      const leitoAntigo = acolhidos[index].leito;
+      acolhidos[index].bloco = novoBloco;
+      acolhidos[index].leito = novoLeito;
+      localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
+      this.addLog(`Transferência de Leito realizada para ${acolhidos[index].nome}: De ${leitoAntigo} para ${novoLeito}.`);
+      return acolhidos[index];
     }
-    return acolhido;
+    return null;
+  }
+
+  concluirAlta(id, motivo) {
+    const acolhidos = this.getAcolhidos();
+    const index = acolhidos.findIndex(a => a.id === id);
+    if (index !== -1) {
+      acolhidos[index].status = 'alta';
+      acolhidos[index].motivoAlta = motivo || "Alta Terapêutica Concluída (RDC 29)";
+      localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
+      this.addLog(`Alta Terapêutica/Quitação concedida a ${acolhidos[index].nome} (${id}). Leito ${acolhidos[index].leito} liberado.`);
+      return acolhidos[index];
+    }
+    return null;
   }
 
   getLogs() {
@@ -247,24 +227,18 @@ class Store {
 
   getEstatisticas() {
     const acolhidos = this.getAcolhidos();
-    const almoxarifado = this.getAlmoxarifado();
-    const despensa = this.getDespensa();
-    const frota = this.getFrota();
-
     const totalAtivos = acolhidos.filter(a => a.status === 'ativo').length;
     const totalTriagem = acolhidos.filter(a => a.status === 'triagem').length;
-    const almoxCritico = almoxarifado.filter(a => a.quantidade <= a.estoqueMinimo).length;
-    const despensaCritica = despensa.filter(d => d.quantidade <= d.estoqueMinimo).length;
-    const veiculosEmViagem = frota.filter(f => f.status === 'Em Viagem').length;
+    const totalAltas = acolhidos.filter(a => a.status === 'alta').length;
+    const totalPTI34 = acolhidos.filter(a => a.pti && a.pti.faseAtual >= 3).length;
 
     return {
       totalAtivos,
       totalTriagem,
-      almoxCritico,
-      despensaCritica,
-      veiculosEmViagem,
-      totalVeiculos: frota.length,
-      totalRefeicoes: 1240
+      totalAltas,
+      totalPTI34,
+      totalLeitosTotais: 100,
+      totalLeitosOcupados: totalAtivos + totalTriagem
     };
   }
 }
