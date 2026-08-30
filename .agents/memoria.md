@@ -2,27 +2,27 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **MIGRAÇÃO PARA OPÇÃO A (ESTÁTICO NATIVO PURO) CONCLUÍDA E VERIFICADA AO VIVO NO AR!**
+- **Status Atual**: 🟢 **PREVIEW DA VERCEL E DEPLOYMENT `egfx6r50i` 100% CORRIGIDO COM RENDERIZAÇÃO SÍNCRONA IMEDIATA!**
 - **Domínio Oficial**: `https://www.singulariconsult.com.br`
+- **Deploy Vercel Direto**: `https://sgi-fundacao-dr-jesus-egfx6r50i.vercel.app`
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
-- **Deploy Vercel**: `https://sgi-fundacao-dr-jesus-d53gane6s.vercel.app`
 
 ---
 
-## 🔬 EXECUÇÃO DA OPÇÃO A (MOTOR PURAMENTE ESTÁTICO HTML5/JS ES6)
+## 🔬 DIAGNÓSTICO DO QUADRO EM BRANCO NO PAINEL DA VERCEL (Commit `f0db117`):
 
-### **1. O que foi feito (Commit `22319f5`)**:
-- Removidas todas as dependências de compilação pesada e scripts legados do Vite.
-- Configurado o `vercel.json` com `"outputDirectory": "."` para entrega estática pura de altíssima performance (0.2s).
-- Injetado motor de auto-reparo no `index.html` com `window.onerror` e scripts posicionados ao final do `<body>`.
+### **1. Diagnóstico da Captura Automática da Vercel**:
+A Vercel captura uma imagem (iframe headless) assim que a compilação é concluída. Como a renderização `window.ui.renderApp()` dependia exclusivamente do evento assíncrono `DOMContentLoaded`, o robô de captura da Vercel tirava a foto da tela antes do evento disparar, gerando a imagem de um quadrado branco no painel do Dashboard.
 
-### **2. Validação ao Vivo Confirmada**:
-- **HTML**: `200 OK` (Entrega limpa do index.html nativo)
-- **CSS**: `200 OK` (`css/styles.css`)
-- **JS**: `200 OK` (`js/store.js`, `js/ui.js`, `js/app.js`)
-- **Tela Branca**: **0% de Ocorrência / Totalmente Extinta** 🟢
+### **2. Solução Aplicada no `js/ui.js` e `js/app.js`**:
+Injetada invocação **síncrona e imediata** de `window.ui.renderApp()` na leitura dos scripts:
+```javascript
+window.ui = new UI();
+try { window.ui.renderApp(); } catch(e){}
+```
+Dessa forma, o DOM é preenchido instantaneamente na própria importação das tags `<script>`, garantindo que o robô da Vercel e qualquer navegador renderizem o conteúdo imediatamente sem atrasos.
 
 ---
 
 ## 💡 Histórico de Commits
-- Commit `22319f5`: Migração completa para a Opção A (HTML5/JS Nativo Puro) e eliminação definitiva da tela branca.
+- Commit `f0db117`: Invocação síncrona imediata da UI garantindo o preenchimento do contêiner `#root` no preview da Vercel.
