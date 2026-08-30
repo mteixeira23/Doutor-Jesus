@@ -1,12 +1,12 @@
 /**
- * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Engine de Renderização Estática com Proteção Absoluta contra Exceções de Lucide Icons
+ * TaskFlow / SGI - Fundacao Doutor Jesus
+ * UI Manager - Engine de Renderizacao Estatica Nativa Sem Dependencias Externas
  */
 
 class UI {
   constructor() {
     this.root = document.getElementById('root');
-    this.currentView = 'macro3_home'; // 'macro3_home', 'mod8_prontuario', 'mod9_laborterapia', 'cadastros_saude'
+    this.currentView = 'macro3_home';
     this.activeMod8Tab = 'mod8_resumo';
     this.selectedAcolhidoId = "FDJ-2026-001";
   }
@@ -22,8 +22,8 @@ class UI {
 
     if (!Array.isArray(acolhidos) || acolhidos.length === 0) {
       acolhidos = [
-        { id: "FDJ-2026-001", nome: "Lucas Silva Santos", cpf: "123.456.789-00", status: "ativo", leito: "Leito A-101 (Térreo PCD)", oficina: "Oficina de Elétrica", dieta: "Normal" },
-        { id: "FDJ-2026-002", nome: "Mateus Santos Oliveira", cpf: "987.654.321-11", status: "triagem", leito: "Leito B-205", oficina: "Horta Orgânica FDJ", dieta: "Hipossódica (Pressão Alta)" }
+        { id: "FDJ-2026-001", nome: "Lucas Silva Santos", cpf: "123.456.789-00", status: "ativo", leito: "Leito A-101 (Terreo PCD)", oficina: "Oficina de Eletrica", dieta: "Normal" },
+        { id: "FDJ-2026-002", nome: "Mateus Santos Oliveira", cpf: "987.654.321-11", status: "triagem", leito: "Leito B-205", oficina: "Horta Organica FDJ", dieta: "Hipossodica (Pressao Alta)" }
       ];
     }
 
@@ -33,40 +33,29 @@ class UI {
       laborterapia = window.store ? window.store.getLaborterapia() : [];
     } catch(e){}
 
-    // Renderização Segura de innerHTML (Nunca falha)
     try {
       this.root.innerHTML = `
         <div class="app-container" style="font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh; color: #0f172a;">
-          <!-- Top Banner Header -->
           <header style="padding: 0.75rem 2rem; background: #fff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
             <div style="display: flex; align-items: center; gap: 1rem;">
               <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.5rem; color: #dc2626; letter-spacing: -0.03em;">
-                Fundação Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">JESUS</span>
+                Fundacao Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">JESUS</span>
               </div>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">
               <span style="font-weight: 700; color: #2563eb;">marcos.vinicius2323@...</span>
-              <button class="btn btn-outline btn-sm" onclick="window.ui.renderApp()" style="padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">[→ Atualizar</button>
+              <button class="btn btn-outline btn-sm" onclick="window.ui.renderApp()" style="padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">[ Refresh</button>
             </div>
           </header>
 
           <div style="display: flex; min-height: calc(100vh - 60px);">
-            \${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia)}
+            ${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia)}
           </div>
         </div>
       `;
     } catch(err) {
-      console.error("Critical HTML render exception:", err);
-    }
-
-    // Chamada Protegida do Lucide Icons (Se falhar ou não carregar, não quebra a tela)
-    try {
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-      }
-    } catch(e) {
-      console.warn("Lucide icons warning:", e);
+      console.error("HTML render exception:", err);
     }
   }
 
@@ -87,64 +76,64 @@ class UI {
           <div class="card" style="border-top: 4px solid #0284c7; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); background: #fff; padding: 2rem; border-radius: 12px;">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
               <div style="width: 50px; height: 50px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">
-                🏥
+                H
               </div>
               <div>
-                <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">3. Saúde & Equipe Multidisciplinar</h2>
-                <p style="font-size: 0.9rem; color: #64748b;">Prontuários (RDC 29) e laborterapia</p>
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">3. Saude & Equipe Multidisciplinar</h2>
+                <p style="font-size: 0.9rem; color: #64748b;">Prontuarios (RDC 29) e laborterapia</p>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="alert('Visualizando Gráficos do Corpo Clínico & SUS...')">
+              <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="alert('Visualizando Graficos do Corpo Clinico & SUS...')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.25rem;">📊</span>
+                    <span style="font-size: 1.25rem;">[D]</span>
                     <div>
                       <h4 style="font-size: 1rem; font-weight: 700; color: #0369a1; margin: 0;">Dashboard & Indicadores</h4>
-                      <p style="font-size: 0.8rem; color: #0284c7; margin: 0;">Gráficos do Corpo Clínico & SUS</p>
+                      <p style="font-size: 0.8rem; color: #0284c7; margin: 0;">Graficos do Corpo Clinico & SUS</p>
                     </div>
                   </div>
-                  <span style="color: #0284c7;">›</span>
+                  <span style="color: #0284c7;">></span>
                 </div>
               </div>
 
               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('mod8_prontuario')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.25rem;">🩺</span>
+                    <span style="font-size: 1.25rem;">[P]</span>
                     <div>
-                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Módulo 8: Prontuário</h4>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Modulo 8: Prontuario</h4>
                       <p style="font-size: 0.8rem; color: #64748b; margin: 0;">PTI e RDC 29 ANVISA</p>
                     </div>
                   </div>
-                  <span style="color: #64748b;">›</span>
+                  <span style="color: #64748b;">></span>
                 </div>
               </div>
 
               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('mod9_laborterapia')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.25rem;">🔨</span>
+                    <span style="font-size: 1.25rem;">[L]</span>
                     <div>
-                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Módulo 9: Laborterapia</h4>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Modulo 9: Laborterapia</h4>
                       <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Rotina e certificado 240h</p>
                     </div>
                   </div>
-                  <span style="color: #64748b;">›</span>
+                  <span style="color: #64748b;">></span>
                 </div>
               </div>
 
               <div class="card" style="background: #fff; border: 1px solid #cbd5e1; border-style: dashed; cursor: pointer; padding: 1.25rem; border-radius: 8px;" onclick="window.ui.setView('cadastros_saude')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.25rem;">👤</span>
+                    <span style="font-size: 1.25rem;">[C]</span>
                     <div>
-                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Cadastros Saúde & Multidisciplinar</h4>
-                      <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Equipe CRM/CRP e farmácia</p>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0;">Cadastros Saude & Multidisciplinar</h4>
+                      <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Equipe CRM/CRP e farmacia</p>
                     </div>
                   </div>
-                  <span style="color: #64748b;">›</span>
+                  <span style="color: #64748b;">></span>
                 </div>
               </div>
             </div>
@@ -158,45 +147,45 @@ class UI {
         <aside style="width: 280px; background: #fff; border-right: 1px solid #e2e8f0; padding: 1.25rem;">
           <div class="card" style="background: #fff; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 8px;">
             <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.5rem;" onclick="window.ui.setView('macro3_home')">
-              <span>Recolher Sidebar</span> <span>‹</span>
+              <span>Recolher Sidebar</span> <span><</span>
             </button>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <span>🩺</span>
+              <span>[P]</span>
               <div>
-                <h4 style="font-size: 0.85rem; font-weight: 800; margin: 0;">Módulo 8: Prontuário Saúde</h4>
-                <p style="font-size: 0.65rem; color: #64748b; margin: 0;">Navegação deste módulo</p>
+                <h4 style="font-size: 0.85rem; font-weight: 800; margin: 0;">Modulo 8: Prontuario Saude</h4>
+                <p style="font-size: 0.65rem; color: #64748b; margin: 0;">Navegacao deste modulo</p>
               </div>
             </div>
           </div>
 
           <div style="font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">
-            NAVEGAÇÃO INTERNA
+            NAVEGACAO INTERNA
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-            <button class="btn \${this.activeMod8Tab === 'mod8_resumo' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_resumo')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              1. 👤 Resumo do Prontuário & Ficha Clínica
+            <button class="btn ${this.activeMod8Tab === 'mod8_resumo' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_resumo')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              1. Resumo do Prontuario & Ficha Clinica
             </button>
-            <button class="btn \${this.activeMod8Tab === 'mod8_pti' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_pti')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              2. 🎯 Plano Terapêutico (PTI RDC 29)
+            <button class="btn ${this.activeMod8Tab === 'mod8_pti' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_pti')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              2. Plano Terapeutico (PTI RDC 29)
             </button>
-            <button class="btn \${this.activeMod8Tab === 'mod8_aprazamento' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_aprazamento')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              3. 💊 Aprazamento de Medicamentos
+            <button class="btn ${this.activeMod8Tab === 'mod8_aprazamento' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_aprazamento')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              3. Aprazamento de Medicamentos
             </button>
-            <button class="btn \${this.activeMod8Tab === 'mod8_evolucoes' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_evolucoes')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              4. 📈 Feed de Evoluções Clínicas
+            <button class="btn ${this.activeMod8Tab === 'mod8_evolucoes' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_evolucoes')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              4. Feed de Evolucoes Clinicas
             </button>
-            <button class="btn \${this.activeMod8Tab === 'mod8_odonto' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_odonto')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              5. 🦷 Odontologia & Autoestima
+            <button class="btn ${this.activeMod8Tab === 'mod8_odonto' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_odonto')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              5. Odontologia & Autoestima
             </button>
-            <button class="btn \${this.activeMod8Tab === 'mod8_samu' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_samu')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
-              6. 🚑 Regulação SAMU 192
+            <button class="btn ${this.activeMod8Tab === 'mod8_samu' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_samu')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;">
+              6. Regulacao SAMU 192
             </button>
           </div>
 
           <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
             <button class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.8rem; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer;" onclick="window.ui.setView('macro3_home')">
-              Central de Módulos
+              Central de Modulos
             </button>
           </div>
         </aside>
@@ -205,21 +194,21 @@ class UI {
           <div class="card" style="margin-bottom: 1.5rem; background: #fff; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
               <div>
-                <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.25rem;">SELECIONAR ACOLHIDO PARA O PRONTUÁRIO:</label>
+                <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.25rem;">SELECIONAR ACOLHIDO PARA O PRONTUARIO:</label>
                 <select class="form-select" style="width: 320px; font-weight: 700; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid #cbd5e1;" onchange="window.ui.selecionarAcolhidoProntuario(this.value)">
-                  \${acolhidos.map(a => `
-                    <option value="\${a.id}" \${a.id === acolhidoAtual.id ? 'selected' : ''}>\${a.nome} (\${a.id} — \${a.leito})</option>
+                  ${acolhidos.map(a => `
+                    <option value="${a.id}" ${a.id === acolhidoAtual.id ? 'selected' : ''}>${a.nome} (${a.id} - ${a.leito})</option>
                   `).join('')}
                 </select>
               </div>
 
               <div>
-                <span class="badge badge-success" style="font-size: 0.85rem; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 999px; font-weight: bold;">Prontuário Ativo: \${acolhidoAtual.nome}</span>
+                <span class="badge badge-success" style="font-size: 0.85rem; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 999px; font-weight: bold;">Prontuario Ativo: ${acolhidoAtual.nome}</span>
               </div>
             </div>
           </div>
 
-          \${this.renderMod8TabContent(acolhidoAtual)}
+          ${this.renderMod8TabContent(acolhidoAtual)}
         </main>
       `;
     }
@@ -229,44 +218,44 @@ class UI {
         <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
             <div>
-              <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 0.5rem; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer;">← Voltar à Central</button>
-              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">🔨 Módulo 9: Laborterapia & Oficinas Produtivas</h2>
-              <p style="font-size: 0.85rem; color: #64748b;">Rotina diária de trabalho terapêutico e emissão de certificado oficial de 240 horas</p>
+              <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 0.5rem; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer;"><- Voltar a Central</button>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">Modulo 9: Laborterapia & Oficinas Produtivas</h2>
+              <p style="font-size: 0.85rem; color: #64748b;">Rotina diaria de trabalho terapeutico e emissao de certificado oficial de 240 horas</p>
             </div>
-            <span class="badge badge-primary" style="background: #e0f2fe; color: #0284c7; padding: 4px 10px; border-radius: 999px; font-weight: bold;">Supervisão de Laborterapia FDJ</span>
+            <span class="badge badge-primary" style="background: #e0f2fe; color: #0284c7; padding: 4px 10px; border-radius: 999px; font-weight: bold;">Supervisao de Laborterapia FDJ</span>
           </div>
 
           <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
               <thead>
                 <tr style="background: #f1f5f9; text-align: left;">
-                  <th style="padding: 10px;">Código</th>
+                  <th style="padding: 10px;">Codigo</th>
                   <th style="padding: 10px;">Acolhido</th>
                   <th style="padding: 10px;">Setor de Laborterapia</th>
-                  <th style="padding: 10px;">Carga Horária Concluída</th>
+                  <th style="padding: 10px;">Carga Horaria Concluida</th>
                   <th style="padding: 10px;">Status do Certificado</th>
-                  <th style="padding: 10px;">Ação de Certificação</th>
+                  <th style="padding: 10px;">Acao de Certificacao</th>
                 </tr>
               </thead>
               <tbody>
-                \${laborterapia.map(l => `
+                ${laborterapia.map(l => `
                   <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 10px;"><strong>\${l.id}</strong></td>
-                    <td style="padding: 10px;"><strong>\${l.acolhidoNome}</strong></td>
-                    <td style="padding: 10px;"><span class="badge badge-info" style="background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px;">\${l.setor}</span></td>
-                    <td style="padding: 10px;"><strong style="font-size: 1.05rem;">\${l.cargaHoraria}h / 240h</strong></td>
+                    <td style="padding: 10px;"><strong>${l.id}</strong></td>
+                    <td style="padding: 10px;"><strong>${l.acolhidoNome}</strong></td>
+                    <td style="padding: 10px;"><span class="badge badge-info" style="background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px;">${l.setor}</span></td>
+                    <td style="padding: 10px;"><strong style="font-size: 1.05rem;">${l.cargaHoraria}h / 240h</strong></td>
                     <td style="padding: 10px;">
-                      <span class="badge \${l.cargaHoraria >= 240 ? 'badge-success' : 'badge-warning'}" style="padding: 2px 8px; border-radius: 4px; font-weight: bold;">
-                        \${l.status}
+                      <span class="badge ${l.cargaHoraria >= 240 ? 'badge-success' : 'badge-warning'}" style="padding: 2px 8px; border-radius: 4px; font-weight: bold;">
+                        ${l.status}
                       </span>
                     </td>
                     <td style="padding: 10px;">
-                      \${l.cargaHoraria >= 240 ? `
-                        <button class="btn btn-primary btn-sm" onclick="alert('Imprimindo Certificado Oficial de Laborterapia (240h) de \${l.acolhidoNome}...')" style="padding: 6px 12px; background: #2563eb; color: #fff; border-radius: 6px; border: none; cursor: pointer;">
+                      ${l.cargaHoraria >= 240 ? `
+                        <button class="btn btn-primary btn-sm" onclick="alert('Imprimindo Certificado Oficial de Laborterapia (240h) de ${l.acolhidoNome}...')" style="padding: 6px 12px; background: #2563eb; color: #fff; border-radius: 6px; border: none; cursor: pointer;">
                           Imprimir Certificado 240h
                         </button>
                       ` : `
-                        <button class="btn btn-secondary btn-sm" onclick="window.ui.emitirCertificadoLaborterapia('\${l.acolhidoId}')" style="padding: 6px 12px; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer;">
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.emitirCertificadoLaborterapia('${l.acolhidoId}')" style="padding: 6px 12px; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer;">
                           Concluir 240h
                         </button>
                       `}
@@ -282,13 +271,13 @@ class UI {
 
     return `
       <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
-        <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 1rem; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer;">← Voltar à Central</button>
+        <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 1rem; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer;"><- Voltar a Central</button>
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <h3>Cadastros Saúde & Multidisciplinar (Equipe CRM/CRP/COREN)</h3>
+          <h3>Cadastros Saude & Multidisciplinar (Equipe CRM/CRP/COREN)</h3>
           <ul style="margin-top: 1rem; line-height: 1.8;">
-            <li><strong>Enfermeira Chefe Juliana Santos</strong> (COREN-BA 48192) — Apoio Saúde & Enfermaria Central</li>
-            <li><strong>Dra. Ana Paula</strong> (CRM-BA 14589 / Psiquiatria) — Medicina & Aprazamento Psiquiátrico</li>
-            <li><strong>Dr. Marcos Dentista</strong> (CRO-BA 8874) — Odontologia Terapêutica & Autoestima</li>
+            <li><strong>Enfermeira Chefe Juliana Santos</strong> (COREN-BA 48192) - Apoio Saude & Enfermaria Central</li>
+            <li><strong>Dra. Ana Paula</strong> (CRM-BA 14589 / Psiquiatria) - Medicina & Aprazamento Psiquiatrico</li>
+            <li><strong>Dr. Marcos Dentista</strong> (CRO-BA 8874) - Odontologia Terapeutica & Autoestima</li>
           </ul>
         </div>
       </div>
@@ -300,27 +289,27 @@ class UI {
       return `
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-            1. 👤 Resumo do Prontuário & Ficha Clínica — \${acolhido.nome}
+            1. Resumo do Prontuario & Ficha Clinica - ${acolhido.nome}
           </h3>
 
           <div class="grid-2" style="margin-bottom: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
             <div>
-              <p style="margin-bottom: 0.4rem;"><strong>Código FDJ:</strong> \${acolhido.id}</p>
-              <p style="margin-bottom: 0.4rem;"><strong>CPF:</strong> \${acolhido.cpf}</p>
-              <p style="margin-bottom: 0.4rem;"><strong>Alojamento / Leito:</strong> \${acolhido.leito}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Codigo FDJ:</strong> ${acolhido.id}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>CPF:</strong> ${acolhido.cpf}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Alojamento / Leito:</strong> ${acolhido.leito}</p>
             </div>
             <div>
-              <p style="margin-bottom: 0.4rem;"><strong>Tipo Sanguíneo:</strong> \${acolhido.prontuario ? acolhido.prontuario.tipoSanguineo : 'O+'}</p>
-              <p style="margin-bottom: 0.4rem;"><strong>Alergias Registradas:</strong> \${acolhido.prontuario ? acolhido.prontuario.alergias : 'Nenhuma'}</p>
-              <p style="margin-bottom: 0.4rem;"><strong>Dieta Prescrita:</strong> <span class="badge badge-warning" style="background: #fef3c7; color: #d97706; padding: 2px 6px; border-radius: 4px;">\${acolhido.dieta}</span></p>
+              <p style="margin-bottom: 0.4rem;"><strong>Tipo Sanguineo:</strong> ${acolhido.prontuario ? acolhido.prontuario.tipoSanguineo : 'O+'}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Alergias Registradas:</strong> ${acolhido.prontuario ? acolhido.prontuario.alergias : 'Nenhuma'}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Dieta Prescrita:</strong> <span class="badge badge-warning" style="background: #fef3c7; color: #d97706; padding: 2px 6px; border-radius: 4px;">${acolhido.dieta}</span></p>
             </div>
           </div>
 
           <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 1.25rem; border-radius: 8px;">
-            <h4 style="color: #0369a1; margin-bottom: 0.5rem;">Última Medição de Sinais Vitais (Enfermaria FDJ Galpão E)</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Pressão Arterial:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.pa : '120x80 mmHg'}</p>
-            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Frequência Cardíaca:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.fc : '76 bpm'}</p>
-            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Glicemia:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.glicemia : '94 mg/dL'}</p>
+            <h4 style="color: #0369a1; margin-bottom: 0.5rem;">Ultima Medicao de Sinais Vitais (Enfermaria FDJ Galpao E)</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Pressao Arterial:</strong> ${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.pa : '120x80 mmHg'}</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Frequencia Cardiaca:</strong> ${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.fc : '76 bpm'}</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Glicemia:</strong> ${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.glicemia : '94 mg/dL'}</p>
           </div>
         </div>
       `;
@@ -330,11 +319,11 @@ class UI {
       return `
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-            2. 🎯 Plano Terapêutico Individual (PTI RDC 29 ANVISA)
+            2. Plano Terapeutico Individual (PTI RDC 29 ANVISA)
           </h3>
-          <p style="font-size: 0.9rem;">Evolução contínua das 4 fases da ANVISA para o acolhido <strong>\${acolhido.nome}</strong>.</p>
+          <p style="font-size: 0.9rem;">Evolucao continua das 4 fases da ANVISA para o acolhido <strong>${acolhido.nome}</strong>.</p>
           <div class="card" style="background: #f8fafc; border: 1px solid #e2e8f0; margin-top: 1rem; padding: 1rem; border-radius: 6px;">
-            <span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 4px; font-weight: bold;">Fase Atual: \${acolhido.fasePTI || 'Fase 3 PTI'}</span>
+            <span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 4px; font-weight: bold;">Fase Atual: ${acolhido.fasePTI || 'Fase 3 PTI'}</span>
           </div>
         </div>
       `;
@@ -344,9 +333,9 @@ class UI {
       return `
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-            3. 💊 Aprazamento de Medicamentos (Dra. Ana Paula)
+            3. Aprazamento de Medicamentos (Dra. Ana Paula)
           </h3>
-          <p style="font-size: 0.9rem;">Horários de administração medicamentosa para <strong>\${acolhido.nome}</strong>.</p>
+          <p style="font-size: 0.9rem;">Horarios de administracao medicamentosa para <strong>${acolhido.nome}</strong>.</p>
         </div>
       `;
     }
@@ -355,9 +344,9 @@ class UI {
       return `
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-            4. 📈 Feed de Evoluções Clínicas
+            4. Feed de Evolucoes Clinicas
           </h3>
-          <p style="font-size: 0.9rem;">Histórico de pareceres da Psicologia, Enfermagem e Serviço Social.</p>
+          <p style="font-size: 0.9rem;">Historico de pareceres da Psicologia, Enfermagem e Servico Social.</p>
         </div>
       `;
     }
@@ -366,9 +355,9 @@ class UI {
       return `
         <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-            5. 🦷 Odontologia & Autoestima
+            5. Odontologia & Autoestima
           </h3>
-          <p style="font-size: 0.9rem;">Avaliação odontológica de admissão para <strong>\${acolhido.nome}</strong>.</p>
+          <p style="font-size: 0.9rem;">Avaliacao odontologica de admissao para <strong>${acolhido.nome}</strong>.</p>
         </div>
       `;
     }
@@ -376,9 +365,9 @@ class UI {
     return `
       <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
         <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
-          6. 🚑 Regulação SAMU 192 & Primeiro Socorros
+          6. Regulacao SAMU 192 & Primeiro Socorros
         </h3>
-        <p style="font-size: 0.9rem;">Protocolo de emergência da Enfermaria FDJ (Galpão E).</p>
+        <p style="font-size: 0.9rem;">Protocolo de emergencia da Enfermaria FDJ (Galpao E).</p>
       </div>
     `;
   }
