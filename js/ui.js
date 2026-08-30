@@ -1,23 +1,24 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Macromódulo 2: Almoxarifado RMI, Despensa 4.000 ref/dia, Frota SUS & Cadastros MROSC
+ * UI Manager - Macromódulo 3: Gestão da Saúde, Enfermagem & Atendimento Psicossocial (Vercel Official)
  */
 
 class UI {
   constructor() {
     this.root = document.getElementById('root');
-    this.currentTab = 'almoxarifado';
+    this.currentTab = 'enfermaria';
     this.termoBusca = '';
   }
 
   renderApp() {
     const stats = window.store.getEstatisticas();
     const acolhidos = window.store.getAcolhidos();
-    const almoxarifado = window.store.getAlmoxarifado();
-    const rmis = window.store.getRMI();
-    const despensa = window.store.getDespensa();
-    const frota = window.store.getFrota();
-    const cadastros = window.store.getCadastrosAdm();
+    const medicamentos = window.store.getMedicamentos();
+    const sinaisVitais = window.store.getSinaisVitais();
+    const prescricoes = window.store.getPrescricoes();
+    const atendimentosPsico = window.store.getAtendimentosPsico();
+    const odonto = window.store.getOdonto();
+    const substancias = window.store.getSubstancias();
     const logs = window.store.getLogs();
 
     this.root.innerHTML = `
@@ -25,47 +26,55 @@ class UI {
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
           <div class="sidebar-header" style="padding: 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #059669, #047857); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(5,150,105,0.3);">
               FDJ
             </div>
             <div>
               <h2 style="font-size: 0.95rem; font-weight: 800; color: var(--text-main); line-height: 1.2;">SGI — Fundação</h2>
-              <span style="font-size: 0.75rem; color: var(--primary); font-weight: 600;">Doutor Jesus</span>
+              <span style="font-size: 0.75rem; color: #059669; font-weight: 600;">Saúde & Psicossocial</span>
             </div>
           </div>
 
           <nav class="sidebar-menu" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.5rem 0 0.25rem 0.5rem;">
-              1. Gestão Acolhidos
+              Outros Macromódulos
             </div>
             <button class="btn btn-secondary" onclick="window.ui.setTab('acolhidos')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="users"></i>
               <span>1. Gestão dos Acolhidos</span>
             </button>
+            <button class="btn btn-secondary" onclick="window.ui.setTab('almoxarifado')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="boxes"></i>
+              <span>2. Gestão Administrativa</span>
+            </button>
 
-            <div style="font-size: 0.7rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              2. Gestão Administrativa
+            <div style="font-size: 0.7rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
+              3. Saúde & Psicossocial (M3)
             </div>
 
-            <button class="btn \${this.currentTab === 'almoxarifado' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('almoxarifado')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="boxes"></i>
-              <span>Módulo 5: Almoxarifado & RMI</span>
+            <button class="btn \${this.currentTab === 'enfermaria' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('enfermaria')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="heart-pulse"></i>
+              <span>3.1. Enfermaria & Sinais Vitais</span>
             </button>
-            <button class="btn \${this.currentTab === 'despensa' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('despensa')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="utensils"></i>
-              <span>Módulo 6: Despensa (4.000 ref)</span>
+            <button class="btn \${this.currentTab === 'farmacia' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('farmacia')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="pill"></i>
+              <span>3.2. Prescrição & Psicotrópicos</span>
             </button>
-            <button class="btn \${this.currentTab === 'frota' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('frota')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="truck"></i>
-              <span>Módulo 7: Frota & Transporte SUS</span>
+            <button class="btn \${this.currentTab === 'psicologia' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('psicologia')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="brain"></i>
+              <span>3.3. Psicologia & Videochamadas</span>
             </button>
-            <button class="btn \${this.currentTab === 'cadastros' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('cadastros')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="clipboard-list"></i>
-              <span>Cadastros MROSC (2.1 a 2.5)</span>
+            <button class="btn \${this.currentTab === 'odonto' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('odonto')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="smile"></i>
+              <span>3.4. Odontologia & Autoestima</span>
+            </button>
+            <button class="btn \${this.currentTab === 'catalogos_saude' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('catalogos_saude')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="activity"></i>
+              <span>3.5. Catálogos & Substâncias</span>
             </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Tecnologia & Logs
+              TI
             </div>
             <button class="btn btn-secondary" onclick="window.ui.setTab('logs')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="shield-check"></i>
@@ -81,67 +90,67 @@ class UI {
               <h1 style="font-size: 1.25rem; font-weight: 800;">
                 \${this.getTabTitle()}
               </h1>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Prestação de Contas MROSC (TCE-BA & SJDH)</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Apoio Saúde & Enfermaria Central (Galpão E)</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem;">
-              <button class="btn btn-outline" onclick="window.print()">
-                <i data-lucide="printer"></i>
-                <span>Imprimir Manual PDF</span>
+              <button class="btn btn-primary" onclick="window.ui.abrirModalSinaisVitais()">
+                <i data-lucide="heart"></i>
+                <span>Registrar Sinais Vitais</span>
               </button>
             </div>
           </header>
 
           <main class="page-content">
-            <!-- Stats Row M2 -->
+            <!-- Stats Row M3 -->
             <div class="grid-4" style="margin-bottom: 1.5rem;">
               <div class="card stat-card">
-                <div class="stat-icon-wrapper">
-                  <i data-lucide="boxes"></i>
-                </div>
-                <div class="stat-info">
-                  <h4>Almoxarifado Central</h4>
-                  <div class="stat-value">\${almoxarifado.length} Itens</div>
-                  <div class="stat-subtext"><i data-lucide="check"></i> Tombados MROSC</div>
-                </div>
-              </div>
-
-              <div class="card stat-card">
-                <div class="stat-icon-wrapper" style="background: rgba(217,119,6,0.12); color: #d97706; border-color: rgba(217,119,6,0.3);">
-                  <i data-lucide="arrow-right-left"></i>
-                </div>
-                <div class="stat-info">
-                  <h4>RMIs em Trânsito</h4>
-                  <div class="stat-value">\${rmis.filter(r => r.status.includes('Trânsito')).length} RMIs</div>
-                  <div class="stat-subtext" style="color: #d97706;"><i data-lucide="clock"></i> Aguardando Despensa</div>
-                </div>
-              </div>
-
-              <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
-                  <i data-lucide="utensils"></i>
+                  <i data-lucide="activity"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Refeições / Dia</h4>
-                  <div class="stat-value">4.000</div>
-                  <div class="stat-subtext"><i data-lucide="heart"></i> 1.240 Acolhidos Atendidos</div>
+                  <h4>Sinais Vitais Hoje</h4>
+                  <div class="stat-value">\${stats.totalSinaisVitais}</div>
+                  <div class="stat-subtext"><i data-lucide="check"></i> Galpão E (Enfermaria)</div>
                 </div>
               </div>
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(37,99,235,0.12); color: #2563eb; border-color: rgba(37,99,235,0.3);">
-                  <i data-lucide="truck"></i>
+                  <i data-lucide="pill"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Frota em Operação</h4>
-                  <div class="stat-value">\${frota.filter(f => f.status === 'Em Viagem').length} / \${frota.length}</div>
-                  <div class="stat-subtext"><i data-lucide="navigation"></i> Transporte SUS / Carga</div>
+                  <h4>Aprazamentos Psiquiátricos</h4>
+                  <div class="stat-value">\${stats.totalPrescricoes}</div>
+                  <div class="stat-subtext"><i data-lucide="clock"></i> Dra. Ana Paula</div>
+                </div>
+              </div>
+
+              <div class="card stat-card">
+                <div class="stat-icon-wrapper" style="background: rgba(124,58,237,0.12); color: #7c3aed; border-color: rgba(124,58,237,0.3);">
+                  <i data-lucide="brain"></i>
+                </div>
+                <div class="stat-info">
+                  <h4>Atendimentos Psicossociais</h4>
+                  <div class="stat-value">\${stats.totalAtendimentosPsico}</div>
+                  <div class="stat-subtext"><i data-lucide="video"></i> Inclui Videochamadas</div>
+                </div>
+              </div>
+
+              <div class="card stat-card">
+                <div class="stat-icon-wrapper" style="background: rgba(217,119,6,0.12); color: #d97706; border-color: rgba(217,119,6,0.3);">
+                  <i data-lucide="smile"></i>
+                </div>
+                <div class="stat-info">
+                  <h4>Atendimentos Odonto</h4>
+                  <div class="stat-value">\${odonto.length}</div>
+                  <div class="stat-subtext"><i data-lucide="check-circle"></i> Gabinete FDJ</div>
                 </div>
               </div>
             </div>
 
-            <!-- Tab Content -->
-            \${this.renderTabContent(almoxarifado, rmis, despensa, frota, cadastros, logs, acolhidos)}
+            <!-- Tab Content M3 -->
+            \${this.renderTabContent(sinaisVitais, prescricoes, medicamentos, atendimentosPsico, odonto, substancias, logs, acolhidos)}
           </main>
         </div>
       </div>
@@ -161,112 +170,30 @@ class UI {
 
   getTabTitle() {
     switch (this.currentTab) {
-      case 'almoxarifado': return 'Módulo 5: Almoxarifado Central & Emissão de RMI';
-      case 'despensa': return 'Módulo 6: Despensa, Nutrição & Cozinha Central (4.000 Refeições/Dia)';
-      case 'frota': return 'Módulo 7: Frota, Abastecimentos & Transporte SUS';
-      case 'cadastros': return 'Central de Cadastros Administrativos MROSC (2.1 a 2.5)';
+      case 'enfermaria': return '3.1. Apoio Saúde, Enfermaria Central & Sinais Vitais (Galpão E)';
+      case 'farmacia': return '3.2. Prontuário Médico, Aprazamento & Psicotrópicos (Portaria 344)';
+      case 'psicologia': return '3.3. Atendimento Psicossocial, Serviço Social & Videochamadas Familiares';
+      case 'odonto': return '3.4. Odontologia Terapêutica & Restauração da Autoestima';
+      case 'catalogos_saude': return '3.5. Catálogo de Substâncias Psicoativas & Tipos de Atendimento';
       case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos RDC 29';
+      case 'almoxarifado': return 'Macromódulo 2: Gestão Administrativa';
       case 'logs': return 'Módulo 13: TI & Logs de Auditoria';
-      default: return 'Macromódulo 2: Gestão Administrativa & Suprimentos';
+      default: return 'Macromódulo 3: Gestão da Saúde & Atendimento Psicossocial';
     }
   }
 
-  renderTabContent(almoxarifado, rmis, despensa, frota, cadastros, logs, acolhidos) {
-    // MÓDULO 5: ALMOXARIFADO CENTRAL & RMI
-    if (this.currentTab === 'almoxarifado') {
-      return `
-        <div class="card" style="margin-bottom: 1.5rem;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-            <h3><i data-lucide="boxes" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 5: Almoxarifado Central (Galpões A, B & Tombamento MROSC)</h3>
-            <button class="btn btn-primary" onclick="window.ui.abrirModalEmitirRMI()">
-              <i data-lucide="arrow-right-left"></i> + Emitir RMI para Despensa
-            </button>
-          </div>
-
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Código NFe</th>
-                  <th>Item / Descrição Catálogo</th>
-                  <th>Saldo Atual</th>
-                  <th>Endereço no Galpão</th>
-                  <th>Fornecedor Homologado MROSC</th>
-                  <th>Valor Total NFe</th>
-                  <th>Ações RMI</th>
-                </tr>
-              </thead>
-              <tbody>
-                \${almoxarifado.map(a => `
-                  <tr>
-                    <td><strong>\${a.nfe}</strong></td>
-                    <td><strong>\${a.item}</strong></td>
-                    <td><strong style="font-size: 1.05rem;">\${a.quantidade} \${a.unidade}</strong></td>
-                    <td><span class="badge badge-info">\${a.endereco}</span></td>
-                    <td>\${a.fornecedor}</td>
-                    <td>\${a.valorTotal}</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm" onclick="window.ui.emitirRMIItem('\${a.id}')">
-                        <i data-lucide="send"></i> Transferir RMI
-                      </button>
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- RMIs EM TRÂNSITO -->
-        <div class="card">
-          <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary);">
-            <i data-lucide="clock" style="vertical-align: middle;"></i> Ordens de Transferência / RMIs Emitidas para a Despensa
-          </h4>
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Código RMI</th>
-                  <th>Insumo Transferido</th>
-                  <th>Quantidade</th>
-                  <th>Origem no Galpão</th>
-                  <th>Destino</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                \${rmis.map(r => `
-                  <tr>
-                    <td><strong>#\${r.id}</strong></td>
-                    <td>\${r.item}</td>
-                    <td><strong>\${r.quantidade} \${r.unidade}</strong></td>
-                    <td>\${r.origem}</td>
-                    <td>\${r.destino}</td>
-                    <td>
-                      <span class="badge \${r.status.includes('Concluído') ? 'badge-success' : 'badge-warning'}">
-                        \${r.status}
-                      </span>
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-    }
-
-    // MÓDULO 6: DESPENSA & NUTRIÇÃO (4.000 REF/DIA + HORTA)
-    if (this.currentTab === 'despensa') {
+  renderTabContent(sinaisVitais, prescricoes, medicamentos, atendimentosPsico, odonto, substancias, logs, acolhidos) {
+    // 3.1. ENFERMARIA CENTRAL & SINAIS VITAIS
+    if (this.currentTab === 'enfermaria') {
       return `
         <div class="card" style="margin-bottom: 1.5rem;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="utensils" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 6: Despensa & Nutrição Comunitária (4.000 Refeições/Dia)</h3>
-            <span class="badge badge-success">Chefe Valdeci (Cozinha Central)</span>
+            <h3><i data-lucide="heart-pulse" style="vertical-align: middle; margin-right: 0.5rem;"></i> Apoio Saúde & Enfermaria Central (Galpão E)</h3>
+            <span class="badge badge-success">Enfermeira Chefe Juliana Santos (COREN-BA 48192)</span>
           </div>
 
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Gestão dos gêneros alimentícios transferidos do Almoxarifado Central (RMIs), insumos da Horta Orgânica FDJ e baixas diárias para o preparo das 4.000 refeições (Café, Almoço, Jantar e Ceia) dos 1.240 acolhidos.
+            Monitoramento de Sinais Vitais dos 1.240 acolhidos sob acompanhamento RDC 29 ANVISA. Acionamento de emergências médicas (SAMU 192).
           </p>
 
           <div class="table-container">
@@ -274,26 +201,71 @@ class UI {
               <thead>
                 <tr>
                   <th>Código</th>
-                  <th>Alimento / Insumo</th>
-                  <th>Estoque Factual</th>
-                  <th>Regra Sanitária FEFO</th>
-                  <th>RMI Origem / Lote</th>
-                  <th>Ações para Cozinha Central</th>
+                  <th>Acolhido</th>
+                  <th>Data/Hora</th>
+                  <th>Pressão Arterial</th>
+                  <th>Freq. Cardíaca</th>
+                  <th>Glicemia</th>
+                  <th>Temperatura</th>
+                  <th>Responsável COREN</th>
+                  <th>Observação Clínica</th>
                 </tr>
               </thead>
               <tbody>
-                \${despensa.map(d => `
+                \${sinaisVitais.map(s => `
                   <tr>
-                    <td><strong>\${d.id}</strong></td>
-                    <td><strong>\${d.item}</strong></td>
-                    <td><strong style="font-size: 1.1rem; color: #059669;">\${d.quantidade} \${d.unidade}</strong></td>
-                    <td><span class="badge badge-info">Validade \${d.validade}</span></td>
-                    <td>\${d.rmiOrigem} (\${d.lote})</td>
-                    <td>
-                      <button class="btn btn-primary btn-sm" onclick="window.ui.darBaixaCozinha('\${d.id}')">
-                        <i data-lucide="minus-circle"></i> Baixa p/ Cozinha Central
-                      </button>
-                    </td>
+                    <td><strong>\${s.id}</strong></td>
+                    <td><strong>\${s.acolhidoNome}</strong></td>
+                    <td>\${s.data}</td>
+                    <td><span class="badge badge-info">\${s.pa}</span></td>
+                    <td>\${s.fc}</td>
+                    <td>\${s.glicemia}</td>
+                    <td>\${s.temp}</td>
+                    <td style="font-size: 0.8rem;">\${s.enfermeiro}</td>
+                    <td style="font-size: 0.85rem; color: var(--text-muted);">\${s.observacao}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // 3.2. FARMÁCIA & PSICOTRÓPICOS (PORTARIA 344)
+    if (this.currentTab === 'farmacia') {
+      return `
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="pill" style="vertical-align: middle; margin-right: 0.5rem;"></i> Aprazamento Medicamentoso Psiquiátrico (Dra. Ana Paula)</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovaPrescricao()">
+              <i data-lucide="plus-circle"></i> + Nova Prescrição Médica
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Acolhido</th>
+                  <th>Medicamento Prescrito</th>
+                  <th>Horário (Aprazamento)</th>
+                  <th>Dosagem</th>
+                  <th>Médico Prescritor</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${prescricoes.map(p => `
+                  <tr>
+                    <td><strong>\${p.id}</strong></td>
+                    <td><strong>\${p.acolhidoNome}</strong></td>
+                    <td><strong>\${p.medicamento}</strong></td>
+                    <td><span class="badge badge-warning">\${p.horario}</span></td>
+                    <td>\${p.dosagem}</td>
+                    <td>\${p.prescritor}</td>
+                    <td><span class="badge \${p.status.includes('Ministrado') ? 'badge-success' : 'badge-info'}">\${p.status}</span></td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -301,30 +273,79 @@ class UI {
           </div>
         </div>
 
-        <!-- ACEITE DE RMI PENDENTES -->
+        <!-- CATÁLOGO FARMÁCIA INTERNA -->
         <div class="card">
-          <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; color: #d97706;">
-            <i data-lucide="download" style="vertical-align: middle;"></i> Aceite de RMIs Vindas do Almoxarifado Central
+          <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary);">
+            <i data-lucide="boxes" style="vertical-align: middle;"></i> Catálogo da Farmácia Interna & Psicotrópicos (Portaria 344 SVS/MS)
           </h4>
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Código RMI</th>
-                  <th>Item / Alimento</th>
-                  <th>Qtd Enviada</th>
-                  <th>Ação de Aceite</th>
+                  <th>Código</th>
+                  <th>Medicamento & Miligramagem</th>
+                  <th>Classificação Sanitária</th>
+                  <th>Classificação Portaria 344</th>
+                  <th>Saldo em Estoque</th>
                 </tr>
               </thead>
               <tbody>
-                \${rmis.filter(r => r.status.includes('Trânsito')).map(r => `
+                \${medicamentos.map(m => `
                   <tr>
-                    <td><strong>#\${r.id}</strong></td>
-                    <td>\${r.item}</td>
-                    <td>\${r.quantidade} \${r.unidade}</td>
+                    <td><strong>\${m.id}</strong></td>
+                    <td><strong>\${m.nome}</strong></td>
                     <td>
-                      <button class="btn btn-success btn-sm" onclick="window.ui.aceitarRMI('\${r.id}')">
-                        <i data-lucide="check-circle-2"></i> Receber & Integrar à Despensa
+                      <span class="badge \${m.psicotropico ? 'badge-danger' : 'badge-success'}">
+                        \${m.psicotropico ? '⚠️ Psicotrópico Controlado' : 'Isento'}
+                      </span>
+                    </td>
+                    <td>\${m.portaria344}</td>
+                    <td><strong>\${m.estoque} \${m.unidade}</strong></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // 3.3. PSICOLOGIA & VIDEOCHAMADAS FAMILIARES
+    if (this.currentTab === 'psicologia') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="brain" style="vertical-align: middle; margin-right: 0.5rem;"></i> 3.3. Atendimento Psicossocial, Serviço Social & Videochamadas Familiares</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAtendimentoPsico()">
+              <i data-lucide="plus-circle"></i> + Registrar Atendimento
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Acolhido</th>
+                  <th>Data</th>
+                  <th>Modalidade de Atendimento</th>
+                  <th>Equipe Multiprofissional</th>
+                  <th>Parecer de Evolução Psicossocial</th>
+                  <th>WhatsApp Familiar</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${atendimentosPsico.map(psi => `
+                  <tr>
+                    <td><strong>\${psi.id}</strong></td>
+                    <td><strong>\${psi.acolhidoNome}</strong></td>
+                    <td>\${psi.data}</td>
+                    <td><span class="badge badge-info">\${psi.tipo}</span></td>
+                    <td>\${psi.profissional}</td>
+                    <td style="max-width: 320px; font-size: 0.85rem; color: var(--text-muted);">\${psi.parecer}</td>
+                    <td>
+                      <button class="btn btn-success btn-sm" onclick="window.ui.enviarBoletimWhatsApp('\${psi.acolhidoId}')">
+                        <i data-lucide="send"></i> Enviar Boletim
                       </button>
                     </td>
                   </tr>
@@ -336,95 +357,82 @@ class UI {
       `;
     }
 
-    // MÓDULO 7: FROTA & TRANSPORTE SUS
-    if (this.currentTab === 'frota') {
+    // 3.4. ODONTOLOGIA TERAPÊUTICA & AUTOESTIMA
+    if (this.currentTab === 'odonto') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="truck" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 7: Gestão Integrada de Frota & Transporte SUS</h3>
-            <span class="badge badge-primary">Coordenador Marcos Santana</span>
+            <h3><i data-lucide="smile" style="vertical-align: middle; margin-right: 0.5rem;"></i> 3.4. Odontologia Terapêutica & Restauração da Autoestima</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoOdonto()">
+              <i data-lucide="calendar"></i> + Agendar Atendimento Odontológico
+            </button>
           </div>
 
-          <div class="grid-2">
-            \${frota.map(v => `
-              <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">\${v.modelo}</h4>
-                  <span class="badge \${v.status === 'Em Viagem' ? 'badge-warning' : (v.status === 'Disponível' ? 'badge-success' : 'badge-info')}">
-                    \${v.status}
-                  </span>
-                </div>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Placa:</strong> <span class="badge badge-primary">\${v.placa}</span> | <strong>Manutenção OS:</strong> \${v.os}</p>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Motorista Responsável:</strong> \${v.motorista}</p>
-                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Tipo:</strong> \${v.tipo}</p>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;"><strong>Destino Atual:</strong> \${v.destino} (\${v.acolhidosCount} Acolhidos a bordo)</p>
-
-                <div style="display: flex; gap: 0.5rem;">
-                  \${v.status === 'Em Viagem' ? `
-                    <button class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.retornoFrota('\${v.id}')">
-                      <i data-lucide="home"></i> Registrar Retorno à Base
-                    </button>
-                  ` : `
-                    <button class="btn btn-primary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.lancarViagemFrota('\${v.id}')">
-                      <i data-lucide="navigation"></i> Lançar Viagem Transporte SUS
-                    </button>
-                  `}
-                </div>
-              </div>
-            `).join('')}
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Acolhido</th>
+                  <th>Data Agendamento</th>
+                  <th>Procedimento Odontológico</th>
+                  <th>Gabinete Odontológico</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${odonto.map(o => `
+                  <tr>
+                    <td><strong>\${o.id}</strong></td>
+                    <td><strong>\${o.acolhidoNome}</strong></td>
+                    <td>\${o.data}</td>
+                    <td><strong>\${o.procedimento}</strong></td>
+                    <td>\${o.dentista}</td>
+                    <td><span class="badge badge-success">\${o.status}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
     }
 
-    // CADASTROS MROSC (2.1 a 2.5)
-    if (this.currentTab === 'cadastros') {
+    // 3.5. CATÁLOGO DE SUBSTÂNCIAS PSICOATIVAS
+    if (this.currentTab === 'catalogos_saude') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="clipboard-list" style="vertical-align: middle; margin-right: 0.5rem;"></i> Central de Cadastros Administrativos MROSC (2.1 a 2.5)</h3>
-            <span class="badge badge-primary">Homologado MROSC</span>
+            <h3><i data-lucide="activity" style="vertical-align: middle; margin-right: 0.5rem;"></i> 3.5. Catálogo de Substâncias Psicoativas (Triagem)</h3>
+            <span class="badge badge-primary">Homologado ANVISA</span>
           </div>
 
-          <div class="grid-2">
-            <!-- 2.1. FORNECEDORES -->
-            <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-              <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">2.1. Fornecedores MROSC Homologados</h4>
-              <ul style="font-size: 0.85rem; padding-left: 1rem;">
-                \${cadastros.fornecedores.map(f => `<li><strong>\${f.razaoSocial}</strong> (CNPJ: \${f.cnpj}) — \${f.rubrica}</li>`).join('')}
-              </ul>
-            </div>
-
-            <!-- 2.3. ENDEREÇAMENTO -->
-            <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-              <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">2.3. Endereçamento Físico do Galpão</h4>
-              <ul style="font-size: 0.85rem; padding-left: 1rem;">
-                \${cadastros.enderecamento.map(e => `<li>\${e}</li>`).join('')}
-              </ul>
-            </div>
-
-            <!-- 2.4. SETORES DESTINO -->
-            <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-              <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">2.4. Setores Solicitantes Homologados</h4>
-              <ul style="font-size: 0.85rem; padding-left: 1rem;">
-                \${cadastros.setoresDestino.map(s => `<li>\${s}</li>`).join('')}
-              </ul>
-            </div>
-
-            <!-- 2.5. RESPONSÁVEIS -->
-            <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-              <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">2.5. Responsáveis Autorizados</h4>
-              <ul style="font-size: 0.85rem; padding-left: 1rem;">
-                \${cadastros.responsaveis.map(r => `<li><strong>\${r.nome}</strong> (\${r.setor})</li>`).join('')}
-              </ul>
-            </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Substância Psicoativa Principal</th>
+                  <th>Classificação Farmacológica</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${substancias.map(sub => `
+                  <tr>
+                    <td><strong>\${sub.id}</strong></td>
+                    <td><strong>\${sub.nome}</strong></td>
+                    <td><span class="badge badge-info">\${sub.categoria}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
     }
 
-    // SEGUIMENTO DA ABA ACOLHIDOS (SE NAVEGADO)
-    if (this.currentTab === 'acolhidos') {
+    // NAVEGAÇÃO EXTERNA (SE NAVEGADO PARA OUTROS MACROMÓDULOS)
+    if (this.currentTab === 'acolhidos' || this.currentTab === 'almoxarifado') {
       window.location.reload();
     }
 
@@ -444,41 +452,77 @@ class UI {
     `;
   }
 
-  // --- MÉTODOS DE AÇÃO DO MACROMÓDULO 2 ---
-  emitirRMIItem(id) {
-    const qtd = Number(prompt("Quantidade a transferir via RMI para a Despensa:", "10")) || 10;
-    window.store.emitirRMI(id, qtd);
-    this.renderApp();
-  }
+  // --- MÉTODOS DE AÇÃO DO MACROMÓDULO 3 ---
+  abrirModalSinaisVitais() {
+    const acolhidos = window.store.getAcolhidos();
+    const acolhidoNome = prompt("Nome do Acolhido para Sinais Vitais:", acolhidos[0] ? acolhidos[0].nome : "Lucas Silva Santos");
+    if (acolhidoNome) {
+      const pa = prompt("Pressão Arterial (ex: 120x80 mmHg):", "120x80 mmHg") || "120x80 mmHg";
+      const fc = prompt("Frequência Cardíaca (ex: 76 bpm):", "76 bpm") || "76 bpm";
+      const glicemia = prompt("Glicemia (ex: 94 mg/dL):", "94 mg/dL") || "94 mg/dL";
+      const temp = prompt("Temperatura (ex: 36.5 °C):", "36.5 °C") || "36.5 °C";
 
-  abrirModalEmitirRMI() {
-    const item = prompt("ID do item no Almoxarifado (ex: ALM-01):", "ALM-01");
-    if (item) this.emitirRMIItem(item);
-  }
-
-  aceitarRMI(rmiId) {
-    window.store.aceitarRMIDespensa(rmiId);
-    this.renderApp();
-  }
-
-  darBaixaCozinha(despensaId) {
-    window.store.darBaixaCozinha(despensaId);
-    this.renderApp();
-  }
-
-  lancarViagemFrota(veiculoId) {
-    const destino = prompt("Destino do Transporte SUS / Carga:", "Salvador / Hosp. Geral do Estado");
-    const motorista = prompt("Motorista responsável:", "Carlos Eduardo Santos");
-    const acolhidos = prompt("Nomes dos Acolhidos a bordo (separados por vírgula):", "Lucas Silva, Mateus Santos");
-    if (destino) {
-      window.store.lancarViagemFrota(veiculoId, destino, motorista, acolhidos);
+      window.store.registrarSinaisVitais({
+        acolhidoId: "FDJ-2026-001",
+        acolhidoNome,
+        pa, fc, glicemia, temp,
+        observacao: "Atendimento de rotina na Enfermaria FDJ."
+      });
       this.renderApp();
     }
   }
 
-  retornoFrota(veiculoId) {
-    window.store.retornoFrota(veiculoId);
-    this.renderApp();
+  abrirModalNovaPrescricao() {
+    const acolhidoNome = prompt("Nome do Acolhido:", "Lucas Silva Santos");
+    if (acolhidoNome) {
+      const medicamento = prompt("Medicamento Prescrito (ex: Haloperidol 5mg):", "Haloperidol 5mg");
+      const horario = prompt("Horário de Aprazamento (ex: 08:00h e 20:00h):", "08:00h") || "08:00h";
+      const dosagem = prompt("Dosagem:", "1 comprimido") || "1 comprimido";
+
+      window.store.novaPrescricao({
+        acolhidoId: "FDJ-2026-001",
+        acolhidoNome,
+        medicamento,
+        horario,
+        dosagem
+      });
+      this.renderApp();
+    }
+  }
+
+  abrirModalNovoAtendimentoPsico() {
+    const acolhidoNome = prompt("Nome do Acolhido:", "Lucas Silva Santos");
+    if (acolhidoNome) {
+      const tipo = prompt("Modalidade (Vídeo-chamada com Psicologia / Atendimento Individual / Grupo):", "Vídeo-chamada com Psicologia") || "Atendimento Individual";
+      const parecer = prompt("Parecer da Evolução Psicossocial:", "Excelente adesão ao tratamento e acompanhamento familiar.") || "Evolução clínica estável.";
+
+      window.store.registrarAtendimentoPsico({
+        acolhidoId: "FDJ-2026-001",
+        acolhidoNome,
+        tipo,
+        parecer
+      });
+      this.renderApp();
+    }
+  }
+
+  abrirModalNovoOdonto() {
+    const acolhidoNome = prompt("Nome do Acolhido:", "Lucas Silva Santos");
+    if (acolhidoNome) {
+      const procedimento = prompt("Procedimento Odontológico:", "Avaliação Odontológica de Admissão & Restauração");
+      window.store.agendarOdonto({
+        acolhidoId: "FDJ-2026-001",
+        acolhidoNome,
+        procedimento
+      });
+      this.renderApp();
+    }
+  }
+
+  enviarBoletimWhatsApp(acolhidoId) {
+    const acolhido = window.store.getAcolhidoById(acolhidoId) || { nome: "Lucas Silva Santos", familiarTel: "5571988421044", status: "ativo" };
+    const texto = encodeURIComponent(`Olá! Este é o Boletim Informativo de Saúde e Evolução de ${acolhido.nome} na Fundação Doutor Jesus (Candeias/BA).\nStatus: Estável em leito\nAtendimento Psicossocial: Excelente adesão ao tratamento RDC 29.`);
+    window.open(`https://api.whatsapp.com/send?phone=${acolhido.familiarTel || '5571988421044'}&text=${texto}`, '_blank');
   }
 
   fecharModal() {
