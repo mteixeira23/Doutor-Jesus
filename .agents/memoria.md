@@ -2,46 +2,38 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **Matriz dos 6 Macromódulos & Macromódulo 3 Oficialmente Concluídos e Publicados no Ar!**
+- **Status Atual**: 🟢 **Bug `TypeError` no Prontuário Corrigido & Módulo 9 Laborterapia Factual Publicado no Ar!**
 - **Domínio Oficial**: `https://www.singulariconsult.com.br`
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
 - **Deploy Vercel**: `https://sgi-fundacao-dr-jesus-d53gane6s.vercel.app`
 
 ---
 
-## 🏛️ MATRIZ ESTRUTURAL DOS 6 MACROMÓDULOS (VERCEL SOURCE OF TRUTH)
+## 📸 ESTRUTURA FACTUAL DAS SCREENSHOTS DO USUÁRIO (SOUCE OF TRUTH)
 
-### 🛏️ Macromódulo 1: Gestão dos Acolhidos
-- [x] **Módulo 1**: Cadastros & Admissões RDC 29 ANVISA (Kit Higiene, Enxoval, Vestuário, Crachá QR Code)
-- [x] **Módulo 2**: Ocupação dos 4 Blocos Residenciais (*A Restauração*, *B Renovação*, *C Esperança*, *D Graça*) & Enfermaria
-- [x] **Módulo 3**: Rede Familiar, Visitas, Vídeo-chamadas & Passes Terapêuticos
-- [x] **Módulo 4**: Altas Terapêuticas, Reinserção Social & Follow-Up 90 Dias (Dossiê MROSC / Lei 13.019/2014)
+### 🏥 3. Saúde & Equipe Multidisciplinar (Prontuários RDC 29 e Laborterapia)
+- **📊 Dashboard & Indicadores** (Gráficos do Corpo Clínico & SUS)
+- **🩺 Módulo 8: Prontuário Saúde** (PTI e RDC 29 ANVISA)
+  - Sidebar de Navegação Interna:
+    1. `1. 👤 Resumo do Prontuário & Ficha Clínica`
+    2. `2. 🎯 Plano Terapêutico (PTI RDC 29)`
+    3. `3. 💊 Aprazamento de Medicamentos`
+    4. `4. 📈 Feed de Evoluções Clínicas`
+    5. `5. 🦷 Odontologia & Autoestima`
+    6. `6. 🚑 Regulação SAMU 192`
+    + `Central de Módulos`
+- **🔨 Módulo 9: Laborterapia** (Rotina e certificado 240h)
+  - Registro de carga horária e emissão de certificado oficial de 240h para concluintes.
+- **👤 Cadastros Saúde & Multidisciplinar** (Equipe CRM/CRP e farmácia)
 
-### 📦 Macromódulo 2: Gestão Administrativa, Almoxarifado, Despensa & Frota MROSC
-- [x] **Módulo 5**: Almoxarifado Central & RMI (TCE-BA & SJDH, Galpão A Alimentos, Galpão B Padaria)
-- [x] **Módulo 6**: Despensa & Nutrição Comunitária (4.000 ref/dia, regra FEFO, Horta Orgânica FDJ, baixas per capita)
-- [x] **Módulo 7**: Compras MROSC & Pedidos de Reposição Crítica (Comparador de Preços Atacadão x Ceasa)
-- [x] **Módulo 8**: Frota, Abastecimentos & Transporte SUS (Sprinter, Ônibus Agrale, Ambulância UTI, Caminhão Baú HR)
-- [x] **Cadastros Administrativos (2.1 a 2.5)**: Fornecedores MROSC, Veículos, Endereçamento Galpões, Setores e Responsáveis Autorizados
+---
 
-### 🏥 Macromódulo 3: Saúde, Enfermaria Central & Atendimento Psicossocial — CONCLUÍDO!
-- [x] **Sub-Aba 3.1: Apoio Saúde, Enfermaria Central & Sinais Vitais (Galpão E)** — *Enfermeira Chefe Juliana Santos (COREN-BA 48192)*, sinais vitais e SAMU 192.
-- [x] **Sub-Aba 3.2: Psicologia Clínica & Dependência Química (CRP)** — Atendimentos individuais de Psicologia, Serviço Social e **Vídeo-chamadas familiares com o interior da Bahia**.
-- [x] **Sub-Aba 3.3: Enfermagem & Farmácia (COREN/CRF)** — Aprazamento medicamentoso psiquiátrico (*Dra. Ana Paula*) e **Psicotrópicos (Portaria 344 SVS/MS)**.
-- [x] **Sub-Aba 3.4: Odontologia Terapêutica & Autoestima** — Gabinete Odontológico FDJ & Avaliação de Admissão.
-- [x] **Sub-Aba 3.5: Catálogos Homologados de Saúde** — Catálogo de Procedimentos Odontológicos/Clínicos, Catálogo da Farmácia Interna e Catálogo de Substâncias Psicoativas.
-
-### 💰 Macromódulo 4: Prestação de Contas MROSC & Financeiro Segregado
-- [ ] Módulo 10: Contas Bancárias Segregadas MROSC (Banco do Brasil MROSC SJDH-BA - Conta 14.502-1 x Caixa Doações)
-- [ ] Módulo 11: DRE, Extratos Segregados, OFX, Prestações de Contas SJDH e Incentivos Fiscais
-
-### 👔 Macromódulo 5: Matriz de Pessoas Focais & Delegação de Poderes
-- [ ] Matriz de Pessoas Focais por Macromódulo, Gestão Executiva e delegação de alçadas operacionais.
-
-### 💻 Macromódulo 6 (Módulo 13): Administração de TI, Infraestrutura & Redes
-- [x] Acompanhamento de servidores, latência, backups no cofre criptografado, rastreamento de IPs, SSL e logs de auditoria.
+## 🛠️ DIAGNÓSTICO E CORREÇÃO DO ERRO DE RUNTIME:
+- **Causa do Erro**: `TypeError: Cannot read properties of undefined (reading 'id')` no Módulo 8 Prontuário Saúde.
+- **Diagnóstico**: Ocorria quando o componente `yS` tentava ler `t[0].id` com o array de acolhidos `t` indisponível ou vazio.
+- **Solução**: Implementada validação defensiva em `js/store.js` e `js/ui.js` garantindo fallback seguro para `acolhidos[0]`, impedindo o estouro da exceção.
 
 ---
 
 ## 💡 Histórico de Commits
-- Commit `753f558`: Matriz de navegação dos 6 Macromódulos e sub-abas oficiais do Macromódulo 3 publicadas na Vercel.
+- Commit `dc140f5`: Correção do `TypeError` de runtime e adição do Módulo 9 Laborterapia conforme screenshots reais do usuário.
