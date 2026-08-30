@@ -2,7 +2,7 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **Macromódulos 1 e 2 Concluídos, Integrados e Revisados com Sucesso!**
+- **Status Atual**: 🟢 **Macromódulos 1 e 2 (Almoxarifado, Despensa e Frota) Ajustados, Integrados e Publicados!**
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
 - **Deploy Vercel**: `https://sgi-fundacao-dr-jesus-d53gane6s.vercel.app`
 
@@ -10,38 +10,33 @@
 
 ## 🎯 Checklist da Semana para a Entrega
 
-### 🟢 Segunda-feira: Macromódulo 1 (Acolhidos & Triagem) — CONCLUÍDO!
-- [x] Conectar base de dados de Acolhidos no `store.js`.
-- [x] Tabela interativa com busca em tempo real por Nome, CPF e Código FDJ.
-- [x] Filtros por status (Ativos vs Em Triagem).
-- [x] Modal de Cadastro Completo do Acolhido (Dados Pessoais, CPF, RG, Origem, Leito, Dieta, Emergência).
-- [x] Prontuário Eletrônico com avanço das 4 Fases do PTI (Plano Terapêutico Individual).
-- [x] Gerador de Crachá de Identificação do Acolhido pronto para Impressão A4 (`@media print`).
+### 🟢 Macromódulo 1: Gestão dos Acolhidos — CONCLUÍDO!
+- [x] Módulo 1: Triagem, Leitos, Admissão e Altas (Busca por Nome, CPF e FDJ).
+- [x] Módulo 2: Prontuário Eletrônico & PTI (Evolução Fases 1 a 4).
+- [x] Módulo 3: Emissão de Crachá de Identificação A4 (`@media print`).
+- [x] Módulo 4: Relação de Transportados & Acompanhamento.
 
-### 🟢 Terça-feira: Macromódulo 2 (Almoxarifado FEFO & Refeições 1.240 Acolhidos) — CONCLUÍDO!
-- [x] Módulo 5: Tabela de Estoque FEFO com filtros por setor (Despensa, Cozinha, Triagem).
-- [x] Botões para Reposição/Entrada (+) e Consumo/Saída (-) de insumos com logs de auditoria.
-- [x] Módulo 6: Painel do Almoço Comunitário e Café da Manhã (1.240 Acolhidos) com confirmação de refeição servida e baixa automática no estoque de arroz e feijão.
-- [x] Módulo 7: Quadro de Oficinas de Capacitação (Cozinha Industrial, Horta Orgânica, Elétrica, Manutenção).
-- [x] Módulo 8: Controle de Kits de Admissão em tempo real.
+### 🟢 Macromódulo 2: Gestão Administrativa — CONCLUÍDO!
+- [x] **Módulo de Almoxarifado**: Materiais de consumo, limpeza, ferramentas, vestuário, enxoval e Kits de Admissão.
+- [x] **Módulo de Despensa**: Alimentos, cereais, óleos, açúcar, controle de validade FEFO e sacos de arroz/feijão.
+- [x] **Módulo de Frota**: Vans (Sprinter), Ônibus, Ambulância UTI, Caminhão Baú, gestão de motoristas, status da viagem (Em Viagem / Disponível / Prontidão) e retorno à base.
 
-### 🟡 Quarta-feira: Módulo da Saúde & MROSC
+### 🟡 Gestão da Saúde & Atendimento
 - [x] Campo de Acompanhamento Médico e Dietas Especiais no Prontuário.
-- [x] Painel de Saúde & Dietas Especiais integrado com a Cozinha Industrial.
-- [ ] Tela de relatórios para prestação de contas MROSC.
+- [x] Painel de Saúde & Dietas Especiais integrado com os acolhidos.
+- [ ] Módulo Médica e Psicológica dedicado.
 
-### ⚪ Quinta-feira: Testes, Impressão A4 & Refinamento de UX
-- [x] CSS de Impressão `@media print` para A4.
-- [x] Navegação reativa entre todas as abas dos Macromódulos 1 e 2.
-- [ ] Validar compatibilidade em telas de celulares e tablets.
+### ⚪ Gestão Financeira & MROSC
+- [ ] Módulo MROSC / Termos de Fomento e Prestação de Contas.
+- [ ] Doações e Voluntariado.
 
-### ⚪ Sexta-feira: Auditoria Final & Apresentação
-- [x] Validação zero erros de console.
-- [x] `git push` contínuo para a Vercel.
+### ⚪ Tecnologia da Informação
+- [x] Módulo 13: TI & Logs de Auditoria do Sistema SGI em tempo real.
+- [ ] Perfis de Acesso avançados.
 
 ---
 
 ## 💡 Histórico de Decisões Técnicas
-1. **Macromódulo 2 Concluído**: Implementada regra FEFO (*First Expired, First Out*), controle de refeições comunitárias com baixa de insumos e quadro de oficinas de capacitação.
-2. **Reatividade Transversal**: Ações na Triagem (M1) baixam Kits de Admissão no Almoxarifado (M2) e atualizam as Dietas Especiais na Saúde.
-3. **Gerenciamento em `.agents/`**: Arquitetura desacoplada mantida em `.agents/AGENTS.md`, `.agents/memoria.md` e `.agents/skills/`.
+1. **Ajuste Fino do Macromódulo 2**: Atualizados os módulos para a estrutura real da instituição: **Almoxarifado**, **Despensa** e **Frota**.
+2. **Reatividade Transversal**: Admissão na Triagem (M1) baixa 1 Kit no Almoxarifado (M2) e registra logs no Módulo 13 (TI).
+3. **Módulo de Frota**: Controle completo de ônibus, vans, ambulâncias e caminhões de carga da Fundação.
