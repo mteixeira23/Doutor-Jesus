@@ -1,12 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SGI - FundaÃ§Ã£o Doutor Jesus | Sistema de GestÃ£o Integrada</title>
+  <title>SGI - Fundação Doutor Jesus | Sistema de Gestão Integrada</title>
 
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,31 +15,9 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="/css/styles.css">
-
-  <!-- Script de DestruiÃ§Ã£o do Bug de Reset e PopulaÃ§Ã£o ObrigatÃ³ria -->
-  <script>
-    (function killResetBug() {
-      try {
-        var sampleData = [
-          { id: "FDJ-2026-001", nome: "Lucas Silva Santos", cpf: "123.456.789-00", rg: "14.587.963-00", status: "ativo", leito: "Leito A-101 (TÃ©rreo PCD)", oficina: "Oficina de ElÃ©trica", dieta: "Normal" },
-          { id: "FDJ-2026-002", nome: "Mateus Santos Oliveira", cpf: "987.654.321-11", rg: "12.365.478-99", status: "triagem", leito: "Leito B-205", oficina: "Horta OrgÃ¢nica FDJ", dieta: "HipossÃ³dica (PressÃ£o Alta)" }
-        ];
-
-        var raw = localStorage.getItem('sgi_fdj_acolhidos');
-        if (!raw || raw === '[]' || raw === 'null' || raw === 'undefined') {
-          localStorage.setItem('sgi_fdj_acolhidos', JSON.stringify(sampleData));
-        }
-        localStorage.setItem('sgi_fdj_reset_v2', 'true');
-      } catch(e) {
-        console.error("Storage repair error:", e);
-      }
-    })();
-  </script>
-
-  <script type="module" crossorigin src="/assets/index-SGI-FIXED-v3.js"></script>
-  <script type="module" src="/js/app.js"></script>
 </head>
 <body>
   <div id="root"></div>
+  <script type="module" src="/js/app.js"></script>
 </body>
 </html>
