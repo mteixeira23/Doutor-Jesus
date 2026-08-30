@@ -8,6 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SGI - Fundacao Doutor Jesus | Sistema de Gestao Integrada</title>
 
+  <!-- Favicon Oficial FDJ (Corao Vermelho) - Substitui Icone do Onibus -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>">
+
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,234 +19,41 @@
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Inlined Full Stylesheet -->
-  <style>
-:root{--bg-main: #f8fafc;--bg-card: #ffffff;--bg-card-hover: #f1f5f9;--bg-sidebar: #ffffff;--bg-header: #ffffff;--border-color: #e2e8f0;--border-highlight: rgba(37, 99, 235, .4);--primary: #2563eb;--primary-hover: #1d4ed8;--primary-glow: rgba(37, 99, 235, .12);--secondary: #0284c7;--accent: #d97706;--accent-glow: rgba(217, 119, 6, .12);--text-main: #0f172a;--text-muted: #475569;--text-dim: #94a3b8;--status-success: #059669;--status-success-bg: rgba(5, 150, 105, .12);--status-warning: #d97706;--status-warning-bg: rgba(217, 119, 6, .12);--status-danger: #dc2626;--status-danger-bg: rgba(220, 38, 38, .12);--status-info: #2563eb;--status-info-bg: rgba(37, 99, 235, .12);--shadow-sm: 0 1px 3px rgba(0, 0, 0, .05);--shadow-md: 0 8px 24px rgba(0, 0, 0, .08);--shadow-glow: 0 4px 20px rgba(37, 99, 235, .15);--radius-sm: 6px;--radius-md: 10px;--radius-lg: 16px;--radius-full: 9999px;--font-family: "Inter", system-ui, -apple-system, sans-serif;--font-heading: "Outfit", sans-serif}[data-theme=dark]{--bg-main: #0b0f19;--bg-card: #161e31;--bg-card-hover: #1e2942;--bg-sidebar: #0f172a;--bg-header: rgba(15, 23, 42, .95);--border-color: #27354f;--border-highlight: rgba(59, 130, 246, .6);--primary: #3b82f6;--primary-hover: #2563eb;--primary-glow: rgba(59, 130, 246, .2);--text-main: #f8fafc;--text-muted: #94a3b8;--text-dim: #64748b;--shadow-sm: 0 2px 8px rgba(0, 0, 0, .4);--shadow-md: 0 8px 24px rgba(0, 0, 0, .5);--shadow-glow: 0 4px 20px rgba(59, 130, 246, .25)}[data-theme=dark] body{background-color:#0b0f19!important;color:#f8fafc!important}[data-theme=dark] .card,[data-theme=dark] .organograma-card,[data-theme=dark] .macromodulo-card,[data-theme=dark] .modal-content{background-color:#161e31!important;border-color:#27354f!important;color:#f8fafc!important}[data-theme=dark] .btn-secondary{background-color:#1e293b!important;color:#f8fafc!important;border-color:#334155!important}[data-theme=dark] .btn-secondary:hover{background-color:#334155!important;color:#fff!important;border-color:#3b82f6!important}[data-theme=dark] .btn-outline{background-color:transparent!important;color:#60a5fa!important;border-color:#3b82f6!important}[data-theme=dark] .btn-outline:hover{background-color:#3b82f633!important}[data-theme=dark] div[style*="background: #ffffff"],[data-theme=dark] div[style*="background: white"],[data-theme=dark] div[style*="background: #f8fafc"],[data-theme=dark] div[style*="background: #f1f5f9"],[data-theme=dark] div[style*="background: #e2e8f0"],[data-theme=dark] div[style*="background:'#ffffff'"],[data-theme=dark] div[style*="background: '#f8fafc'"],[data-theme=dark] div[style*="background: '#f1f5f9'"]{background-color:#161e31!important;border-color:#27354f!important;color:#f8fafc!important}[data-theme=dark] button[style*="background: #f1f5f9"],[data-theme=dark] button[style*="background: #ffffff"],[data-theme=dark] button[style*="background: #f8fafc"]{background-color:#1e293b!important;color:#f8fafc!important;border-color:#334155!important}[data-theme=dark] input,[data-theme=dark] select,[data-theme=dark] textarea,[data-theme=dark] .form-input,[data-theme=dark] .form-select,[data-theme=dark] .form-textarea{background-color:#0f172a!important;color:#f8fafc!important;border-color:#334155!important}[data-theme=dark] input::placeholder,[data-theme=dark] textarea::placeholder{color:#64748b!important}[data-theme=dark] option{background-color:#0f172a!important;color:#f8fafc!important}[data-theme=dark] .sidebar{background-color:#0f172a!important;border-color:#1e293b!important}[data-theme=dark] .header-bar{background-color:#0f172af2!important;border-color:#1e293b!important}[data-theme=dark] .submodule-item-card{background-color:#0f172a!important;border-color:#27354f!important}[data-theme=dark] .submodule-item-card:hover{background-color:#1e2942!important;border-color:#3b82f6!important}[data-theme=dark] table{background-color:#161e31!important;color:#f8fafc!important}[data-theme=dark] th{background-color:#0f172a!important;color:#94a3b8!important;border-color:#27354f!important}[data-theme=dark] td{border-color:#27354f!important;color:#f8fafc!important}[data-theme=dark] tr:hover td{background-color:#1e2942!important}[data-theme=dark] [style*="color: #0f172a"],[data-theme=dark] [style*="color: #334155"],[data-theme=dark] [style*="color: #475569"],[data-theme=dark] [style*="color: #1e293b"]{color:#f8fafc!important}[data-theme=dark] [style*="color: #64748b"]{color:#94a3b8!important}*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font-family);background-color:var(--bg-main);color:var(--text-main);min-height:100vh;line-height:1.5;overflow-x:hidden;transition:background-color .3s ease,color .3s ease}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:700;letter-spacing:-.02em}.app-container{display:flex;min-height:100vh}.main-content-wrapper{flex:1;display:flex;flex-direction:column;min-width:0}.page-content{flex:1;padding:1.5rem 2rem;overflow-y:auto;max-width:1600px;width:100%;margin:0 auto}::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-main)}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}.card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-md);transition:all .25s ease}.card:hover{border-color:var(--border-highlight);box-shadow:var(--shadow-glow)}.stat-card{display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem}.stat-icon-wrapper{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--primary-glow);color:var(--primary);border:1px solid var(--border-highlight);flex-shrink:0}.stat-info h4{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem}.stat-value{font-size:1.85rem;font-weight:800;font-family:var(--font-heading);line-height:1.1;color:var(--text-main)}.stat-subtext{font-size:.75rem;color:var(--status-success);margin-top:.25rem;display:flex;align-items:center;gap:.25rem}.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .65rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:700}.badge-success{background:var(--status-success-bg);color:var(--status-success);border:1px solid rgba(5,150,105,.3)}.badge-warning{background:var(--status-warning-bg);color:var(--status-warning);border:1px solid rgba(217,119,6,.3)}.badge-danger{background:var(--status-danger-bg);color:var(--status-danger);border:1px solid rgba(220,38,38,.3)}.badge-info{background:var(--status-info-bg);color:var(--status-info);border:1px solid rgba(37,99,235,.3)}.badge-primary{background:var(--primary-glow);color:var(--primary);border:1px solid var(--border-highlight)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.65rem 1.25rem;border-radius:var(--radius-md);font-size:.875rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:all .2s ease;text-decoration:none;font-family:var(--font-family)}.btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px #2563eb59}.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px #2563eb73;background:linear-gradient(135deg,#1d4ed8,#1e40af)}.btn-secondary{background:#fff;color:var(--text-main);border-color:#cbd5e1}.btn-secondary:hover{border-color:var(--primary);background:#f8fafc}.btn-outline{background:transparent;color:var(--primary);border-color:var(--border-highlight)}.btn-outline:hover{background:var(--primary-glow)}.btn-sm{padding:.4rem .8rem;font-size:.8rem;border-radius:var(--radius-sm)}.table-container{width:100%;overflow-x:auto;border-radius:var(--radius-md);border:1px solid var(--border-color);background:#fff}.data-table{width:100%;border-collapse:collapse;text-align:left;font-size:.875rem}.data-table th{background:#f1f5f9;color:#475569;font-weight:700;padding:.85rem 1rem;border-bottom:1px solid var(--border-color);text-transform:uppercase;font-size:.75rem;letter-spacing:.05em}.data-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border-color);color:var(--text-main)}.data-table tbody tr:hover{background:#f8fafc}.form-group{margin-bottom:1.25rem}.form-label{display:block;font-size:.8rem;font-weight:600;color:var(--text-muted);margin-bottom:.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:1.2rem;line-height:1.2rem}.form-input,.form-select,.form-textarea{width:100%;box-sizing:border-box;padding:.45rem .75rem;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:#fff;color:var(--text-main);font-size:.875rem;transition:var(--transition-fast)}.form-input,.form-select{height:38px}.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}@media (max-width: 1024px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}@media (max-width: 640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}.modal-overlay{position:fixed;top:0;right:0;bottom:0;left:0;background:#0f172a99;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}.modal-content{background:#fff;border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.75rem;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 40px #0003}.print-only{display:none!important}@media print{@page{size:A4 landscape;margin:6mm}html,body{background:#fff!important;color:#000!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;overflow:hidden!important}header,nav,.sidebar,.no-print,button,.header-user-badge,.card-header-actions{display:none!important}.print-only{display:flex!important}.page-content{padding:0!important;max-width:100%!important;margin:0!important}.grid-linha-1{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:6px!important;width:100%!important}.grid-linha-2{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:6px!important;width:100%!important}.card{box-shadow:none!important;border:1px solid #cbd5e1!important;break-inside:avoid!important;page-break-inside:avoid!important;padding:6px 8px!important;background:#fff!important;border-radius:8px!important}.card h3{font-size:.8rem!important}.card div{font-size:.675rem!important}}.app-container{display:flex;min-height:100vh;width:100%;position:relative}.main-content-wrapper{flex:1;display:flex;flex-direction:column;min-width:0;width:100%;min-height:100vh}.page-content{flex:1;width:100%;overflow-x:hidden}@media (max-width: 768px){.mobile-menu-toggle-btn{display:inline-flex!important}.sidebar{position:fixed!important;top:0;left:0;bottom:0;height:100vh!important;transform:translate(-100%);box-shadow:0 10px 30px #0000004d!important;z-index:1050!important}.sidebar.mobile-open{transform:translate(0)!important}.page-content{padding:.75rem!important}.header-bar{padding:.5rem .75rem!important}.header-brand-title{font-size:.95rem!important}.user-email-text{max-width:110px!important;font-size:.7rem!important}.logout-btn-text{display:none}.card{padding:1rem!important;border-radius:12px!important}.stat-card{padding:1rem!important;gap:.85rem!important}.stat-icon-wrapper{width:44px!important;height:44px!important;font-size:1.2rem!important}.stat-value{font-size:1.4rem!important}.form-input,.form-select,.form-textarea{font-size:16px!important}.table-container{overflow-x:auto!important;-webkit-overflow-scrolling:touch;width:100%!important;display:block;margin-bottom:1rem}.data-table{min-width:550px}.data-table th,.data-table td{padding:.65rem .75rem!important;font-size:.775rem!important}}@media (max-width: 640px){h1{font-size:1.3rem!important}h2{font-size:1.1rem!important}h3{font-size:.975rem!important}}@media (max-width: 768px){.landing-hero-title{font-size:1.8rem!important;line-height:1.2!important}.landing-top-bar{flex-direction:column!important;gap:.35rem!important;text-align:center!important;padding:.5rem 1rem!important}.landing-header{padding:.75rem 1rem!important;flex-direction:column!important;gap:.75rem!important}.landing-nav{display:none!important}.landing-hero-section{padding:2rem 1rem 1.5rem!important}.landing-action-btns{flex-direction:column!important;width:100%!important}.landing-action-btns button,.landing-action-btns a{width:100%!important;justify-content:center!important}.landing-metrics-grid{grid-template-columns:repeat(2,1fr)!important;gap:.75rem!important;padding:1rem!important}.login-page-container{padding:.5rem!important}.login-left-panel,.login-right-panel{padding:1.5rem 1.25rem!important}}@media print{@page{size:A4 portrait;margin:12mm 15mm 15mm}body,html{background:#fff!important;color:#000!important;margin:0!important;padding:0!important;width:100%!important;height:auto!important;overflow:visible!important;font-size:11pt!important}.app-container,.main-content-wrapper,.page-content{display:block!important;position:static!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important;background:transparent!important;box-shadow:none!important;border:none!important}.sidebar,.header-bar,.top-header,.top-banner,.no-print,button,.btn,header,nav,footer,.macromodulo-card,.submodule-item-card{display:none!important}body:has(.modal-overlay) .card,body:has(.modal-overlay) .table-container,body:has(.modal-overlay) .data-table{display:none!important}.modal-overlay{position:static!important;display:block!important;background:transparent!important;box-shadow:none!important;border:none!important;width:100%!important;height:auto!important;min-height:auto!important;padding:0!important;margin:0!important;z-index:1!important}.modal-content{position:static!important;display:block!important;background:#fff!important;box-shadow:none!important;border:none!important;padding:0!important;margin:0!important;width:100%!important;max-width:100%!important;color:#000!important}.printable-document,.dossie-a4-page{position:static!important;display:block!important;width:100%!important;max-width:100%!important;margin:0 auto!important;padding:0!important;background:#fff!important;color:#000!important;border:none!important;box-shadow:none!important;font-family:Inter,system-ui,sans-serif!important;font-size:10.5pt!important;line-height:1.5!important;page-break-inside:avoid!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.dossie-a4-page{page-break-after:always!important}.printable-document *{color:#000!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.printable-header{text-align:center!important;border-bottom:2px solid #000000!important;padding-bottom:10px!important;margin-bottom:18px!important}.printable-header h2{font-size:16pt!important;font-weight:900!important;margin:0 0 4px!important;letter-spacing:.03em!important;color:#000!important}.printable-header p{font-size:9.5pt!important;margin:2px 0!important;color:#333!important}.printable-document table{width:100%!important;border-collapse:collapse!important;margin:12px 0!important}.printable-document th,.printable-document td{border:1px solid #000000!important;padding:6px 10px!important;font-size:9.5pt!important;text-align:left!important}.printable-document th{background-color:#f1f5f9!important;font-weight:800!important}.printable-signatures{margin-top:40px!important;display:flex!important;justify-content:space-between!important;gap:30px!important;page-break-inside:avoid!important}.printable-signature-col{flex:1!important;text-align:center!important;font-size:9.5pt!important}.printable-signature-line{border-top:1.5px solid #000000!important;padding-top:6px!important;margin-top:35px!important}.printable-cracha-container{display:flex!important;justify-content:center!important;align-items:center!important;min-height:80vh!important;background:#fff!important;padding:0!important;margin:0!important}.printable-cracha-card{width:85mm!important;height:125mm!important;margin:0 auto!important;border:2.5px solid #0d9488!important;border-radius:12px!important;box-shadow:none!important;background:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;page-break-inside:avoid!important}} 
-  </style>
+  <!-- System Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css?v=20260830_v6">
 </head>
 <body>
   <!-- Container Root -->
-  <div id="root"></div>
+  <div id="root">
+    <div style="font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f8fafc; color: #0f172a; text-align: center; padding: 2rem;">
+      <div style="width: 50px; height: 50px; border-radius: 12px; background: #dc2626; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(220,38,38,0.3);">
+        FDJ
+      </div>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: #0f172a;">SGI — Fundacao Doutor Jesus</h2>
+      <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">Carregando Sistema de Gestao Integrada...</p>
+    </div>
+  </div>
 
-  <!-- Inlined Store Manager -->
+  <!-- Application Scripts -->
+  <script src="js/store.js?v=20260830_v6"></script>
+  <script src="js/ui.js?v=20260830_v6"></script>
+  <script src="js/app.js?v=20260830_v6"></script>
+
+  <!-- Instant Auto-Renderer -->
   <script>
-/**
- * TaskFlow / SGI - Fundao Doutor Jesus
- * Store Manager - Estado Global Completo com Fallbacks Anti-Crash 100% Protegidos
- */
-
-const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v3';
-const STORAGE_KEY_LABORTERAPIA = 'sgi_fdj_laborterapia_v3';
-const STORAGE_KEY_CADASTROS_SAUDE = 'sgi_fdj_cadastros_saude_v3';
-const STORAGE_KEY_SINAIS_VITAIS = 'sgi_fdj_sinais_vitais_v3';
-const STORAGE_KEY_PRESCRICOES = 'sgi_fdj_prescricoes_v3';
-const STORAGE_KEY_PSICO = 'sgi_fdj_psico_v3';
-const STORAGE_KEY_ODONTO = 'sgi_fdj_odonto_v3';
-const STORAGE_KEY_SUBSTANCIAS = 'sgi_fdj_substancias_v3';
-const STORAGE_KEY_LOGS = 'sgi_fdj_logs_v3';
-
-const initialAcolhidos = [
-  {
-    id: "FDJ-2026-001",
-    nome: "Lucas Silva Santos",
-    cpf: "123.456.789-00",
-    rg: "14.587.963-00",
-    status: "ativo",
-    leito: "Leito A-101 (Terreo PCD)",
-    oficina: "Oficina de Eletrica",
-    dieta: "Normal",
-    laborterapia: { setor: "Oficina de Eletrica & Manutencao", horasConcluidas: 240, certificadoEmitido: true, dataConclusao: "2026-08-15" },
-    prontuario: { alergias: "Nenhuma", tipoSanguineo: "O+", historicoClinico: "Tratamento regular RDC 29", sinaisVitais: { pa: "120x80 mmHg", fc: "76 bpm", glicemia: "94 mg/dL", temp: "36.5 C" } }
-  },
-  {
-    id: "FDJ-2026-002",
-    nome: "Mateus Santos Oliveira",
-    cpf: "987.654.321-11",
-    rg: "12.365.478-99",
-    status: "triagem",
-    leito: "Leito B-205",
-    oficina: "Horta Organica FDJ",
-    dieta: "Hipossodica (Pressao Alta)",
-    laborterapia: { setor: "Horta Organica & Agro", horasConcluidas: 120, certificadoEmitido: false, dataConclusao: "Em Andamento" },
-    prontuario: { alergias: "Hipertensao leve", tipoSanguineo: "A+", historicoClinico: "Acompanhamento de pressao arterial", sinaisVitais: { pa: "140x90 mmHg", fc: "82 bpm", glicemia: "110 mg/dL", temp: "36.8 C" } }
-  }
-];
-
-const initialLaborterapia = [
-  { id: "LAB-01", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", setor: "Oficina de Eletrica", cargaHoraria: 240, status: "Concluido (Certificado 240h)", dataEmissao: "2026-08-15" },
-  { id: "LAB-02", acolhidoId: "FDJ-2026-002", acolhidoNome: "Mateus Santos Oliveira", setor: "Horta Organica FDJ", cargaHoraria: 120, status: "Em Andamento (120h/240h)", dataEmissao: "Pendente" }
-];
-
-const initialSinaisVitais = [
-  { id: "SV-001", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", data: "30/08/2026 08:30", pa: "120x80 mmHg", fc: "76 bpm", glicemia: "94 mg/dL", temp: "36.5 C", enfermeiro: "Enf. Juliana Santos (COREN-BA 48192)", observacao: "Normotenso e euglicemico." },
-  { id: "SV-002", acolhidoId: "FDJ-2026-002", acolhidoNome: "Mateus Santos Oliveira", data: "30/08/2026 09:15", pa: "140x90 mmHg", fc: "82 bpm", glicemia: "110 mg/dL", temp: "36.8 C", enfermeiro: "Enf. Juliana Santos (COREN-BA 48192)", observacao: "Pressao levemente elevada. Dieta hipossodica orientada." }
-];
-
-const initialMedicamentos = [
-  { id: "MED-01", nome: "Haloperidol 5mg", dosagem: "5mg", psicotropico: true, portaria344: "Lista C1 (Psicotropicos)", estoque: 450, unidade: "comprimidos" },
-  { id: "MED-02", nome: "Diazepam 10mg", dosagem: "10mg", psicotropico: true, portaria344: "Lista B1 (Ansioliticos)", estoque: 320, unidade: "comprimidos" },
-  { id: "MED-03", nome: "Dipirona Monoidratada 500mg", dosagem: "500mg", psicotropico: false, portaria344: "Isento", estoque: 1200, unidade: "comprimidos" }
-];
-
-const initialPrescricoes = [
-  { id: "PRE-001", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", medicamento: "Haloperidol 5mg", horario: "08:00 - 20:00", dosagem: "1 comp de 12/12h", prescritor: "Dra. Ana Paula (CRM-BA 14589)", status: "Ministrado 08:00" },
-  { id: "PRE-002", acolhidoId: "FDJ-2026-002", acolhidoNome: "Mateus Santos Oliveira", medicamento: "Diazepam 10mg", horario: "22:00", dosagem: "1 comp ao deitar", prescritor: "Dra. Ana Paula (CRM-BA 14589)", status: "Agendado 22:00" }
-];
-
-const initialAtendimentosPsico = [
-  { id: "PSI-001", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", data: "28/08/2026", tipo: "Individual / Videochamada", profissional: "Psicologia FDJ", parecer: "Otima adesao ao tratamento psicossocial. Familia contatada." }
-];
-
-const initialOdonto = [
-  { id: "ODO-001", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", data: "25/08/2026", procedimento: "Avaliacao Clinica & Limpeza", dentista: "Dr. Marcos Dentista (CRO-BA 8874)", status: "Concluido" }
-];
-
-const initialSubstancias = [
-  { id: "SUB-01", nome: "Alcool / Etanol", categoria: "Depressora do SNC" },
-  { id: "SUB-02", nome: "Crack / Cocaina", categoria: "Estimulante do SNC" }
-];
-
-const initialCadastrosSaude = {
-  profissionais: [
-    { id: "PRO-01", nome: "Enfermeira Chefe Juliana Santos", registro: "COREN-BA 48192", especialidade: "Enfermagem Chefe & Sinais Vitais" },
-    { id: "PRO-02", nome: "Dra. Ana Paula", registro: "CRM-BA 14589 / Psiquiatria", especialidade: "Medicina & Psiquiatria" },
-    { id: "PRO-03", nome: "Dr. Marcos Dentista", registro: "CRO-BA 8874", especialidade: "Odontologia Terapeutica & Autoestima" }
-  ],
-  medicamentos: initialMedicamentos
-};
-
-class Store {
-  constructor() {
-    this.init();
-  }
-
-  init() {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
-      if (!localStorage.getItem(STORAGE_KEY_LABORTERAPIA)) localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(initialLaborterapia));
-      if (!localStorage.getItem(STORAGE_KEY_CADASTROS_SAUDE)) localStorage.setItem(STORAGE_KEY_CADASTROS_SAUDE, JSON.stringify(initialCadastrosSaude));
-      if (!localStorage.getItem(STORAGE_KEY_SINAIS_VITAIS)) localStorage.setItem(STORAGE_KEY_SINAIS_VITAIS, JSON.stringify(initialSinaisVitais));
-      if (!localStorage.getItem(STORAGE_KEY_PRESCRICOES)) localStorage.setItem(STORAGE_KEY_PRESCRICOES, JSON.stringify(initialPrescricoes));
-      if (!localStorage.getItem(STORAGE_KEY_PSICO)) localStorage.setItem(STORAGE_KEY_PSICO, JSON.stringify(initialAtendimentosPsico));
-      if (!localStorage.getItem(STORAGE_KEY_ODONTO)) localStorage.setItem(STORAGE_KEY_ODONTO, JSON.stringify(initialOdonto));
-      if (!localStorage.getItem(STORAGE_KEY_SUBSTANCIAS)) localStorage.setItem(STORAGE_KEY_SUBSTANCIAS, JSON.stringify(initialSubstancias));
-      if (!localStorage.getItem(STORAGE_KEY_LOGS)) localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
-    } catch(e) {}
-  }
-
-  getAcolhidos() {
-    try {
-      const data = JSON.parse(localStorage.getItem(STORAGE_KEY_ACOLHIDOS));
-      if (Array.isArray(data) && data.length > 0) return data;
-    } catch(e) {}
-    return initialAcolhidos;
-  }
-
-  getAcolhidoById(id) {
-    const list = this.getAcolhidos();
-    return list.find(a => a.id === id) || list[0] || initialAcolhidos[0];
-  }
-
-  getLaborterapia() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_LABORTERAPIA)) || initialLaborterapia; } catch(e) { return initialLaborterapia; }
-  }
-
-  getCadastrosSaude() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_CADASTROS_SAUDE)) || initialCadastrosSaude; } catch(e) { return initialCadastrosSaude; }
-  }
-
-  getSinaisVitais() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_SINAIS_VITAIS)) || initialSinaisVitais; } catch(e) { return initialSinaisVitais; }
-  }
-
-  getMedicamentos() {
-    try { return JSON.parse(localStorage.getItem('sgi_fdj_medicamentos_v3')) || initialMedicamentos; } catch(e) { return initialMedicamentos; }
-  }
-
-  getPrescricoes() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_PRESCRICOES)) || initialPrescricoes; } catch(e) { return initialPrescricoes; }
-  }
-
-  getAtendimentosPsico() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_PSICO)) || initialAtendimentosPsico; } catch(e) { return initialAtendimentosPsico; }
-  }
-
-  getOdonto() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_ODONTO)) || initialOdonto; } catch(e) { return initialOdonto; }
-  }
-
-  getSubstancias() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_SUBSTANCIAS)) || initialSubstancias; } catch(e) { return initialSubstancias; }
-  }
-
-  getLogs() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS)) || []; } catch(e) { return []; }
-  }
-
-  addLog(mensagem) {
-    try {
-      const logs = this.getLogs();
-      logs.unshift({ timestamp: new Date().toLocaleString('pt-BR'), mensagem });
-      localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs.slice(0, 50)));
-    } catch(e) {}
-  }
-
-  getEstatisticas() {
-    const acolhidos = this.getAcolhidos();
-    const labor = this.getLaborterapia();
-    return {
-      totalAtivos: acolhidos.filter(a => a.status === 'ativo').length,
-      totalTriagem: acolhidos.filter(a => a.status === 'triagem').length,
-      totalLaborterapiaCertificados: labor.filter(l => l.cargaHoraria >= 240).length,
-      totalRefeicoes: 1240
-    };
-  }
-
-  emitirCertificadoLaborterapia(acolhidoId) {
-    try {
-      const labor = this.getLaborterapia();
-      const item = labor.find(l => l.acolhidoId === acolhidoId);
-      if (item) {
-        item.cargaHoraria = 240;
-        item.status = "Concluido (Certificado 240h)";
-        item.dataEmissao = new Date().toLocaleDateString('pt-BR');
-        localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(labor));
-        this.addLog(`Certificado Oficial de Laborterapia (240h) emitido para ${item.acolhidoNome}.`);
-        return item;
-      }
-    } catch(e) {}
-    return null;
-  }
-}
-
-window.store = new Store();
-  </script>
-
-  <!-- Inlined UI Engine -->
-  <script>
-/**  * TaskFlow / SGI - Fundao Doutor Jesus  * UI Manager - Reconstruo Factual de Macromdulo 3: Sade & Equipe Multidisciplinar  * (Baseado nas Screenshots Reais do Usurio & Correo do Bug de Runtime)  */  class UI {   constructor() {     this.root = document.getElementById('root');     this.currentView = 'macro3_home'; // 'macro3_home', 'mod8_prontuario', 'mod9_laborterapia', 'cadastros_saude'     this.activeMod8Tab = 'mod8_resumo'; // mod8_resumo, mod8_pti, mod8_aprazamento, mod8_evolucoes, mod8_odonto, mod8_samu     this.selectedAcolhidoId = "FDJ-2026-001";   }    renderApp() {     const acolhidos = window.store.getAcolhidos();     // Preveno absoluta do bug: 'TypeError: Cannot read properties of undefined (reading id)'     const acolhidoAtual = window.store.getAcolhidoById(this.selectedAcolhidoId) || acolhidos[0] || {       id: "FDJ-2026-001",       nome: "Lucas Silva Santos",       cpf: "123.456.789-00",       status: "ativo",       leito: "Leito A-101",       oficina: "Oficina de Eltrica",       dieta: "Normal"     };      const laborterapia = window.store.getLaborterapia();     const cadastrosSaude = window.store.getCadastrosSaude();     const logs = window.store.getLogs();      this.root.innerHTML = `       <div class="app-container">         <!-- Top Banner Header (Estilo Screenshot 2) -->         <header style="padding: 0.75rem 2rem; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">           <div style="display: flex; align-items: center; gap: 1rem;">             <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.5rem; color: #dc2626; letter-spacing: -0.03em;">               Fundao Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">JESUS</span>             </div>           </div>            <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">             <span style="color: var(--text-muted);"><i data-lucide="moon"></i> Modo Escuro</span>             <span style="font-weight: 700; color: var(--primary);">marcos.vinicius2323@...</span>             <button class="btn btn-outline btn-sm" onclick="alert('Saindo do sistema SGI...')">[ Sair</button>           </div>         </header>          <div style="display: flex; min-height: calc(100vh - 60px);">           <!-- Dynamic Content Based on View -->           \${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia, cadastrosSaude, logs)}         </div>       </div>        <div id="modal-container"></div>     `;      if (window.lucide) {       window.lucide.createIcons();     }   }    setView(view) {     this.currentView = view;     this.renderApp();   }    setMod8Tab(tab) {     this.activeMod8Tab = tab;     this.renderApp();   }    renderViewContent(acolhidos, acolhidoAtual, laborterapia, cadastrosSaude, logs) {     // 1. TELA PRINCIPAL: MACROMDULO 3 (CARD HOME DA SCREENSHOT 1)     if (this.currentView === 'macro3_home') {       return `         <div style="padding: 2rem; width: 100%; max-width: 900px; margin: 0 auto;">           <!-- Header Card 3. Sade & Equipe Multidisciplinar -->           <div class="card" style="border-top: 4px solid #0284c7; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">               <div style="width: 50px; height: 50px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">                 <i data-lucide="stethoscope"></i>               </div>               <div>                 <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">3. Sade & Equipe Multidisciplinar</h2>                 <p style="font-size: 0.9rem; color: #64748b;">Pronturios (RDC 29) e laborterapia</p>               </div>             </div>              <div style="display: flex; flex-direction: column; gap: 1rem;">               <!-- Option 1: Dashboard & Indicadores -->               <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; transition: all 0.2s;" onclick="alert('Visualizando Grficos do Corpo Clnico & SUS...')">                 <div style="display: flex; align-items: center; justify-content: space-between;">                   <div style="display: flex; align-items: center; gap: 1rem;">                     <i data-lucide="bar-chart-3" style="color: #0284c7; font-size: 1.25rem;"></i>                     <div>                       <h4 style="font-size: 1rem; font-weight: 700; color: #0369a1;"> Dashboard & Indicadores</h4>                       <p style="font-size: 0.8rem; color: #0284c7; margin: 0;">Grficos do Corpo Clnico & SUS</p>                     </div>                   </div>                   <i data-lucide="chevron-right" style="color: #0284c7;"></i>                 </div>               </div>                <!-- Option 2: Mdulo 8: Pronturio -->               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('mod8_prontuario')">                 <div style="display: flex; align-items: center; justify-content: space-between;">                   <div style="display: flex; align-items: center; gap: 1rem;">                     <i data-lucide="stethoscope" style="color: #0284c7; font-size: 1.25rem;"></i>                     <div>                       <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Mdulo 8: Pronturio</h4>                       <p style="font-size: 0.8rem; color: #64748b; margin: 0;">PTI e RDC 29 ANVISA</p>                     </div>                   </div>                   <i data-lucide="chevron-right" style="color: #64748b;"></i>                 </div>               </div>                <!-- Option 3: Mdulo 9: Laborterapia -->               <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('mod9_laborterapia')">                 <div style="display: flex; align-items: center; justify-content: space-between;">                   <div style="display: flex; align-items: center; gap: 1rem;">                     <i data-lucide="hammer" style="color: #0284c7; font-size: 1.25rem;"></i>                     <div>                       <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Mdulo 9: Laborterapia</h4>                       <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Rotina e certificado 240h</p>                     </div>                   </div>                   <i data-lucide="chevron-right" style="color: #64748b;"></i>                 </div>               </div>                <!-- Option 4: Cadastros Sade & Multidisciplinar -->               <div class="card" style="background: #fff; border: 1px solid #cbd5e1; border-style: dashed; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('cadastros_saude')">                 <div style="display: flex; align-items: center; justify-content: space-between;">                   <div style="display: flex; align-items: center; gap: 1rem;">                     <i data-lucide="user-cog" style="color: #0284c7; font-size: 1.25rem;"></i>                     <div>                       <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Cadastros Sade & Multidisciplinar</h4>                       <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Equipe CRM/CRP e farmcia</p>                     </div>                   </div>                   <i data-lucide="chevron-right" style="color: #64748b;"></i>                 </div>               </div>             </div>           </div>         </div>       `;     }      // 2. MDULO 8: PRONTURIO SADE (SCREENSHOT 2  TOTALMENTE CORRIGIDO E SEM ERRO 'TypeError')     if (this.currentView === 'mod8_prontuario') {       return `         <!-- Left Sidebar Navigation for Mdulo 8 (Screenshot 2 exact layout) -->         <aside style="width: 280px; background: #fff; border-right: 1px solid var(--border-color); padding: 1.25rem;">           <div class="card" style="background: #fff; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; margin-bottom: 1rem;">             <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.5rem;" onclick="window.ui.setView('macro3_home')">               <span>Recolher Sidebar</span> <i data-lucide="chevron-left"></i>             </button>             <div style="display: flex; align-items: center; gap: 0.5rem;">               <i data-lucide="stethoscope" style="color: #2563eb;"></i>               <div>                 <h4 style="font-size: 0.85rem; font-weight: 800;">Mdulo 8: Pronturio Sade</h4>                 <p style="font-size: 0.65rem; color: var(--text-muted); margin: 0;">Navegao deste mdulo</p>               </div>             </div>           </div>            <div style="font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">             NAVEGAO INTERNA           </div>            <div style="display: flex; flex-direction: column; gap: 0.4rem;">             <button class="btn \${this.activeMod8Tab === 'mod8_resumo' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_resumo')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               1.  Resumo do Pronturio & Ficha Clnica             </button>             <button class="btn \${this.activeMod8Tab === 'mod8_pti' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_pti')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               2.  Plano Teraputico (PTI RDC 29)             </button>             <button class="btn \${this.activeMod8Tab === 'mod8_aprazamento' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_aprazamento')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               3.  Aprazamento de Medicamentos             </button>             <button class="btn \${this.activeMod8Tab === 'mod8_evolucoes' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_evolucoes')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               4.  Feed de Evolues Clnicas             </button>             <button class="btn \${this.activeMod8Tab === 'mod8_odonto' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_odonto')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               5.  Odontologia & Autoestima             </button>             <button class="btn \${this.activeMod8Tab === 'mod8_samu' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_samu')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">               6.  Regulao SAMU 192             </button>           </div>            <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">             <button class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.8rem;" onclick="window.ui.setView('macro3_home')">               <i data-lucide="layout-grid"></i> Central de Mdulos             </button>           </div>         </aside>          <!-- Main Content Area for Mdulo 8 -->         <main style="flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto;">           <!-- Acolhido Selector Bar -->           <div class="card" style="margin-bottom: 1.5rem; background: #fff;">             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">               <div>                 <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">SELECIONAR ACOLHIDO PARA O PRONTURIO:</label>                 <select class="form-select" style="width: 320px; font-weight: 700;" onchange="window.ui.selecionarAcolhidoProntuario(this.value)">                   \${acolhidos.map(a => `                     <option value="\${a.id}" \${a.id === acolhidoAtual.id ? 'selected' : ''}>\${a.nome} (\${a.id}  \${a.leito})</option>                   `).join('')}                 </select>               </div>                <div>                 <span class="badge badge-success" style="font-size: 0.85rem;">Pronturio Ativo: \${acolhidoAtual.nome}</span>               </div>             </div>           </div>            <!-- Mod 8 Sub-Tab Content -->           \${this.renderMod8TabContent(acolhidoAtual)}         </main>       `;     }      // 3. MDULO 9: LABORTERAPIA (ROTINA E CERTIFICADO 240H)     if (this.currentView === 'mod9_laborterapia') {       return `         <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">             <div>               <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 0.5rem;"> Voltar  Central</button>               <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;"><i data-lucide="hammer" style="vertical-align: middle;"></i> Mdulo 9: Laborterapia & Oficinas Produtivas</h2>               <p style="font-size: 0.85rem; color: #64748b;">Rotina diria de trabalho teraputico e emisso de certificado oficial de 240 horas</p>             </div>              <span class="badge badge-primary">Superviso de Laborterapia FDJ</span>           </div>            <div class="table-container card">             <table class="data-table">               <thead>                 <tr>                   <th>Cdigo</th>                   <th>Acolhido</th>                   <th>Setor de Laborterapia</th>                   <th>Carga Horria Concluda</th>                   <th>Status do Certificado</th>                   <th>Ao de Certificao</th>                 </tr>               </thead>               <tbody>                 \${laborterapia.map(l => `                   <tr>                     <td><strong>\${l.id}</strong></td>                     <td><strong>\${l.acolhidoNome}</strong></td>                     <td><span class="badge badge-info">\${l.setor}</span></td>                     <td><strong style="font-size: 1.05rem;">\${l.cargaHoraria}h / 240h</strong></td>                     <td>                       <span class="badge \${l.cargaHoraria >= 240 ? 'badge-success' : 'badge-warning'}">                         \${l.status}                       </span>                     </td>                     <td>                       \${l.cargaHoraria >= 240 ? `                         <button class="btn btn-primary btn-sm" onclick="alert('Imprimindo Certificado Oficial de Laborterapia (240h) de \${l.acolhidoNome}...')">                           <i data-lucide="award"></i> Imprimir Certificado 240h                         </button>                       ` : `                         <button class="btn btn-secondary btn-sm" onclick="window.ui.emitirCertificadoLaborterapia('\${l.acolhidoId}')">                           <i data-lucide="check"></i> Concluir 240h                         </button>                       `}                     </td>                   </tr>                 `).join('')}               </tbody>             </table>           </div>         </div>       `;     }      // 4. CADASTROS SADE & MULTIDISCIPLINAR     return `       <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">         <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 1rem;"> Voltar  Central</button>         <div class="card">           <h3>Cadastros Sade & Multidisciplinar (CRM/CRP/COREN)</h3>           <ul style="margin-top: 1rem;">             \${cadastrosSaude.profissionais.map(p => `<li><strong>\${p.nome}</strong> (\${p.registro})  \${p.especialidade}</li>`).join('')}           </ul>         </div>       </div>     `;   }    renderMod8TabContent(acolhido) {     if (this.activeMod8Tab === 'mod8_resumo') {       return `         <div class="card" style="background: #fff;">           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">             1.  Resumo do Pronturio & Ficha Clnica  \${acolhido.nome}           </h3>            <div class="grid-2" style="margin-bottom: 1.5rem;">             <div>               <p style="margin-bottom: 0.4rem;"><strong>Cdigo FDJ:</strong> \${acolhido.id}</p>               <p style="margin-bottom: 0.4rem;"><strong>CPF:</strong> \${acolhido.cpf}</p>               <p style="margin-bottom: 0.4rem;"><strong>Alojamento / Leito:</strong> \${acolhido.leito}</p>             </div>             <div>               <p style="margin-bottom: 0.4rem;"><strong>Tipo Sanguneo:</strong> \${acolhido.prontuario ? acolhido.prontuario.tipoSanguineo : 'O+'}</p>               <p style="margin-bottom: 0.4rem;"><strong>Alergias Registradas:</strong> \${acolhido.prontuario ? acolhido.prontuario.alergias : 'Nenhuma'}</p>               <p style="margin-bottom: 0.4rem;"><strong>Dieta Prescrita:</strong> <span class="badge badge-warning">\${acolhido.dieta}</span></p>             </div>           </div>            <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd;">             <h4 style="color: #0369a1; margin-bottom: 0.5rem;"><i data-lucide="activity" style="vertical-align: middle;"></i> ltima Medio de Sinais Vitais (Enfermaria FDJ Galpo E)</h4>             <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Presso Arterial:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.pa : '120x80 mmHg'}</p>             <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Frequncia Cardaca:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.fc : '76 bpm'}</p>             <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Glicemia:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.glicemia : '94 mg/dL'}</p>           </div>         </div>       `;     }      if (this.activeMod8Tab === 'mod8_pti') {       return `         <div class="card" style="background: #fff;">           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">             2.  Plano Teraputico Individual (PTI RDC 29 ANVISA)           </h3>           <p style="font-size: 0.9rem;">Evoluo contnua das 4 fases da ANVISA para o acolhido <strong>\${acolhido.nome}</strong>.</p>           <div class="card" style="background: #f8fafc; border: 1px solid #e2e8f0; margin-top: 1rem;">             <span class="badge badge-success">Fase Atual: Fase 3 de 4</span>           </div>         </div>       `;     }      if (this.activeMod8Tab === 'mod8_aprazamento') {       return `         <div class="card" style="background: #fff;">           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">             3.  Aprazamento de Medicamentos (Dra. Ana Paula)           </h3>           <p style="font-size: 0.9rem;">Horrios de administrao medicamentosa para <strong>\${acolhido.nome}</strong>.</p>         </div>       `;     }      if (this.activeMod8Tab === 'mod8_evolucoes') {       return `         <div class="card" style="background: #fff;">           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">             4.  Feed de Evolues Clnicas           </h3>           <p style="font-size: 0.9rem;">Histrico de pareceres da Psicologia, Enfermagem e Servio Social.</p>         </div>       `;     }      if (this.activeMod8Tab === 'mod8_odonto') {       return `         <div class="card" style="background: #fff;">           <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">             5.  Odontologia & Autoestima           </h3>           <p style="font-size: 0.9rem;">Avaliao odontolgica de admisso para <strong>\${acolhido.nome}</strong>.</p>         </div>       `;     }      return `       <div class="card" style="background: #fff;">         <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">           6.  Regulao SAMU 192 & Primeiro Socorros         </h3>         <p style="font-size: 0.9rem;">Protocolo de emergncia da Enfermaria FDJ (Galpo E).</p>       </div>     `;   }    selecionarAcolhidoProntuario(id) {     this.selectedAcolhidoId = id;     this.renderApp();   }    emitirCertificadoLaborterapia(id) {     window.store.emitirCertificadoLaborterapia(id);     this.renderApp();   }    fecharModal() {     const modalContainer = document.getElementById('modal-container');     modalContainer.innerHTML = '';   } }  window.ui = new UI();
-  </script>
-
-  <!-- Inlined App Event Listener -->
-  <script>
-/**  * TaskFlow / SGI - Fundao Doutor Jesus  * App Main Entry Point  */  document.addEventListener('DOMContentLoaded', () => {   // Render App UI   window.ui.renderApp();    // Listen for Novo Acolhido button click   document.addEventListener('click', (e) => {     if (e.target.closest('#btn-novo-acolhido')) {       const nome = prompt("Digite o nome completo do novo acolhido:");       if (nome && nome.trim()) {         const cpf = prompt("Digite o CPF do acolhido:") || "000.000.000-00";         const leito = prompt("Bloco / Leito de destino:") || "Bloco A - Leito 01";                  window.store.addAcolhido({           nome: nome.trim(),           cpf: cpf.trim(),           status: 'triagem',           fasePTI: 1,           leito: leito.trim(),           oficina: 'Triagem / Adaptao',           origem: 'Bahia',           dieta: 'Normal',           acompanhamentoMedico: 'Triagem Inicial'         });          window.ui.renderApp();       }     }   }); });
-  </script>
-
-  <!-- Immediate Execution Shield -->
-  <script>
-    (function executeSelfContained() {
-      function mount() {
+    (function executeImmediate() {
+      function run() {
         if (window.ui && typeof window.ui.renderApp === 'function') {
-          try { window.ui.renderApp(); } catch(e) { console.error("Render exception:", e); }
+          try { window.ui.renderApp(); } catch(e) { console.error("Render error:", e); }
         }
       }
-      mount();
+      run();
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', mount);
+        document.addEventListener('DOMContentLoaded', run);
       }
-      window.addEventListener('load', mount);
-      setTimeout(mount, 50);
-      setTimeout(mount, 200);
+      window.addEventListener('load', run);
+      setTimeout(run, 50);
+      setTimeout(run, 150);
     })();
   </script>
 </body>
