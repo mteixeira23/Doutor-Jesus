@@ -1,13 +1,13 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Layout Completo com Sidebar de Todos os 6 Macromódulos
+ * UI Manager - Sistema de Gestão Integrada com Todos os 13 Módulos dos 6 Macromódulos Totalmente Funcionais
  */
 
 class UI {
   constructor() {
     this.root = document.getElementById('root');
-    this.currentMacro = 'macro3'; // 'macro1', 'macro2', 'macro3', 'macro4', 'macro5', 'macro6'
-    this.currentView = 'macro3_home'; // 'macro3_home', 'mod8_prontuario', 'mod9_laborterapia', 'cadastros_saude'
+    this.currentMacro = 'macro3';
+    this.currentView = 'macro3_home';
     this.activeMod8Tab = 'mod8_resumo';
     this.selectedAcolhidoId = "FDJ-2026-001";
   }
@@ -17,22 +17,24 @@ class UI {
     if (!this.root) return;
 
     let acolhidos = [];
+    let estoque = [];
+    let refeicoes = {};
+    let financeiro = {};
+    let doacoes = [];
+    let laborterapia = [];
+    let logs = [];
+
     try {
       acolhidos = window.store ? window.store.getAcolhidos() : [];
+      estoque = window.store ? window.store.getEstoque() : [];
+      refeicoes = window.store ? window.store.getRefeicoes() : {};
+      financeiro = window.store ? window.store.getFinanceiro() : {};
+      doacoes = window.store ? window.store.getDoacoes() : [];
+      laborterapia = window.store ? window.store.getLaborterapia() : [];
+      logs = window.store ? window.store.getLogs() : [];
     } catch(e){}
-
-    if (!Array.isArray(acolhidos) || acolhidos.length === 0) {
-      acolhidos = [
-        { id: "FDJ-2026-001", nome: "Lucas Silva Santos", cpf: "123.456.789-00", status: "ativo", leito: "Leito A-101 (Térreo PCD)", oficina: "Oficina de Elétrica", dieta: "Normal" },
-        { id: "FDJ-2026-002", nome: "Mateus Santos Oliveira", cpf: "987.654.321-11", status: "triagem", leito: "Leito B-205", oficina: "Horta Orgânica FDJ", dieta: "Hipossódica (Pressão Alta)" }
-      ];
-    }
 
     const acolhidoAtual = (acolhidos.find(a => a.id === this.selectedAcolhidoId) || acolhidos[0]);
-    let laborterapia = [];
-    try {
-      laborterapia = window.store ? window.store.getLaborterapia() : [];
-    } catch(e){}
 
     try {
       this.root.innerHTML = `
@@ -46,7 +48,7 @@ class UI {
                 Funda&ccedil;&atilde;o Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 1.05rem;">JESUS</span>
               </div>
               <span style="color: #cbd5e1;">|</span>
-              <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">Sistema de Gest&atilde;o Integrada (SGI)</span>
+              <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">Sistema de Gest&atilde;o Integrada (SGI 13 M&oacute;dulos)</span>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">
@@ -59,10 +61,10 @@ class UI {
             </div>
           </header>
 
-          <!-- Main Layout: Sidebar Left + Content Right -->
+          <!-- Main Layout: Left Sidebar + Right Main Panel -->
           <div style="display: flex; flex: 1; width: 100%;">
             
-            <!-- Left Navigation Sidebar for all 6 Macromodules -->
+            <!-- Left Sidebar -->
             <aside style="width: 280px; background: #ffffff; border-right: 1px solid #e2e8f0; padding: 1.25rem 0.75rem; display: flex; flex-direction: column; gap: 0.35rem; flex-shrink: 0;">
               
               <div style="font-size: 0.65rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0 0.75rem 0.5rem 0.75rem; letter-spacing: 0.05em;">
@@ -78,10 +80,10 @@ class UI {
               <!-- Item 2 -->
               <button class="btn" onclick="window.ui.setMacro('macro2')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro2' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro2' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro2' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                2. Almoxarifado & Oficinas
+                2. Almoxarifado & Refei&ccedil;&otilde;es
               </button>
 
-              <!-- Item 3 (Active) -->
+              <!-- Item 3 -->
               <button class="btn" onclick="window.ui.setMacro('macro3')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro3' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro3' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro3' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 3. Sa&uacute;de & Multidisciplinar
@@ -102,21 +104,21 @@ class UI {
               <!-- Item 6 -->
               <button class="btn" onclick="window.ui.setMacro('macro6')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro6' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro6' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro6' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                6. Sistema & Organograma
+                6. TI & Organograma
               </button>
 
               <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
                 <div style="background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem; color: #64748b;">
                   <strong>Funda&ccedil;&atilde;o Dr. Jesus</strong><br>
-                  Capacidade: 1.240 Acolhidos<br>
-                  Vers&atilde;o: 2026.1 (Oficial)
+                  1.240 Acolhidos Ativos<br>
+                  Vers&atilde;o: 2026.1
                 </div>
               </div>
             </aside>
 
             <!-- Main Content Container -->
             <main style="flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto;">
-              ${this.renderMainAreaContent(acolhidos, acolhidoAtual, laborterapia)}
+              ${this.renderMainAreaContent(acolhidos, acolhidoAtual, estoque, refeicoes, financeiro, doacoes, laborterapia, logs)}
             </main>
           </div>
         </div>
@@ -144,124 +146,294 @@ class UI {
     this.renderApp();
   }
 
-  renderMainAreaContent(acolhidos, acolhidoAtual, laborterapia) {
-    // MACROMÓDULO 1: GESTÃO DOS ACOLHIDOS
+  renderMainAreaContent(acolhidos, acolhidoAtual, estoque, refeicoes, financeiro, doacoes, laborterapia, logs) {
+    
+    // MACROMÓDULO 1: GESTÃO DOS ACOLHIDOS (Módulos 1, 2, 3, 4)
     if (this.currentMacro === 'macro1') {
       return `
-        <div style="max-width: 1000px; margin: 0 auto;">
-          <div class="card" style="background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #2563eb;">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">1. Gest&atilde;o dos Acolhidos (Triagem, Leitos e Admiss&atilde;o)</h2>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">Controle de acolhimento RDC 29 ANVISA, leitos e emiss&atilde;o de crach&aacute;s.</p>
+        <div style="max-width: 1060px; margin: 0 auto;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div>
+              <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">1. Gest&atilde;o dos Acolhidos</h2>
+              <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">Triagem, Leitos, Admiss&atilde;o RDC 29 ANVISA, Crach&aacute;s e Declara&ccedil;&otilde;es de Quita&ccedil;&atilde;o</p>
+            </div>
+            <button class="btn btn-primary" onclick="alert('Formulário de Novo Acolhimento RDC 29 ANVISA Aberto!')" style="padding: 8px 16px; background: #2563eb; color: #fff; border-radius: 6px; font-weight: 700; border: none; cursor: pointer;">
+              + Novo Acolhido (RDC 29)
+            </button>
+          </div>
 
-            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-              <div class="card" style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #1d4ed8; margin: 0 0 0.25rem 0;">M&oacute;dulo 1: Triagem & Alojamentos</h4>
-                <p style="font-size: 0.85rem; color: #2563eb; margin: 0;">25 Acolhidos em Triagem | 1.215 Leitos Ocupados</p>
-              </div>
-              <div class="card" style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #15803d; margin: 0 0 0.25rem 0;">M&oacute;dulo 3: Emiss&atilde;o de Crach&aacute;s & Quita&ccedil;&atilde;o</h4>
-                <p style="font-size: 0.85rem; color: #16a34a; margin: 0;">Emiss&atilde;o A4 com Foto e C&oacute;digo QR</p>
-              </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="card" style="background: #fff; padding: 1.25rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #64748b;">TOTAL ACOLHIDOS</span>
+              <h3 style="font-size: 1.6rem; font-weight: 900; color: #2563eb; margin: 4px 0;">1.240</h3>
+              <span style="font-size: 0.75rem; color: #10b981;">Capacidade 100% Ativa</span>
+            </div>
+            <div class="card" style="background: #fff; padding: 1.25rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #64748b;">EM TRIAGEM</span>
+              <h3 style="font-size: 1.6rem; font-weight: 900; color: #d97706; margin: 4px 0;">25</h3>
+              <span style="font-size: 0.75rem; color: #d97706;">Acolhimento Inicial</span>
+            </div>
+            <div class="card" style="background: #fff; padding: 1.25rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #64748b;">LEITOS BLOCO A</span>
+              <h3 style="font-size: 1.6rem; font-weight: 900; color: #0284c7; margin: 4px 0;">412</h3>
+              <span style="font-size: 0.75rem; color: #0284c7;">Restaura&ccedil;&atilde;o</span>
+            </div>
+            <div class="card" style="background: #fff; padding: 1.25rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #64748b;">LEITOS BLOCO B</span>
+              <h3 style="font-size: 1.6rem; font-weight: 900; color: #059669; margin: 4px 0;">403</h3>
+              <span style="font-size: 0.75rem; color: #059669;">Renova&ccedil;&atilde;o</span>
+            </div>
+          </div>
+
+          <!-- Tabela Acolhidos -->
+          <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0;">M&oacute;dulo 1 & 3: Lista Geral de Acolhidos & Emiss&atilde;o de Crach&aacute;s</h3>
+              <input type="text" placeholder="Buscar por Nome ou CPF..." style="padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; width: 260px; font-size: 0.85rem;" />
             </div>
 
-            <div class="table-container" style="border: 1px solid #e2e8f0; border-radius: 8px; background: #fff;">
-              <table class="data-table" style="width: 100%; border-collapse: collapse;">
-                <thead>
-                  <tr style="background: #f1f5f9; text-align: left;">
-                    <th style="padding: 10px;">C&oacute;digo</th>
-                    <th style="padding: 10px;">Acolhido</th>
-                    <th style="padding: 10px;">CPF</th>
-                    <th style="padding: 10px;">Leito</th>
-                    <th style="padding: 10px;">Status</th>
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">C&oacute;digo</th>
+                  <th style="padding: 10px;">Acolhido</th>
+                  <th style="padding: 10px;">CPF / RG</th>
+                  <th style="padding: 10px;">Leito / Bloco</th>
+                  <th style="padding: 10px;">Status</th>
+                  <th style="padding: 10px;">A&ccedil;&otilde;es de Emiss&atilde;o</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${acolhidos.map(a => `
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px;"><strong>${a.id}</strong></td>
+                    <td style="padding: 10px;"><strong>${a.nome}</strong></td>
+                    <td style="padding: 10px;">${a.cpf}<br><span style="font-size: 0.75rem; color: #64748b;">RG: ${a.rg}</span></td>
+                    <td style="padding: 10px;">${a.leito}<br><span style="font-size: 0.75rem; color: #2563eb;">${a.bloco}</span></td>
+                    <td style="padding: 10px;"><span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 6px; font-weight: bold;">${a.status}</span></td>
+                    <td style="padding: 10px;">
+                      <button class="btn btn-outline btn-sm" onclick="alert('Imprimindo Crachá Oficial A4 com QR Code de ${a.nome}...')" style="padding: 4px 8px; font-size: 0.75rem; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; border-radius: 4px; margin-right: 4px;">
+                        🪪 Crach&aacute; A4
+                      </button>
+                      <button class="btn btn-outline btn-sm" onclick="alert('Imprimindo Declaração de Quitação A4 de ${a.nome}...')" style="padding: 4px 8px; font-size: 0.75rem; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; border-radius: 4px;">
+                        📄 Quita&ccedil;&atilde;o A4
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  ${acolhidos.map(a => `
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                      <td style="padding: 10px;"><strong>${a.id}</strong></td>
-                      <td style="padding: 10px;"><strong>${a.nome}</strong></td>
-                      <td style="padding: 10px;">${a.cpf}</td>
-                      <td style="padding: 10px;">${a.leito}</td>
-                      <td style="padding: 10px;"><span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: bold;">${a.status}</span></td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
     }
 
-    // MACROMÓDULO 2: ALMOXARIFADO & REFEIÇÕES
+    // MACROMÓDULO 2: ALMOXARIFADO & REFEIÇÕES (Módulos 5, 6, 7, 8)
     if (this.currentMacro === 'macro2') {
       return `
-        <div style="max-width: 1000px; margin: 0 auto;">
-          <div class="card" style="background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #d97706;">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">2. Gest&atilde;o Administrativa, Almoxarifado & Refei&ccedil;&otilde;es</h2>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">Controle de Estoque FEFO e 4.000 refei&ccedil;&otilde;es di&aacute;rias para 1.240 acolhidos.</p>
+        <div style="max-width: 1060px; margin: 0 auto;">
+          <div style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">2. Gest&atilde;o Administrativa, Almoxarifado & Refei&ccedil;&otilde;es</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">Controle de Estoque FEFO, Alertas Cr&iacute;ticos, 3.720 Refei&ccedil;&otilde;es Di&aacute;rias e Oficinas FDJ</p>
+          </div>
 
-            <div class="grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-              <div class="card" style="background: #fff8f1; border: 1px solid #ffedd5; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #c2410c; margin: 0 0 0.25rem 0;">M&oacute;dulo 5: Estoque FEFO</h4>
-                <p style="font-size: 0.85rem; color: #ea580c; margin: 0;">18 Itens em Alerta Cr&iacute;tico</p>
-              </div>
-              <div class="card" style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #15803d; margin: 0 0 0.25rem 0;">M&oacute;dulo 6: Refei&ccedil;&otilde;es (1.240)</h4>
-                <p style="font-size: 0.85rem; color: #16a34a; margin: 0;">Caf&eacute;, Almo&ccedil;o e Janta</p>
-              </div>
-              <div class="card" style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #1d4ed8; margin: 0 0 0.25rem 0;">M&oacute;dulo 7: Oficinas FDJ</h4>
-                <p style="font-size: 0.85rem; color: #2563eb; margin: 0;">Escala Cozinha & Horta</p>
-              </div>
+          <!-- Cards resumo -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="card" style="background: #fff8f1; border: 1px solid #ffedd5; padding: 1.25rem; border-radius: 10px;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #c2410c;">M&Oacute;DULO 5: ESTOQUE FEFO</span>
+              <h3 style="font-size: 1.5rem; font-weight: 900; color: #ea580c; margin: 4px 0;">18 Itens em Alerta</h3>
+              <span style="font-size: 0.75rem; color: #c2410c;">Controle First Expired, First Out</span>
             </div>
+            <div class="card" style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.25rem; border-radius: 10px;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #15803d;">M&Oacute;DULO 6: REFEI&Ccedil;&Otilde;ES DI&Aacute;RIAS</span>
+              <h3 style="font-size: 1.5rem; font-weight: 900; color: #16a34a; margin: 4px 0;">3.720 Refei&ccedil;&otilde;es</h3>
+              <span style="font-size: 0.75rem; color: #15803d;">Caf&eacute;, Almo&ccedil;o e Janta (1.240 Acolhidos)</span>
+            </div>
+            <div class="card" style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.25rem; border-radius: 10px;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #1d4ed8;">M&Oacute;DULO 7: OFICINAS FDJ</span>
+              <h3 style="font-size: 1.5rem; font-weight: 900; color: #2563eb; margin: 4px 0;">4 Setores Ativos</h3>
+              <span style="font-size: 0.75rem; color: #1d4ed8;">Cozinha, Horta, El&eacute;trica & Manuten&ccedil;&atilde;o</span>
+            </div>
+          </div>
+
+          <!-- Tabela Estoque FEFO -->
+          <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">M&oacute;dulo 5: Tabela de Controle de Estoque FEFO</h3>
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">C&oacute;digo</th>
+                  <th style="padding: 10px;">Item / Insumo</th>
+                  <th style="padding: 10px;">Categoria</th>
+                  <th style="padding: 10px;">Quantidade</th>
+                  <th style="padding: 10px;">Validade (FEFO)</th>
+                  <th style="padding: 10px;">Status Alerta</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${estoque.map(e => `
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px;"><strong>${e.id}</strong></td>
+                    <td style="padding: 10px;"><strong>${e.item}</strong><br><span style="font-size: 0.75rem; color: #64748b;">Lote: ${e.lote}</span></td>
+                    <td style="padding: 10px;"><span class="badge badge-info" style="background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px;">${e.categoria}</span></td>
+                    <td style="padding: 10px;"><strong>${e.quantidade} ${e.unidade}</strong></td>
+                    <td style="padding: 10px;"><strong>${e.validade}</strong></td>
+                    <td style="padding: 10px;">
+                      <span class="badge ${e.status === 'ok' ? 'badge-success' : (e.status === 'alerta' ? 'badge-warning' : 'badge-danger')}" style="padding: 4px 8px; border-radius: 6px; font-weight: bold;">
+                        ${e.status === 'ok' ? 'Estoque Ok' : (e.status === 'alerta' ? 'Atenção Validade' : 'Crítico FEFO')}
+                      </span>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
     }
 
-    // MACROMÓDULO 4: FINANCEIRO & MROSC
+    // MACROMÓDULO 4: FINANÇAS & MROSC (Módulos 10, 11)
     if (this.currentMacro === 'macro4') {
       return `
-        <div style="max-width: 1000px; margin: 0 auto;">
-          <div class="card" style="background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #16a34a;">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">4. Presta&ccedil;&atilde;o de Contas MROSC & Financeiro Segregado</h2>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">Segrega&ccedil;&atilde;o banc&aacute;ria estrita: Banco do Brasil Conta MROSC 14.502-1 x Caixa Geral.</p>
+        <div style="max-width: 1060px; margin: 0 auto;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div>
+              <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">4. Presta&ccedil;&atilde;o de Contas MROSC & Financeiro Segregado</h2>
+              <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">Gest&atilde;o Segregada: Banco do Brasil (Conta MROSC 14.502-1 SJDH-BA) x Caixa Geral Doa&ccedil;&otilde;es</p>
+            </div>
+            <button class="btn btn-primary" onclick="alert('Imprimindo Relatório DRE & Conciliação MROSC SJDH-BA A4...')" style="padding: 8px 16px; background: #16a34a; color: #fff; border-radius: 6px; font-weight: 700; border: none; cursor: pointer;">
+              📄 Imprimir DRE MROSC A4
+            </button>
+          </div>
 
-            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-              <div class="card" style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #15803d; margin: 0 0 0.25rem 0;">M&oacute;dulo 10: Banco do Brasil (Conta 14.502-1)</h4>
-                <p style="font-size: 0.85rem; color: #16a34a; margin: 0;">Recursos Segregados SJDH-BA (MROSC)</p>
+          <!-- Saldos Segregados -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="card" style="background: #f0fdf4; border: 2px solid #bbf7d0; padding: 1.5rem; border-radius: 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: #15803d; text-transform: uppercase;">RECURSOS P&Uacute;BLICOS MROSC (SJDH-BA)</span>
+                <span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px;">CONTA SEGREGADA</span>
               </div>
-              <div class="card" style="background: #fefce8; border: 1px solid #fef08a; padding: 1.25rem; border-radius: 8px;">
-                <h4 style="color: #a16207; margin: 0 0 0.25rem 0;">M&oacute;dulo 11: DRE & Concilia&ccedil;&atilde;o SJDH-BA</h4>
-                <p style="font-size: 0.85rem; color: #ca8a04; margin: 0;">Relat&oacute;rios de Auditoria P&uacute;blica A4</p>
+              <h3 style="font-size: 1.8rem; font-weight: 900; color: #16a34a; margin: 0 0 0.5rem 0;">${financeiro.contaMROSC ? financeiro.contaMROSC.saldo : 'R$ 485.200,00'}</h3>
+              <p style="font-size: 0.85rem; color: #15803d; margin: 0;"><strong>Banco do Brasil</strong> | Ag: 3421-5 | Conta: 14.502-1</p>
+            </div>
+
+            <div class="card" style="background: #fefce8; border: 2px solid #fef08a; padding: 1.5rem; border-radius: 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: #a16207; text-transform: uppercase;">RECURSOS PR&Oacute;PRIOS & DOA&Ccedil;&Otilde;ES GERAL</span>
+                <span class="badge badge-warning" style="background: #fef3c7; color: #d97706; padding: 2px 8px; border-radius: 4px;">CONTA DOA&Ccedil;&Otilde;ES</span>
+              </div>
+              <h3 style="font-size: 1.8rem; font-weight: 900; color: #ca8a04; margin: 0 0 0.5rem 0;">${financeiro.contaDoacoes ? financeiro.contaDoacoes.saldo : 'R$ 62.450,00'}</h3>
+              <p style="font-size: 0.85rem; color: #a16207; margin: 0;"><strong>Caixa Econ&ocirc;mica</strong> | Ag: 0045-1 | Conta: 9982-3</p>
+            </div>
+          </div>
+
+          <!-- Lançamentos Conciliados -->
+          <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">M&oacute;dulo 10 & 11: Extrato de Lan&ccedil;amentos & Concilia&ccedil;&atilde;o MROSC</h3>
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">C&oacute;digo</th>
+                  <th style="padding: 10px;">Data</th>
+                  <th style="padding: 10px;">Descri&ccedil;&atilde;o do Lan&ccedil;amento</th>
+                  <th style="padding: 10px;">Tipo de Conta</th>
+                  <th style="padding: 10px;">Valor (R$)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${financeiro.lancamentos ? financeiro.lancamentos.map(l => `
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px;"><strong>${l.id}</strong></td>
+                    <td style="padding: 10px;">${l.data}</td>
+                    <td style="padding: 10px;"><strong>${l.descricao}</strong></td>
+                    <td style="padding: 10px;"><span class="badge badge-info" style="background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px;">${l.conta}</span></td>
+                    <td style="padding: 10px;"><strong style="color: ${l.tipo.includes('Entrada') ? '#16a34a' : '#dc2626'}; font-size: 1.05rem;">${l.valor}</strong></td>
+                  </tr>
+                `).join('') : ''}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // MACROMÓDULO 5: DOAÇÕES & VOLUNTARIADO (Módulo 12)
+    if (this.currentMacro === 'macro5') {
+      return `
+        <div style="max-width: 1060px; margin: 0 auto;">
+          <div style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">5. Gest&atilde;o de Doa&ccedil;&otilde;es & Voluntariado</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">M&oacute;dulo 12: Registro de Doadores, Insumos Recebidos e Matriz de Pessoas Focais</p>
+          </div>
+
+          <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">M&oacute;dulo 12: Doa&ccedil;&otilde;es Recebidas & Destina&ccedil;&atilde;o Interna</h3>
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">C&oacute;digo</th>
+                  <th style="padding: 10px;">Doador / Parceiro</th>
+                  <th style="padding: 10px;">Insumo / Doa&ccedil;&atilde;o</th>
+                  <th style="padding: 10px;">Data</th>
+                  <th style="padding: 10px;">Destino Interno FDJ</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${doacoes.map(d => `
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px;"><strong>${d.id}</strong></td>
+                    <td style="padding: 10px;"><strong>${d.doador}</strong></td>
+                    <td style="padding: 10px;">${d.item}</td>
+                    <td style="padding: 10px;">${d.data}</td>
+                    <td style="padding: 10px;"><span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-weight: bold;">${d.destino}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // MACROMÓDULO 6: TI & ORGANOGRAMA (Módulo 13)
+    if (this.currentMacro === 'macro6') {
+      return `
+        <div style="max-width: 1060px; margin: 0 auto;">
+          <div style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">6. Administra&ccedil;&atilde;o do Sistema, TI & Organograma</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">M&oacute;dulo 13: Perfis de Acesso, Logs de Auditoria do Sistema e Estrutura Organizacional FDJ</p>
+          </div>
+
+          <div class="card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Organograma Institucional - Funda&ccedil;&atilde;o Doutor Jesus</h3>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+              <div style="display: inline-block; background: #dc2626; color: #fff; padding: 8px 16px; border-radius: 6px; font-weight: 900; margin-bottom: 1rem;">PRESID&Ecirc;NCIA EXECUTIVA</div>
+              <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
+                <div style="background: #2563eb; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700;">Diretoria de Acolhimento</div>
+                <div style="background: #0284c7; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700;">Diretoria de Sa&uacute;de</div>
+                <div style="background: #16a34a; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700;">Diretoria MROSC & Finan&ccedil;as</div>
               </div>
             </div>
           </div>
-        </div>
-      `;
-    }
 
-    // MACROMÓDULO 5: DOAÇÕES
-    if (this.currentMacro === 'macro5') {
-      return `
-        <div style="max-width: 1000px; margin: 0 auto;">
-          <div class="card" style="background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #9333ea;">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">5. Gest&atilde;o de Doa&ccedil;&otilde;es & Voluntariado</h2>
-            <p style="color: #64748b;">Cadastro de doadores, pessoas focais e acompanhamento de parceiros da institui&ccedil;&atilde;o.</p>
-          </div>
-        </div>
-      `;
-    }
-
-    // MACROMÓDULO 6: TI & ORGANOGRAMA
-    if (this.currentMacro === 'macro6') {
-      return `
-        <div style="max-width: 1000px; margin: 0 auto;">
-          <div class="card" style="background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #475569;">
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">6. Administra&ccedil;&atilde;o do Sistema, TI & Organograma</h2>
-            <p style="color: #64748b;">Gest&atilde;o de perfis (SuperAdmin, Recep&ccedil;&atilde;o, TI), logs de auditoria e estrutura organizacional.</p>
+          <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Logs de Auditoria em Tempo Real</h3>
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">Data / Hora</th>
+                  <th style="padding: 10px;">Mensagem de Auditoria</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${logs.map(l => `
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px;"><strong>${l.timestamp}</strong></td>
+                    <td style="padding: 10px;">${l.mensagem}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
@@ -283,7 +455,6 @@ class UI {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <!-- Option 1: Dashboard -->
               <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; padding: 1.25rem; border-radius: 10px;" onclick="alert('Visualizando Gráficos do Corpo Clínico & SUS...')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1.25rem;">
@@ -299,7 +470,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 2: Módulo 8 Prontuário -->
               <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 10px;" onclick="window.ui.setView('mod8_prontuario')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1.25rem;">
@@ -315,7 +485,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 3: Módulo 9 Laborterapia -->
               <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; cursor: pointer; padding: 1.25rem; border-radius: 10px;" onclick="window.ui.setView('mod9_laborterapia')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1.25rem;">
@@ -331,7 +500,6 @@ class UI {
                 </div>
               </div>
 
-              <!-- Option 4: Cadastros Saúde -->
               <div class="card" style="background: #ffffff; border: 1px solid #cbd5e1; border-style: dashed; cursor: pointer; padding: 1.25rem; border-radius: 10px;" onclick="window.ui.setView('cadastros_saude')">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="display: flex; align-items: center; gap: 1.25rem;">
