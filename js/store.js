@@ -1,14 +1,10 @@
 /**
- * TaskFlow / SGI - Fundação Doutor Jesus
- * Store Manager - Estado Global & Persistência Nativa (LocalStorage)
+ * TaskFlow / SGI - FundaÃ§Ã£o Doutor Jesus
+ * Store Manager - Estado Global & PersistÃªncia Nativa (LocalStorage)
  */
 
 const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v1';
 const STORAGE_KEY_LABORTERAPIA = 'sgi_fdj_laborterapia_v1';
-const STORAGE_KEY_SINAIS_VITAIS = 'sgi_fdj_sinais_vitais_v1';
-const STORAGE_KEY_PRESCRICOES = 'sgi_fdj_prescricoes_v1';
-const STORAGE_KEY_ATENDIMENTOS_PSICO = 'sgi_fdj_atendimentos_psico_v1';
-const STORAGE_KEY_ODONTO = 'sgi_fdj_odonto_v1';
 const STORAGE_KEY_LOGS = 'sgi_fdj_logs_v1';
 
 const initialAcolhidos = [
@@ -18,13 +14,13 @@ const initialAcolhidos = [
     cpf: "123.456.789-00",
     rg: "14.587.963-00",
     status: "ativo",
-    leito: "Leito A-101 (Térreo PCD)",
-    bloco: "Bloco A (Restauração)",
-    oficina: "Oficina de Elétrica",
+    leito: "Leito A-101 (Terreo PCD)",
+    bloco: "Bloco A (Restauracao)",
+    oficina: "Oficina de Eletrica",
     dieta: "Normal",
-    fasePTI: "Fase 3 PTI (Reestruturação Social)",
+    fasePTI: "Fase 3 PTI (Reestruturacao Social)",
     laborterapia: {
-      setor: "Oficina de Elétrica & Manutenção",
+      setor: "Oficina de Eletrica & Manutencao",
       horasConcluidas: 240,
       certificadoEmitido: true,
       dataConclusao: "15/08/2026"
@@ -33,7 +29,7 @@ const initialAcolhidos = [
       alergias: "Nenhuma",
       tipoSanguineo: "O+",
       historicoClinico: "Tratamento regular RDC 29 ANVISA",
-      sinaisVitais: { pa: "120x80 mmHg", fc: "76 bpm", glicemia: "94 mg/dL", temp: "36.5 °C" }
+      sinaisVitais: { pa: "120x80 mmHg", fc: "76 bpm", glicemia: "94 mg/dL", temp: "36.5 C" }
     }
   },
   {
@@ -43,28 +39,28 @@ const initialAcolhidos = [
     rg: "12.365.478-99",
     status: "triagem",
     leito: "Leito B-205",
-    bloco: "Bloco B (Renovação)",
-    oficina: "Horta Orgânica FDJ",
-    dieta: "Hipossódica (Pressão Alta)",
+    bloco: "Bloco B (Renovacao)",
+    oficina: "Horta Organica FDJ",
+    dieta: "Hipossodica (Pressao Alta)",
     fasePTI: "Fase 1 PTI (Acolhimento & Triagem)",
     laborterapia: {
-      setor: "Horta Orgânica & Agroecologia",
+      setor: "Horta Organica & Agroecologia",
       horasConcluidas: 120,
       certificadoEmitido: false,
       dataConclusao: "Em Andamento (120h/240h)"
     },
     prontuario: {
-      alergias: "Hipertensão arterial sistêmica",
+      alergias: "Hipertensao arterial sistemica",
       tipoSanguineo: "A+",
-      historicoClinico: "Monitoramento de pressão arterial e dieta hipossódica",
-      sinaisVitais: { pa: "140x90 mmHg", fc: "82 bpm", glicemia: "110 mg/dL", temp: "36.8 °C" }
+      historicoClinico: "Monitoramento de pressao arterial e dieta hipossodica",
+      sinaisVitais: { pa: "140x90 mmHg", fc: "82 bpm", glicemia: "110 mg/dL", temp: "36.8 C" }
     }
   }
 ];
 
 const initialLaborterapia = [
-  { id: "LAB-01", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", setor: "Oficina de Elétrica", cargaHoraria: 240, status: "Concluído (Certificado 240h)", dataEmissao: "15/08/2026" },
-  { id: "LAB-02", acolhidoId: "FDJ-2026-002", acolhidoNome: "Mateus Santos Oliveira", setor: "Horta Orgânica FDJ", cargaHoraria: 120, status: "Em Andamento (120h/240h)", dataEmissao: "Pendente" }
+  { id: "LAB-01", acolhidoId: "FDJ-2026-001", acolhidoNome: "Lucas Silva Santos", setor: "Oficina de Eletrica", cargaHoraria: 240, status: "Concluido (Certificado 240h)", dataEmissao: "15/08/2026" },
+  { id: "LAB-02", acolhidoId: "FDJ-2026-002", acolhidoNome: "Mateus Santos Oliveira", setor: "Horta Organica FDJ", cargaHoraria: 120, status: "Em Andamento (120h/240h)", dataEmissao: "Pendente" }
 ];
 
 class Store {
@@ -73,15 +69,17 @@ class Store {
   }
 
   init() {
-    if (!localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) {
-      localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
-    }
-    if (!localStorage.getItem(STORAGE_KEY_LABORTERAPIA)) {
-      localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(initialLaborterapia));
-    }
-    if (!localStorage.getItem(STORAGE_KEY_LOGS)) {
-      localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
-    }
+    try {
+      if (!localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) {
+        localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
+      }
+      if (!localStorage.getItem(STORAGE_KEY_LABORTERAPIA)) {
+        localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(initialLaborterapia));
+      }
+      if (!localStorage.getItem(STORAGE_KEY_LOGS)) {
+        localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
+      }
+    } catch(e) {}
   }
 
   getAcolhidos() {
@@ -89,7 +87,6 @@ class Store {
       const data = JSON.parse(localStorage.getItem(STORAGE_KEY_ACOLHIDOS));
       if (Array.isArray(data) && data.length > 0) return data;
     } catch(e) {}
-    localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
     return initialAcolhidos;
   }
 
@@ -111,10 +108,9 @@ class Store {
     const item = labor.find(l => l.acolhidoId === acolhidoId);
     if (item) {
       item.cargaHoraria = 240;
-      item.status = "Concluído (Certificado 240h)";
+      item.status = "Concluido (Certificado 240h)";
       item.dataEmissao = new Date().toLocaleDateString('pt-BR');
-      localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(labor));
-      this.addLog(`Certificado Oficial de Laborterapia (240h) emitido para ${item.acolhidoNome}.`);
+      try { localStorage.setItem(STORAGE_KEY_LABORTERAPIA, JSON.stringify(labor)); } catch(e){}
       return item;
     }
     return null;
@@ -126,27 +122,6 @@ class Store {
     } catch(e) {
       return [];
     }
-  }
-
-  addLog(mensagem) {
-    const logs = this.getLogs();
-    logs.unshift({
-      timestamp: new Date().toLocaleString('pt-BR'),
-      mensagem
-    });
-    localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs.slice(0, 50)));
-  }
-
-  getEstatisticas() {
-    const acolhidos = this.getAcolhidos();
-    const labor = this.getLaborterapia();
-
-    return {
-      totalAtivos: acolhidos.filter(a => a.status === 'ativo').length,
-      totalTriagem: acolhidos.filter(a => a.status === 'triagem').length,
-      totalLaborterapiaCertificados: labor.filter(l => l.cargaHoraria >= 240).length,
-      totalRefeicoes: 1240
-    };
   }
 }
 
