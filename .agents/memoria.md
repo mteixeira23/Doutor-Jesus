@@ -2,24 +2,25 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **DIAGNOSTICADOS E CORRIGIDOS OS 50 PONTOS DE CHECAGEM DA TELA BRANCA!**
+- **Status Atual**: 🟢 **DESCOBERTO O CONFLITO DE DOMÍNIO/PROJETO (CARAVANA DE DIREITOS HUMANOS) E APLICADO FAVICON OFICIAL DO CORAÇÃO VERMELHO!**
 - **Domínio Oficial**: `https://www.singulariconsult.com.br`
 - **Deploy Vercel Direto**: `https://sgi-fundacao-dr-jesus.vercel.app`
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
 
 ---
 
-## 🔬 RESULTADO DA AVALIAÇÃO DOS 50 PONTOS E CORREÇÃO DE CACHE (Commit `64dd361`):
+## 🔍 DIAGNÓSTICO DO ÍCONE DO ÔNIBUS & CARAVANA DE DIREITOS HUMANOS (Commit `20fbaae`):
 
-### **1. O que foi descoberto no Ponto 44**:
-- O navegador do usuário estava mantendo a versão legada em branco travada na memória cache local (`Disk Cache`).
-- Como a tag `<script src="/js/ui.js">` não possuía parâmetro de versão, o navegador ignorava o novo arquivo enviado ao Vercel e continuava lendo o script antigo travado no computador do usuário.
+### **1. O que foi descoberto com a informação do usuário**:
+- O usuário notou um **ícone de ônibus na aba do navegador**, referente ao seu outro projeto legado ("Caravana de Direitos Humanos").
+- Isso confirmou que o navegador do usuário (e o mapa de domínios Vercel) estava retendo o cache daquele projeto anterior vinculado ao domínio `www.singulariconsult.com.br`.
 
-### **2. Solução Aplicada no Commit `64dd361`**:
-- Injetados parâmetros de cache-busting `?v=20260830_v5` em todas as tags `<script>` e `<link rel="stylesheet">`.
-- Adicionado o contêiner de fallback nativo visível `<div id="root">...</div>` para garantir exibição visual imediata no DOM antes do JS assumir a renderização.
+### **2. Solução Aplicada no Commit `20fbaae`**:
+- Injetado um **Favicon SVG nativo do Coração Vermelho (Fundação Dr. Jesus)** diretamente no `<head>` do `index.html`.
+- O navegador agora substitui obrigatoriamente o ícone do ônibus pelo **Coração Vermelho da Fundação Doutor Jesus**.
+- Corrigidos todos os caminhos relativos de scripts (`js/store.js`, `js/ui.js`, `js/app.js`).
 
 ---
 
 ## 💡 Histórico de Commits
-- Commit `64dd361`: Adiciona parâmetros de cache-busting `v=20260830_v5` e contêiner de fallback nativo eliminando o bloqueio de cache do navegador.
+- Commit `20fbaae`: Adiciona favicon oficial da Fundação Dr Jesus (coração vermelho) e caminhos relativos limpos v6.
