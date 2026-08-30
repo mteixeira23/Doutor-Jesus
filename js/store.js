@@ -1,13 +1,13 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * Store Manager - Gerenciamento de Estado e Persistência (LocalStorage)
+ * Store Manager - Gerenciamento de Estado e Persistência (LocalStorage / Supabase)
  */
 
 const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v1';
 const STORAGE_KEY_ESTOQUE = 'sgi_fdj_estoque_v1';
 const STORAGE_KEY_USUARIOS = 'sgi_fdj_usuarios_v1';
 
-// Dados Iniciais Mockados de Exemplo para a Fundação Doutor Jesus
+// Dados Iniciais Mockados da Fundação Doutor Jesus
 const initialAcolhidos = [
   {
     id: "FDJ-2026-001",
@@ -20,7 +20,9 @@ const initialAcolhidos = [
     origem: "Salvador / BA",
     dataAdmissao: "2026-01-15",
     dieta: "Normal",
-    acompanhamentoMedico: "Exame Cardiológico em dia"
+    acompanhamentoMedico: "Exame Cardiológico em dia",
+    rg: "14.587.963-00",
+    contatoEmergencia: "(71) 98877-6655 - Esposa (Maria)"
   },
   {
     id: "FDJ-2026-002",
@@ -33,7 +35,9 @@ const initialAcolhidos = [
     origem: "Feira de Santana / BA",
     dataAdmissao: "2026-08-20",
     dieta: "Hipossódica (Pressão Alta)",
-    acompanhamentoMedico: "Atendimento Psicológico Semanal"
+    acompanhamentoMedico: "Atendimento Psicológico Semanal",
+    rg: "12.365.478-99",
+    contatoEmergencia: "(75) 99123-4567 - Mãe (Ana)"
   },
   {
     id: "FDJ-2026-003",
@@ -46,7 +50,9 @@ const initialAcolhidos = [
     origem: "Camaçari / BA",
     dataAdmissao: "2025-11-10",
     dieta: "Normal",
-    acompanhamentoMedico: "Liberado / Acompanhamento MROSC"
+    acompanhamentoMedico: "Liberado / Acompanhamento MROSC",
+    rg: "09.874.521-33",
+    contatoEmergencia: "(71) 98765-4321 - Irmão (Carlos)"
   }
 ];
 
@@ -83,16 +89,43 @@ class Store {
     return JSON.parse(localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) || [];
   }
 
+  getAcolhidoById(id) {
+    return this.getAcolhidos().find(a => a.id === id);
+  }
+
   addAcolhido(acolhido) {
     const acolhidos = this.getAcolhidos();
     const newAcolhido = {
       id: `FDJ-2026-${String(acolhidos.length + 1).padStart(3, '0')}`,
       dataAdmissao: new Date().toISOString().split('T')[0],
+      status: 'triagem',
+      fasePTI: 1,
       ...acolhido
     };
     acolhidos.unshift(newAcolhido);
     localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
     return newAcolhido;
+  }
+
+  updateAcolhido(id, data) {
+    const acolhidos = this.getAcolhidos();
+    const index = acolhidos.findIndex(a => a.id === id);
+    if (index !== -1) {
+      acolhidos[index] = { ...acolhidos[index], ...data };
+      localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
+      return acolhidos[index];
+    }
+    return null;
+  }
+
+  avancarPTI(id) {
+    const acolhido = this.getAcolhidoById(id);
+    if (acolhido && acolhido.fasePTI < 4) {
+      const novaFase = acolhido.fasePTI + 1;
+      const novoStatus = novaFase >= 2 ? 'ativo' : 'triagem';
+      return this.updateAcolhido(id, { fasePTI: novaFase, status: novoStatus });
+    }
+    return acolhido;
   }
 
   getEstoque() {
