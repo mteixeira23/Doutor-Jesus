@@ -1,6 +1,6 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Renderização do Macromódulo 1 & Macromódulo 2 (Gestão Administrativa)
+ * UI Manager - Renderização dos Macromódulos 1 & 2 (Almoxarifado, Despensa e Frota)
  */
 
 class UI {
@@ -9,15 +9,14 @@ class UI {
     this.currentTab = 'dashboard';
     this.filtroStatus = 'todos';
     this.termoBusca = '';
-    this.filtroSetorEstoque = 'todos';
   }
 
   renderApp() {
     const stats = window.store.getEstatisticas();
     const acolhidos = window.store.getAcolhidos();
-    const estoque = window.store.getEstoque();
-    const oficinas = window.store.getOficinas();
-    const refeicoes = window.store.getRefeicoes();
+    const almoxarifado = window.store.getAlmoxarifado();
+    const despensa = window.store.getDespensa();
+    const frota = window.store.getFrota();
     const logs = window.store.getLogs();
 
     // Filtrar acolhidos
@@ -30,12 +29,14 @@ class UI {
       return matchStatus && matchBusca;
     });
 
-    // Filtrar Estoque FEFO
-    const estoqueFiltrado = estoque.filter(e => {
-      const matchSetor = this.filtroSetorEstoque === 'todos' || e.setor === this.filtroSetorEstoque;
-      const matchBusca = !this.termoBusca || e.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || e.id.toLowerCase().includes(this.termoBusca.toLowerCase());
-      return matchSetor && matchBusca;
-    });
+    // Filtrar Almoxarifado
+    const almoxFiltrado = almoxarifado.filter(a => !this.termoBusca || a.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || a.id.toLowerCase().includes(this.termoBusca.toLowerCase()));
+
+    // Filtrar Despensa
+    const despensaFiltrada = despensa.filter(d => !this.termoBusca || d.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || d.id.toLowerCase().includes(this.termoBusca.toLowerCase()));
+
+    // Filtrar Frota
+    const frotaFiltrada = frota.filter(f => !this.termoBusca || f.modelo.toLowerCase().includes(this.termoBusca.toLowerCase()) || f.placa.toLowerCase().includes(this.termoBusca.toLowerCase()) || f.motorista.toLowerCase().includes(this.termoBusca.toLowerCase()));
 
     this.root.innerHTML = `
       <div class="app-container">
@@ -71,20 +72,20 @@ class UI {
             </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Macromódulo 2: Administração
+              Macromódulo 2: Gestão Adm.
             </div>
 
-            <button class="btn \${this.currentTab === 'estoque' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('estoque')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="boxes"></i>
-              <span>5. Estoque FEFO</span>
+            <button class="btn \${this.currentTab === 'almoxarifado' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('almoxarifado')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="package"></i>
+              <span>Módulo Almoxarifado</span>
             </button>
-            <button class="btn \${this.currentTab === 'refeicoes' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('refeicoes')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="utensils-crossed"></i>
-              <span>6. Refeições (1.240)</span>
+            <button class="btn \${this.currentTab === 'despensa' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('despensa')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="shopping-bag"></i>
+              <span>Módulo Despensa</span>
             </button>
-            <button class="btn \${this.currentTab === 'oficinas' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('oficinas')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="wrench"></i>
-              <span>7. Escala de Oficinas</span>
+            <button class="btn \${this.currentTab === 'frota' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('frota')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="truck"></i>
+              <span>Módulo Frota</span>
             </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
@@ -109,7 +110,7 @@ class UI {
               <h1 style="font-size: 1.25rem; font-weight: 800;">
                 \${this.getTabTitle()}
               </h1>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Módulo de Gestão Integrada</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Sistema de Gestão Integrada</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -136,40 +137,40 @@ class UI {
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(217,119,6,0.12); color: #d97706; border-color: rgba(217,119,6,0.3);">
-                  <i data-lucide="clipboard-check"></i>
+                  <i data-lucide="package"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Em Triagem</h4>
-                  <div class="stat-value">\${stats.totalTriagem}</div>
-                  <div class="stat-subtext" style="color: #d97706;"><i data-lucide="clock"></i> Admissões Recentes</div>
+                  <h4>Almoxarifado Alertas</h4>
+                  <div class="stat-value">\${stats.almoxCritico}</div>
+                  <div class="stat-subtext" style="color: #d97706;"><i data-lucide="alert-circle"></i> Reposição de Materiais</div>
                 </div>
               </div>
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(220,38,38,0.12); color: #dc2626; border-color: rgba(220,38,38,0.3);">
-                  <i data-lucide="package-search"></i>
+                  <i data-lucide="shopping-bag"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Estoque Crítico</h4>
-                  <div class="stat-value">\${stats.estoqueCritico}</div>
-                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-circle"></i> Reposição Necessária</div>
+                  <h4>Despensa Alertas</h4>
+                  <div class="stat-value">\${stats.despensaCritica}</div>
+                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-triangle"></i> Estoque FEFO Baixo</div>
                 </div>
               </div>
 
               <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
-                  <i data-lucide="gift"></i>
+                  <i data-lucide="truck"></i>
                 </div>
                 <div class="stat-info">
-                  <h4>Kits de Admissão</h4>
-                  <div class="stat-value">\${stats.kitsAdmissaoDisponiveis}</div>
-                  <div class="stat-subtext"><i data-lucide="check"></i> Disponíveis em Estoque</div>
+                  <h4>Veículos em Viagem</h4>
+                  <div class="stat-value">\${stats.veiculosEmViagem} / \${stats.totalVeiculos}</div>
+                  <div class="stat-subtext"><i data-lucide="navigation"></i> Frota em Operação</div>
                 </div>
               </div>
             </div>
 
             <!-- Content Area Based on Active Tab -->
-            \${this.renderTabContent(acolhidosFiltrados, estoqueFiltrado, oficinas, refeicoes, logs)}
+            \${this.renderTabContent(acolhidosFiltrados, almoxFiltrado, despensaFiltrada, frotaFiltrada, logs)}
           </main>
         </div>
       </div>
@@ -192,40 +193,29 @@ class UI {
     switch (this.currentTab) {
       case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos & Triagem';
       case 'pti': return 'Módulo 2: Prontuário Eletrônico & PTI';
-      case 'estoque': return 'Macromódulo 2 (Módulo 5): Controle de Estoque FEFO & Almoxarifado';
-      case 'refeicoes': return 'Macromódulo 2 (Módulo 6): Gestão de Refeições (1.240 Acolhidos)';
-      case 'oficinas': return 'Macromódulo 2 (Módulo 7): Escala de Oficinas de Capacitação';
+      case 'almoxarifado': return 'Macromódulo 2: Módulo de Almoxarifado';
+      case 'despensa': return 'Macromódulo 2: Módulo de Despensa (Alimentos & FEFO)';
+      case 'frota': return 'Macromódulo 2: Módulo de Frota & Transporte';
       case 'saude': return 'Gestão da Saúde & Controle de Dietas Especiais';
       case 'ti': return 'Módulo 13: TI & Logs Reativos de Auditoria';
       default: return 'Painel Executivo — SGI Fundação Doutor Jesus';
     }
   }
 
-  renderTabContent(acolhidos, estoque, oficinas, refeicoes, logs) {
-    // TABA ESTOQUE FEFO (MACROMÓDULO 2)
-    if (this.currentTab === 'estoque') {
+  renderTabContent(acolhidos, almoxarifado, despensa, frota, logs) {
+    // 1. MÓDULO DE ALMOXARIFADO
+    if (this.currentTab === 'almoxarifado') {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-            <h3><i data-lucide="boxes" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 5: Controle de Estoque FEFO (First Expired, First Out)</h3>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn btn-primary" onclick="window.ui.abrirModalNovoItemEstoque()">
-                <i data-lucide="plus-circle"></i> + Novo Insumo
-              </button>
-            </div>
+            <h3><i data-lucide="package" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Almoxarifado (Materiais, Ferramentas & Enxovais)</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAlmoxarifado()">
+              <i data-lucide="plus-circle"></i> + Novo Material
+            </button>
           </div>
 
-          <!-- Filtros de Estoque -->
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-            <div class="form-group" style="margin-bottom: 0; flex: 1;">
-              <input type="text" class="form-input" placeholder="Buscar por insumo..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
-            </div>
-            <select class="form-select" style="width: 200px; margin-bottom: 0;" onchange="window.ui.filtrarSetorEstoque(this.value)">
-              <option value="todos">Todos os Setores</option>
-              <option value="Despensa Geral">Despensa Geral</option>
-              <option value="Cozinha Industrial">Cozinha Industrial</option>
-              <option value="Triagem / Recepção">Triagem / Recepção</option>
-            </select>
+          <div style="margin-bottom: 1rem;">
+            <input type="text" class="form-input" placeholder="Buscar material no almoxarifado..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
           </div>
 
           <div class="table-container">
@@ -233,37 +223,33 @@ class UI {
               <thead>
                 <tr>
                   <th>Código</th>
-                  <th>Insumo / Descrição</th>
+                  <th>Material / Item</th>
+                  <th>Categoria</th>
+                  <th>Localização</th>
                   <th>Saldo Atual</th>
-                  <th>Mínimo</th>
-                  <th>Setor</th>
-                  <th>Validade (Regra FEFO)</th>
+                  <th>Estoque Mínimo</th>
                   <th>Status</th>
-                  <th>Ações de Entrada / Saída</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                \${estoque.map(e => `
+                \${almoxarifado.map(a => `
                   <tr>
-                    <td><strong>\${e.id}</strong></td>
-                    <td><strong>\${e.item}</strong></td>
-                    <td><strong style="font-size: 1.05rem; color: \${e.quantidade <= e.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${e.quantidade} \${e.unidade || 'u'}</strong></td>
-                    <td>\${e.estoqueMinimo} \${e.unidade || 'u'}</td>
-                    <td>\${e.setor}</td>
-                    <td><span class="badge badge-info">\${e.validade}</span></td>
+                    <td><strong>\${a.id}</strong></td>
+                    <td><strong>\${a.item}</strong></td>
+                    <td><span class="badge badge-info">\${a.categoria}</span></td>
+                    <td>\${a.local}</td>
+                    <td><strong style="font-size: 1.05rem; color: \${a.quantidade <= a.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${a.quantidade} u</strong></td>
+                    <td>\${a.estoqueMinimo} u</td>
                     <td>
-                      <span class="badge \${e.quantidade <= e.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
-                        \${e.quantidade <= e.estoqueMinimo ? 'Repor Urgente' : 'Ok'}
+                      <span class="badge \${a.quantidade <= a.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
+                        \${a.quantidade <= a.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
                       </span>
                     </td>
                     <td>
                       <div style="display: flex; gap: 0.3rem;">
-                        <button class="btn btn-secondary btn-sm" onclick="window.ui.adicionarEstoque('\${e.id}')" title="Registrar Entrada (+)">
-                          + Reposição
-                        </button>
-                        <button class="btn btn-outline btn-sm" onclick="window.ui.deduzirEstoque('\${e.id}')" title="Registrar Consumo (-)">
-                          - Consumo
-                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.alterarAlmoxarifado('\${a.id}', 5)">+ 5</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.ui.alterarAlmoxarifado('\${a.id}', -1)">- 1</button>
                       </div>
                     </td>
                   </tr>
@@ -275,59 +261,104 @@ class UI {
       `;
     }
 
-    // TAB REFEIÇÕES (MACROMÓDULO 2 - MÓDULO 6)
-    if (this.currentTab === 'refeicoes') {
+    // 2. MÓDULO DE DESPENSA
+    if (this.currentTab === 'despensa') {
       return `
         <div class="card">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="utensils-crossed" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 6: Gestão de Refeições (Café e Almoço para 1.240 Acolhidos)</h3>
-            <span class="badge badge-primary">Cozinha Industrial</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+            <h3><i data-lucide="shopping-bag" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Despensa (Alimentos & Insumos das Refeições)</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoAlimentoDespensa()">
+              <i data-lucide="plus-circle"></i> + Novo Alimento
+            </button>
           </div>
 
-          <div class="grid-2" style="margin-bottom: 1.5rem;">
-            \${refeicoes.map(r => `
-              <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-highlight);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">\${r.refeicao}</h4>
-                  <span class="badge \${r.status === 'Servido' ? 'badge-success' : 'badge-warning'}">\${r.status}</span>
-                </div>
-                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Quantidade:</strong> \${r.quantidade} Acolhidos atendidos</p>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;"><strong>Cardápio do Dia:</strong> \${r.cardapio}</p>
+          <div style="margin-bottom: 1rem;">
+            <input type="text" class="form-input" placeholder="Buscar alimento na despensa..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
+          </div>
 
-                \${r.status !== 'Servido' ? `
-                  <button class="btn btn-primary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.confirmarRefeicaoServida('\${r.id}')">
-                    <i data-lucide="check"></i> Confirmar Refeição Servida & Baixar Estoque
-                  </button>
-                ` : `
-                  <div style="text-align: center; color: #059669; font-weight: 700; font-size: 0.85rem;">
-                    <i data-lucide="check-check" style="vertical-align: middle;"></i> Refeição Servida e Insumos Baixados no FEFO
-                  </div>
-                `}
-              </div>
-            `).join('')}
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Alimento / Insumo</th>
+                  <th>Categoria</th>
+                  <th>Saldo em Estoque</th>
+                  <th>Mínimo</th>
+                  <th>Validade (FEFO)</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${despensa.map(d => `
+                  <tr>
+                    <td><strong>\${d.id}</strong></td>
+                    <td><strong>\${d.item}</strong></td>
+                    <td><span class="badge badge-primary">\${d.categoria}</span></td>
+                    <td><strong style="font-size: 1.05rem; color: \${d.quantidade <= d.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${d.quantidade} u</strong></td>
+                    <td>\${d.estoqueMinimo} u</td>
+                    <td><span class="badge badge-info">\${d.validade}</span></td>
+                    <td>
+                      <span class="badge \${d.quantidade <= d.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
+                        \${d.quantidade <= d.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
+                      </span>
+                    </td>
+                    <td>
+                      <div style="display: flex; gap: 0.3rem;">
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.alterarDespensa('\${d.id}', 10)">+ 10</button>
+                        <button class="btn btn-outline btn-sm" onclick="window.ui.alterarDespensa('\${d.id}', -1)">- 1</button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
     }
 
-    // TAB OFICINAS (MACROMÓDULO 2 - MÓDULO 7)
-    if (this.currentTab === 'oficinas') {
+    // 3. MÓDULO DE FROTA
+    if (this.currentTab === 'frota') {
       return `
         <div class="card">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="wrench" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 7: Escalas de Oficinas de Capacitação</h3>
-            <span class="badge badge-info">Capacitação Profissional</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+            <h3><i data-lucide="truck" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo de Frota & Veículos (Transporte de Acolhidos)</h3>
+            <button class="btn btn-primary" onclick="window.ui.abrirModalNovoVeiculo()">
+              <i data-lucide="plus-circle"></i> + Novo Veículo
+            </button>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <input type="text" class="form-input" placeholder="Buscar modelo, placa ou motorista..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
           </div>
 
           <div class="grid-2">
-            \${oficinas.map(o => `
+            \${frota.map(v => `
               <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">\${o.nome}</h4>
-                  <span class="badge badge-primary">\${o.ocupadas} / \${o.vagas} Vagas</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">\${v.modelo}</h4>
+                  <span class="badge \${v.status === 'Em Viagem' ? 'badge-warning' : (v.status === 'Disponível' ? 'badge-success' : 'badge-info')}">
+                    \${v.status}
+                  </span>
                 </div>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem;"><strong>Instrutor Responsável:</strong> \${o.responsavel}</p>
-                <p style="font-size: 0.85rem; color: var(--text-main);"><strong>Atividade Principal:</strong> \${o.atividade}</p>
+                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Placa:</strong> <span class="badge badge-primary">\${v.placa}</span> | <strong>KM:</strong> \${v.quilometragem}</p>
+                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Motorista Responsável:</strong> \${v.motorista}</p>
+                <p style="font-size: 0.85rem; margin-bottom: 0.3rem;"><strong>Tipo:</strong> \${v.tipo}</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;"><strong>Destino Atual:</strong> \${v.destino}</p>
+
+                <div style="display: flex; gap: 0.5rem;">
+                  \${v.status === 'Em Viagem' ? `
+                    <button class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.alterarStatusFrota('\${v.id}', 'Disponível', 'Base Fundação')">
+                      <i data-lucide="check"></i> Registrar Retorno à Base
+                    </button>
+                  ` : `
+                    <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.alterarStatusFrota('\${v.id}', 'Em Viagem')">
+                      <i data-lucide="navigation"></i> Lançar Nova Viagem
+                    </button>
+                  `}
+                </div>
               </div>
             `).join('')}
           </div>
@@ -484,49 +515,78 @@ class UI {
     `;
   }
 
-  filtrarSetorEstoque(setor) {
-    this.filtroSetorEstoque = setor;
+  // --- MÉTODOS DE ALMOXARIFADO & DESPENSA & FROTA ---
+  alterarAlmoxarifado(id, delta) {
+    window.store.alterarQtdAlmoxarifado(id, delta);
     this.renderApp();
   }
 
-  adicionarEstoque(id) {
-    const qtd = prompt("Quantidade a adicionar ao estoque (+ Reposição/Doação):", "10");
-    if (qtd && !isNaN(qtd) && Number(qtd) > 0) {
-      window.store.adicionarQuantidadeEstoque(id, Number(qtd));
-      this.renderApp();
-    }
-  }
-
-  deduzirEstoque(id) {
-    const qtd = prompt("Quantidade a deduzir do estoque (- Consumo):", "1");
-    if (qtd && !isNaN(qtd) && Number(qtd) > 0) {
-      window.store.deduzirItemEstoque(id, Number(qtd));
-      this.renderApp();
-    }
-  }
-
-  confirmarRefeicaoServida(id) {
-    window.store.registrarRefeicaoServida(id);
+  alterarDespensa(id, delta) {
+    window.store.alterarQtdDespensa(id, delta);
     this.renderApp();
   }
 
-  abrirModalNovoItemEstoque() {
-    const item = prompt("Nome do novo insumo/produto:");
+  alterarStatusFrota(id, status, destino) {
+    let dest = destino;
+    if (status === 'Em Viagem' && !dest) {
+      dest = prompt("Destino/Objetivo da viagem:", "Salvador / Atendimento Médico");
+    }
+    if (status === 'Em Viagem' && !dest) return;
+    window.store.alterarStatusVeiculo(id, status, dest);
+    this.renderApp();
+  }
+
+  abrirModalNovoAlmoxarifado() {
+    const item = prompt("Nome do material/item:");
     if (item && item.trim()) {
-      const quantidade = Number(prompt("Quantidade inicial em estoque:", "50")) || 50;
-      const estoqueMinimo = Number(prompt("Estoque mínimo de segurança:", "10")) || 10;
-      const setor = prompt("Setor (Despensa Geral / Cozinha Industrial / Triagem / Recepção):", "Despensa Geral") || "Despensa Geral";
+      const categoria = prompt("Categoria (Material de Limpeza / Ferramentas / Vestuário / Enxoval):", "Material de Limpeza") || "Geral";
+      const local = prompt("Localização no almoxarifado:", "Depósito Central") || "Depósito Central";
+      const quantidade = Number(prompt("Quantidade inicial:", "20")) || 20;
+
+      window.store.addAlmoxarifadoItem({
+        item: item.trim(),
+        categoria,
+        local,
+        quantidade,
+        estoqueMinimo: 10
+      });
+      this.renderApp();
+    }
+  }
+
+  abrirModalNovoAlimentoDespensa() {
+    const item = prompt("Nome do alimento/insumo:");
+    if (item && item.trim()) {
+      const categoria = prompt("Categoria (Grãos / Matinais / Óleos / Carnes):", "Grãos & Cereais") || "Geral";
+      const quantidade = Number(prompt("Quantidade inicial:", "50")) || 50;
       const validade = prompt("Data de validade (AAAA-MM-DD):", "2026-12-31") || "2026-12-31";
 
-      window.store.addEstoqueItem({
+      window.store.addDespensaItem({
         item: item.trim(),
+        categoria,
         quantidade,
-        estoqueMinimo,
-        setor,
-        validade,
-        unidade: "unidades"
+        estoqueMinimo: 15,
+        validade
       });
+      this.renderApp();
+    }
+  }
 
+  abrirModalNovoVeiculo() {
+    const modelo = prompt("Modelo do veículo (ex: Van Sprinter, Ônibus):");
+    if (modelo && modelo.trim()) {
+      const placa = prompt("Placa do veículo:", "ABC-1234") || "ABC-1234";
+      const motorista = prompt("Motorista responsável:", "João Silva") || "João Silva";
+      const tipo = prompt("Tipo de transporte (Transporte de Acolhidos / Emergência / Carga):", "Transporte de Acolhidos") || "Transporte de Acolhidos";
+
+      window.store.addVeiculo({
+        modelo: modelo.trim(),
+        placa,
+        motorista,
+        tipo,
+        destino: "Base Fundação",
+        quilometragem: "50.000 km"
+      });
       this.renderApp();
     }
   }
