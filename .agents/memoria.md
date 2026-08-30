@@ -2,39 +2,40 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **Macromódulo 1 (RDC 29 ANVISA & Vercel) 100% Revisado e Publicado com Sucesso!**
+- **Status Atual**: 🟢 **Macromódulos 1 e 2 (Oficiais do Vercel) 100% Revisados, Integrados e Publicados!**
+- **Domínio Oficial**: `https://www.singulariconsult.com.br`
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
 - **Deploy Vercel**: `https://sgi-fundacao-dr-jesus-d53gane6s.vercel.app`
 
 ---
 
-## 🎯 Checklist do Macromódulo 1 (Oficial RDC 29 ANVISA)
+## 🎯 Checklist dos Macromódulos Oficiais
 
-- [x] **Módulo 1.1: Triagem & Admissão RDC 29**
-  - [x] Checklist de entrada (Kit Higiene, Enxoval de Leito, Vestuário Padrão, Crachá QR Code).
-  - [x] Seleção de leitos por blocos (*Bloco A Restauração*, *Bloco B Renovação*, *Bloco C Esperança*, *Bloco D Graça*).
-  - [x] Indicação de Leitos PCD Acessíveis / Beliche Térreo.
+### 🟢 Macromódulo 1: Gestão dos Acolhidos (RDC 29 ANVISA)
+- [x] Módulo 1.1: Triagem & Admissão RDC 29 com checklist (Kit, Enxoval, Vestuário, Crachá QR Code) e Leitos PCD.
+- [x] Módulo 1.2: Gestão de Alojamentos (Blocos A, B, C, D) e modal de troca de leito.
+- [x] Módulo 2.0: Prontuário Eletrônico & PTI Fases 1 a 4.
+- [x] Módulo 3.0: Crachá QR Code A4, Declaração de Plena Quitação A4 e botão `Enviar via WhatsApp`.
+- [x] Módulo 4.0: Altas Terapêuticas, Reinserção e Escala de Transporte SUS.
 
-- [x] **Módulo 1.2: Gestão de Alojamentos & Leitos**
-  - [x] Ocupação automática de leitos calculada por bloco.
-  - [x] Troca de leitos com notificação para monitores de bloco.
-
-- [x] **Módulo 2.0: Prontuário Eletrônico & PTI (RDC 29 ANVISA)**
-  - [x] Evolução psicossocial com parecer técnico do assistente social/psicólogo.
-  - [x] Acompanhamento de metas terapêuticas (Meta 1, Meta 2, Meta 3).
-  - [x] Progresso pelas 4 Fases da RDC 29 ANVISA (1: Triagem, 2: Conscientização, 3: Capacitação, 4: Reinserção).
-
-- [x] **Módulo 3.0: Crachá QR Code, Declaração de Quitação & WhatsApp**
-  - [x] Crachá oficial QR Code pronto para Impressão A4.
-  - [x] Declaração de Plena, Irrevogável e Geral Quitação A4.
-  - [x] Botão **"Enviar via WhatsApp"** integrando o Boletim de Saúde com a família do acolhido.
-
-- [x] **Módulo 4.0: Altas Terapêuticas & Escala de Transporte SUS**
-  - [x] Confirmação de alta terapêutica com quitação e liberação de leito.
-  - [x] Escala nominal para transporte médico SUS em Salvador.
+### 🟢 Macromódulo 2: Gestão Administrativa & Suprimentos MROSC
+- [x] **Módulo 5: Almoxarifado Central & RMI**
+  - [x] Tombamento de doações MROSC e compras NFe (TCE-BA & SJDH).
+  - [x] Emissão de RMI (Requisição de Material Interno) para a Despensa da Cozinha Central.
+  - [x] Endereçamento físico no galpão (Galpão A Alimentos, Galpão B Padaria).
+- [x] **Módulo 6: Despensa & Nutrição Comunitária (4.000 Refeições/Dia)**
+  - [x] Aceite de RMIs vindas do Almoxarifado Central.
+  - [x] Controle de validade FEFO (*First Expired, First Out*).
+  - [x] Registro de Horta Orgânica FDJ (Mandioca/Aipim & Hortaliças).
+  - [x] Baixas diárias para a Cozinha Central para o preparo dos 4.000 pratos diários dos 1.240 acolhidos.
+- [x] **Módulo 7: Frota, Abastecimentos & Transporte SUS**
+  - [x] Frota de veículos (Van Sprinter, Ônibus Agrale, Ambulância UTI, Caminhão Baú HR).
+  - [x] Lançamento de viagens para transporte médico SUS em Salvador e retorno à base.
+- [x] **Central de Cadastros Administrativos MROSC (2.1 a 2.5)**
+  - [x] 2.1. Fornecedores MROSC Cotações | 2.3. Endereçamento Galpão | 2.4. Setores Solicitantes | 2.5. Responsáveis Autorizados.
 
 ---
 
 ## 💡 Histórico de Decisões Técnicas
-1. **Fidelidade Total ao Vercel**: Recriadas todas as regras da RDC 29 ANVISA, emissão de Declaração de Quitação e integração direta com WhatsApp.
-2. **Commit GitHub**: `65a1bb9` enviado e compilação na Vercel realizada sem erros.
+1. **Fidelidade Total ao Vercel / Domain**: Sincronização direta com `www.singulariconsult.com.br`.
+2. **Commit GitHub**: `38ba7ad` enviado.
