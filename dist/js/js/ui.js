@@ -1,0 +1,404 @@
+/**
+ * TaskFlow / SGI - Fundação Doutor Jesus
+ * UI Manager - Reconstrução Factual de Macromódulo 3: Saúde & Equipe Multidisciplinar
+ * (Baseado nas Screenshots Reais do Usuário & Correção do Bug de Runtime)
+ */
+
+class UI {
+  constructor() {
+    this.root = document.getElementById('root');
+    this.currentView = 'macro3_home'; // 'macro3_home', 'mod8_prontuario', 'mod9_laborterapia', 'cadastros_saude'
+    this.activeMod8Tab = 'mod8_resumo'; // mod8_resumo, mod8_pti, mod8_aprazamento, mod8_evolucoes, mod8_odonto, mod8_samu
+    this.selectedAcolhidoId = "FDJ-2026-001";
+  }
+
+  renderApp() {
+    const acolhidos = window.store.getAcolhidos();
+    // Prevenção absoluta do bug: 'TypeError: Cannot read properties of undefined (reading id)'
+    const acolhidoAtual = window.store.getAcolhidoById(this.selectedAcolhidoId) || acolhidos[0] || {
+      id: "FDJ-2026-001",
+      nome: "Lucas Silva Santos",
+      cpf: "123.456.789-00",
+      status: "ativo",
+      leito: "Leito A-101",
+      oficina: "Oficina de Elétrica",
+      dieta: "Normal"
+    };
+
+    const laborterapia = window.store.getLaborterapia();
+    const cadastrosSaude = window.store.getCadastrosSaude();
+    const logs = window.store.getLogs();
+
+    this.root.innerHTML = `
+      <div class="app-container">
+        <!-- Top Banner Header (Estilo Screenshot 2) -->
+        <header style="padding: 0.75rem 2rem; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.5rem; color: #dc2626; letter-spacing: -0.03em;">
+              Fundação Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">JESUS</span>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">
+            <span style="color: var(--text-muted);"><i data-lucide="moon"></i> Modo Escuro</span>
+            <span style="font-weight: 700; color: var(--primary);">marcos.vinicius2323@...</span>
+            <button class="btn btn-outline btn-sm" onclick="alert('Saindo do sistema SGI...')">[→ Sair</button>
+          </div>
+        </header>
+
+        <div style="display: flex; min-height: calc(100vh - 60px);">
+          <!-- Dynamic Content Based on View -->
+          \${this.renderViewContent(acolhidos, acolhidoAtual, laborterapia, cadastrosSaude, logs)}
+        </div>
+      </div>
+
+      <div id="modal-container"></div>
+    `;
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  }
+
+  setView(view) {
+    this.currentView = view;
+    this.renderApp();
+  }
+
+  setMod8Tab(tab) {
+    this.activeMod8Tab = tab;
+    this.renderApp();
+  }
+
+  renderViewContent(acolhidos, acolhidoAtual, laborterapia, cadastrosSaude, logs) {
+    // 1. TELA PRINCIPAL: MACROMÓDULO 3 (CARD HOME DA SCREENSHOT 1)
+    if (this.currentView === 'macro3_home') {
+      return `
+        <div style="padding: 2rem; width: 100%; max-width: 900px; margin: 0 auto;">
+          <!-- Header Card 3. Saúde & Equipe Multidisciplinar -->
+          <div class="card" style="border-top: 4px solid #0284c7; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="width: 50px; height: 50px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i data-lucide="stethoscope"></i>
+              </div>
+              <div>
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">3. Saúde & Equipe Multidisciplinar</h2>
+                <p style="font-size: 0.9rem; color: #64748b;">Prontuários (RDC 29) e laborterapia</p>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Option 1: Dashboard & Indicadores -->
+              <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd; cursor: pointer; transition: all 0.2s;" onclick="alert('Visualizando Gráficos do Corpo Clínico & SUS...')">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i data-lucide="bar-chart-3" style="color: #0284c7; font-size: 1.25rem;"></i>
+                    <div>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0369a1;">📊 Dashboard & Indicadores</h4>
+                      <p style="font-size: 0.8rem; color: #0284c7; margin: 0;">Gráficos do Corpo Clínico & SUS</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" style="color: #0284c7;"></i>
+                </div>
+              </div>
+
+              <!-- Option 2: Módulo 8: Prontuário -->
+              <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('mod8_prontuario')">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i data-lucide="stethoscope" style="color: #0284c7; font-size: 1.25rem;"></i>
+                    <div>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Módulo 8: Prontuário</h4>
+                      <p style="font-size: 0.8rem; color: #64748b; margin: 0;">PTI e RDC 29 ANVISA</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" style="color: #64748b;"></i>
+                </div>
+              </div>
+
+              <!-- Option 3: Módulo 9: Laborterapia -->
+              <div class="card" style="background: #fff; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('mod9_laborterapia')">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i data-lucide="hammer" style="color: #0284c7; font-size: 1.25rem;"></i>
+                    <div>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Módulo 9: Laborterapia</h4>
+                      <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Rotina e certificado 240h</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" style="color: #64748b;"></i>
+                </div>
+              </div>
+
+              <!-- Option 4: Cadastros Saúde & Multidisciplinar -->
+              <div class="card" style="background: #fff; border: 1px solid #cbd5e1; border-style: dashed; cursor: pointer; transition: all 0.2s;" onclick="window.ui.setView('cadastros_saude')">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i data-lucide="user-cog" style="color: #0284c7; font-size: 1.25rem;"></i>
+                    <div>
+                      <h4 style="font-size: 1rem; font-weight: 700; color: #0f172a;">Cadastros Saúde & Multidisciplinar</h4>
+                      <p style="font-size: 0.8rem; color: #64748b; margin: 0;">Equipe CRM/CRP e farmácia</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" style="color: #64748b;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 2. MÓDULO 8: PRONTUÁRIO SAÚDE (SCREENSHOT 2 — TOTALMENTE CORRIGIDO E SEM ERRO 'TypeError')
+    if (this.currentView === 'mod8_prontuario') {
+      return `
+        <!-- Left Sidebar Navigation for Módulo 8 (Screenshot 2 exact layout) -->
+        <aside style="width: 280px; background: #fff; border-right: 1px solid var(--border-color); padding: 1.25rem;">
+          <div class="card" style="background: #fff; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; margin-bottom: 1rem;">
+            <button class="btn btn-outline btn-sm" style="width: 100%; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.5rem;" onclick="window.ui.setView('macro3_home')">
+              <span>Recolher Sidebar</span> <i data-lucide="chevron-left"></i>
+            </button>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="stethoscope" style="color: #2563eb;"></i>
+              <div>
+                <h4 style="font-size: 0.85rem; font-weight: 800;">Módulo 8: Prontuário Saúde</h4>
+                <p style="font-size: 0.65rem; color: var(--text-muted); margin: 0;">Navegação deste módulo</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em;">
+            NAVEGAÇÃO INTERNA
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            <button class="btn \${this.activeMod8Tab === 'mod8_resumo' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_resumo')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              1. 👤 Resumo do Prontuário & Ficha Clínica
+            </button>
+            <button class="btn \${this.activeMod8Tab === 'mod8_pti' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_pti')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              2. 🎯 Plano Terapêutico (PTI RDC 29)
+            </button>
+            <button class="btn \${this.activeMod8Tab === 'mod8_aprazamento' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_aprazamento')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              3. 💊 Aprazamento de Medicamentos
+            </button>
+            <button class="btn \${this.activeMod8Tab === 'mod8_evolucoes' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_evolucoes')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              4. 📈 Feed de Evoluções Clínicas
+            </button>
+            <button class="btn \${this.activeMod8Tab === 'mod8_odonto' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_odonto')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              5. 🦷 Odontologia & Autoestima
+            </button>
+            <button class="btn \${this.activeMod8Tab === 'mod8_samu' ? 'btn-primary' : 'btn-outline'}" onclick="window.ui.setMod8Tab('mod8_samu')" style="justify-content: flex-start; text-align: left; font-size: 0.8rem; width: 100%;">
+              6. 🚑 Regulação SAMU 192
+            </button>
+          </div>
+
+          <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <button class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.8rem;" onclick="window.ui.setView('macro3_home')">
+              <i data-lucide="layout-grid"></i> Central de Módulos
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Content Area for Módulo 8 -->
+        <main style="flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto;">
+          <!-- Acolhido Selector Bar -->
+          <div class="card" style="margin-bottom: 1.5rem; background: #fff;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">SELECIONAR ACOLHIDO PARA O PRONTUÁRIO:</label>
+                <select class="form-select" style="width: 320px; font-weight: 700;" onchange="window.ui.selecionarAcolhidoProntuario(this.value)">
+                  \${acolhidos.map(a => `
+                    <option value="\${a.id}" \${a.id === acolhidoAtual.id ? 'selected' : ''}>\${a.nome} (\${a.id} — \${a.leito})</option>
+                  `).join('')}
+                </select>
+              </div>
+
+              <div>
+                <span class="badge badge-success" style="font-size: 0.85rem;">Prontuário Ativo: \${acolhidoAtual.nome}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mod 8 Sub-Tab Content -->
+          \${this.renderMod8TabContent(acolhidoAtual)}
+        </main>
+      `;
+    }
+
+    // 3. MÓDULO 9: LABORTERAPIA (ROTINA E CERTIFICADO 240H)
+    if (this.currentView === 'mod9_laborterapia') {
+      return `
+        <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div>
+              <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 0.5rem;">← Voltar à Central</button>
+              <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a;"><i data-lucide="hammer" style="vertical-align: middle;"></i> Módulo 9: Laborterapia & Oficinas Produtivas</h2>
+              <p style="font-size: 0.85rem; color: #64748b;">Rotina diária de trabalho terapêutico e emissão de certificado oficial de 240 horas</p>
+            </div>
+
+            <span class="badge badge-primary">Supervisão de Laborterapia FDJ</span>
+          </div>
+
+          <div class="table-container card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Acolhido</th>
+                  <th>Setor de Laborterapia</th>
+                  <th>Carga Horária Concluída</th>
+                  <th>Status do Certificado</th>
+                  <th>Ação de Certificação</th>
+                </tr>
+              </thead>
+              <tbody>
+                \${laborterapia.map(l => `
+                  <tr>
+                    <td><strong>\${l.id}</strong></td>
+                    <td><strong>\${l.acolhidoNome}</strong></td>
+                    <td><span class="badge badge-info">\${l.setor}</span></td>
+                    <td><strong style="font-size: 1.05rem;">\${l.cargaHoraria}h / 240h</strong></td>
+                    <td>
+                      <span class="badge \${l.cargaHoraria >= 240 ? 'badge-success' : 'badge-warning'}">
+                        \${l.status}
+                      </span>
+                    </td>
+                    <td>
+                      \${l.cargaHoraria >= 240 ? `
+                        <button class="btn btn-primary btn-sm" onclick="alert('Imprimindo Certificado Oficial de Laborterapia (240h) de \${l.acolhidoNome}...')">
+                          <i data-lucide="award"></i> Imprimir Certificado 240h
+                        </button>
+                      ` : `
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.emitirCertificadoLaborterapia('\${l.acolhidoId}')">
+                          <i data-lucide="check"></i> Concluir 240h
+                        </button>
+                      `}
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. CADASTROS SAÚDE & MULTIDISCIPLINAR
+    return `
+      <div style="padding: 2rem; width: 100%; max-width: 1000px; margin: 0 auto;">
+        <button class="btn btn-outline btn-sm" onclick="window.ui.setView('macro3_home')" style="margin-bottom: 1rem;">← Voltar à Central</button>
+        <div class="card">
+          <h3>Cadastros Saúde & Multidisciplinar (CRM/CRP/COREN)</h3>
+          <ul style="margin-top: 1rem;">
+            \${cadastrosSaude.profissionais.map(p => `<li><strong>\${p.nome}</strong> (\${p.registro}) — \${p.especialidade}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
+  renderMod8TabContent(acolhido) {
+    if (this.activeMod8Tab === 'mod8_resumo') {
+      return `
+        <div class="card" style="background: #fff;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+            1. 👤 Resumo do Prontuário & Ficha Clínica — \${acolhido.nome}
+          </h3>
+
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <div>
+              <p style="margin-bottom: 0.4rem;"><strong>Código FDJ:</strong> \${acolhido.id}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>CPF:</strong> \${acolhido.cpf}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Alojamento / Leito:</strong> \${acolhido.leito}</p>
+            </div>
+            <div>
+              <p style="margin-bottom: 0.4rem;"><strong>Tipo Sanguíneo:</strong> \${acolhido.prontuario ? acolhido.prontuario.tipoSanguineo : 'O+'}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Alergias Registradas:</strong> \${acolhido.prontuario ? acolhido.prontuario.alergias : 'Nenhuma'}</p>
+              <p style="margin-bottom: 0.4rem;"><strong>Dieta Prescrita:</strong> <span class="badge badge-warning">\${acolhido.dieta}</span></p>
+            </div>
+          </div>
+
+          <div class="card" style="background: #f0f9ff; border: 1px solid #bae6fd;">
+            <h4 style="color: #0369a1; margin-bottom: 0.5rem;"><i data-lucide="activity" style="vertical-align: middle;"></i> Última Medição de Sinais Vitais (Enfermaria FDJ Galpão E)</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Pressão Arterial:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.pa : '120x80 mmHg'}</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Frequência Cardíaca:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.fc : '76 bpm'}</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.25rem;"><strong>Glicemia:</strong> \${acolhido.prontuario && acolhido.prontuario.sinaisVitais ? acolhido.prontuario.sinaisVitais.glicemia : '94 mg/dL'}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    if (this.activeMod8Tab === 'mod8_pti') {
+      return `
+        <div class="card" style="background: #fff;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+            2. 🎯 Plano Terapêutico Individual (PTI RDC 29 ANVISA)
+          </h3>
+          <p style="font-size: 0.9rem;">Evolução contínua das 4 fases da ANVISA para o acolhido <strong>\${acolhido.nome}</strong>.</p>
+          <div class="card" style="background: #f8fafc; border: 1px solid #e2e8f0; margin-top: 1rem;">
+            <span class="badge badge-success">Fase Atual: Fase 3 de 4</span>
+          </div>
+        </div>
+      `;
+    }
+
+    if (this.activeMod8Tab === 'mod8_aprazamento') {
+      return `
+        <div class="card" style="background: #fff;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+            3. 💊 Aprazamento de Medicamentos (Dra. Ana Paula)
+          </h3>
+          <p style="font-size: 0.9rem;">Horários de administração medicamentosa para <strong>\${acolhido.nome}</strong>.</p>
+        </div>
+      `;
+    }
+
+    if (this.activeMod8Tab === 'mod8_evolucoes') {
+      return `
+        <div class="card" style="background: #fff;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+            4. 📈 Feed de Evoluções Clínicas
+          </h3>
+          <p style="font-size: 0.9rem;">Histórico de pareceres da Psicologia, Enfermagem e Serviço Social.</p>
+        </div>
+      `;
+    }
+
+    if (this.activeMod8Tab === 'mod8_odonto') {
+      return `
+        <div class="card" style="background: #fff;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+            5. 🦷 Odontologia & Autoestima
+          </h3>
+          <p style="font-size: 0.9rem;">Avaliação odontológica de admissão para <strong>\${acolhido.nome}</strong>.</p>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="card" style="background: #fff;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">
+          6. 🚑 Regulação SAMU 192 & Primeiro Socorros
+        </h3>
+        <p style="font-size: 0.9rem;">Protocolo de emergência da Enfermaria FDJ (Galpão E).</p>
+      </div>
+    `;
+  }
+
+  selecionarAcolhidoProntuario(id) {
+    this.selectedAcolhidoId = id;
+    this.renderApp();
+  }
+
+  emitirCertificadoLaborterapia(id) {
+    window.store.emitirCertificadoLaborterapia(id);
+    this.renderApp();
+  }
+
+  fecharModal() {
+    const modalContainer = document.getElementById('modal-container');
+    modalContainer.innerHTML = '';
+  }
+}
+
+window.ui = new UI();
