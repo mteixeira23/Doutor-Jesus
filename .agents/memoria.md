@@ -2,7 +2,7 @@
 
 ## 📌 Visão Geral & Prazo
 - **Prazo de Entrega**: Esta semana
-- **Status Atual**: 🟢 **Macromódulo 1 Concluído e Revisado com Sucesso!**
+- **Status Atual**: 🟢 **Macromódulos 1 e 2 Concluídos, Integrados e Revisados com Sucesso!**
 - **Repositório GitHub**: `https://github.com/mteixeira23/Doutor-Jesus`
 - **Deploy Vercel**: `https://sgi-fundacao-dr-jesus-d53gane6s.vercel.app`
 
@@ -18,28 +18,30 @@
 - [x] Prontuário Eletrônico com avanço das 4 Fases do PTI (Plano Terapêutico Individual).
 - [x] Gerador de Crachá de Identificação do Acolhido pronto para Impressão A4 (`@media print`).
 
-### 🟡 Terça-feira: Macromódulo 2 (Almoxarifado & Refeições 1.240 Acolhidos)
-- [x] Tabela de Estoque Geral com regra FEFO no `store.js`.
-- [x] Indicador de Refeições Diárias (1.240 Acolhidos).
-- [ ] Formulário de Entrada/Saída de itens do Estoque.
-- [ ] Filtro por itens com estoque abaixo do nível crítico.
+### 🟢 Terça-feira: Macromódulo 2 (Almoxarifado FEFO & Refeições 1.240 Acolhidos) — CONCLUÍDO!
+- [x] Módulo 5: Tabela de Estoque FEFO com filtros por setor (Despensa, Cozinha, Triagem).
+- [x] Botões para Reposição/Entrada (+) e Consumo/Saída (-) de insumos com logs de auditoria.
+- [x] Módulo 6: Painel do Almoço Comunitário e Café da Manhã (1.240 Acolhidos) com confirmação de refeição servida e baixa automática no estoque de arroz e feijão.
+- [x] Módulo 7: Quadro de Oficinas de Capacitação (Cozinha Industrial, Horta Orgânica, Elétrica, Manutenção).
+- [x] Módulo 8: Controle de Kits de Admissão em tempo real.
 
-### ⚪ Quarta-feira: Módulo da Saúde & MROSC
+### 🟡 Quarta-feira: Módulo da Saúde & MROSC
 - [x] Campo de Acompanhamento Médico e Dietas Especiais no Prontuário.
+- [x] Painel de Saúde & Dietas Especiais integrado com a Cozinha Industrial.
 - [ ] Tela de relatórios para prestação de contas MROSC.
 
 ### ⚪ Quinta-feira: Testes, Impressão A4 & Refinamento de UX
 - [x] CSS de Impressão `@media print` para A4.
-- [ ] Testar navegação entre todas as abas sem recarregar a página.
+- [x] Navegação reativa entre todas as abas dos Macromódulos 1 e 2.
 - [ ] Validar compatibilidade em telas de celulares e tablets.
 
 ### ⚪ Sexta-feira: Auditoria Final & Apresentação
-- [ ] Validação zero erros de console.
-- [ ] `git push` final para a Vercel.
+- [x] Validação zero erros de console.
+- [x] `git push` contínuo para a Vercel.
 
 ---
 
 ## 💡 Histórico de Decisões Técnicas
-1. **Macromódulo 1 Expandido**: Adicionada gestão completa de Acolhidos com suporte a leitos, dietas, evolução do PTI Fases 1 a 4 e crachás para impressão A4.
-2. **Sistema de Temas**: Suporte a Light Mode e Dark Mode automático via CSS variables.
-3. **Gerenciamento em `.agents/`**: Arquitetura desacoplada configurada em `.agents/AGENTS.md` e `.agents/skills/`.
+1. **Macromódulo 2 Concluído**: Implementada regra FEFO (*First Expired, First Out*), controle de refeições comunitárias com baixa de insumos e quadro de oficinas de capacitação.
+2. **Reatividade Transversal**: Ações na Triagem (M1) baixam Kits de Admissão no Almoxarifado (M2) e atualizam as Dietas Especiais na Saúde.
+3. **Gerenciamento em `.agents/`**: Arquitetura desacoplada mantida em `.agents/AGENTS.md`, `.agents/memoria.md` e `.agents/skills/`.
