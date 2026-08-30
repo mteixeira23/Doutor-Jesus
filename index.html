@@ -13,11 +13,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- System Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- System Stylesheet Absolute Path -->
+  <link rel="stylesheet" href="/css/styles.css">
 
   <!-- Inline Self-Healing Error Handler & Auto-Seed Storage -->
   <script>
@@ -53,27 +53,28 @@
 <body>
   <div id="root"></div>
 
-  <!-- Pure ES6 Application Scripts -->
-  <script src="js/store.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Script absolute paths (leading slash guarantees path resolution on all routes) -->
+  <script src="/js/store.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/app.js"></script>
 
-  <!-- Guaranteed Auto-Render Execution -->
+  <!-- Instant Initialization Engine -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (window.ui && typeof window.ui.renderApp === 'function') {
-        window.ui.renderApp();
-      }
-    });
-
-    window.addEventListener('load', function() {
-      var root = document.getElementById('root');
-      if (root && root.children.length === 0) {
+    (function executeImmediateRender() {
+      function run() {
         if (window.ui && typeof window.ui.renderApp === 'function') {
           window.ui.renderApp();
         }
       }
-    });
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+      } else {
+        run();
+      }
+      window.addEventListener('load', run);
+      setTimeout(run, 100);
+      setTimeout(run, 500);
+    })();
   </script>
 </body>
 </html>
