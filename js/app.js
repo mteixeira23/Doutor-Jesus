@@ -1,34 +1,11 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * App Main Entry Point
+ * Main Application Initializer (Opção A - Pure Static Engine)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Render App UI
-  window.ui.renderApp();
-
-  // Listen for Novo Acolhido button click
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('#btn-novo-acolhido')) {
-      const nome = prompt("Digite o nome completo do novo acolhido:");
-      if (nome && nome.trim()) {
-        const cpf = prompt("Digite o CPF do acolhido:") || "000.000.000-00";
-        const leito = prompt("Bloco / Leito de destino:") || "Bloco A - Leito 01";
-        
-        window.store.addAcolhido({
-          nome: nome.trim(),
-          cpf: cpf.trim(),
-          status: 'triagem',
-          fasePTI: 1,
-          leito: leito.trim(),
-          oficina: 'Triagem / Adaptação',
-          origem: 'Bahia',
-          dieta: 'Normal',
-          acompanhamentoMedico: 'Triagem Inicial'
-        });
-
-        window.ui.renderApp();
-      }
-    }
-  });
+  console.log('SGI Fundação Doutor Jesus — Sistema Inicializado.');
+  if (window.ui && typeof window.ui.renderApp === 'function') {
+    window.ui.renderApp();
+  }
 });

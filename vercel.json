@@ -1,11 +1,7 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/assets/index-CA1zPuPl.js",
-      "destination": "/dist/assets/index-CA1zPuPl.js"
-    }
-  ],
+  "cleanUrls": true,
+  "outputDirectory": ".",
   "headers": [
     {
       "source": "/(.*)",
