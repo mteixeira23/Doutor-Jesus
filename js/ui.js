@@ -1,6 +1,6 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Renderização de Componentes e Reatividade entre Macromódulos
+ * UI Manager - Renderização do Macromódulo 1 & Macromódulo 2 (Gestão Administrativa)
  */
 
 class UI {
@@ -9,12 +9,15 @@ class UI {
     this.currentTab = 'dashboard';
     this.filtroStatus = 'todos';
     this.termoBusca = '';
+    this.filtroSetorEstoque = 'todos';
   }
 
   renderApp() {
     const stats = window.store.getEstatisticas();
     const acolhidos = window.store.getAcolhidos();
     const estoque = window.store.getEstoque();
+    const oficinas = window.store.getOficinas();
+    const refeicoes = window.store.getRefeicoes();
     const logs = window.store.getLogs();
 
     // Filtrar acolhidos
@@ -25,6 +28,13 @@ class UI {
         a.cpf.includes(this.termoBusca) ||
         a.id.toLowerCase().includes(this.termoBusca.toLowerCase());
       return matchStatus && matchBusca;
+    });
+
+    // Filtrar Estoque FEFO
+    const estoqueFiltrado = estoque.filter(e => {
+      const matchSetor = this.filtroSetorEstoque === 'todos' || e.setor === this.filtroSetorEstoque;
+      const matchBusca = !this.termoBusca || e.item.toLowerCase().includes(this.termoBusca.toLowerCase()) || e.id.toLowerCase().includes(this.termoBusca.toLowerCase());
+      return matchSetor && matchBusca;
     });
 
     this.root.innerHTML = `
@@ -48,7 +58,7 @@ class UI {
             </button>
             
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Macromódulo 1
+              Macromódulo 1: Acolhidos
             </div>
 
             <button class="btn \${this.currentTab === 'acolhidos' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('acolhidos')" style="justify-content: flex-start; width: 100%;">
@@ -61,13 +71,26 @@ class UI {
             </button>
 
             <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
-              Macromódulo 2 & Saúde
+              Macromódulo 2: Administração
             </div>
 
             <button class="btn \${this.currentTab === 'estoque' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('estoque')" style="justify-content: flex-start; width: 100%;">
-              <i data-lucide="package"></i>
-              <span>Almoxarifado FEFO</span>
+              <i data-lucide="boxes"></i>
+              <span>5. Estoque FEFO</span>
             </button>
+            <button class="btn \${this.currentTab === 'refeicoes' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('refeicoes')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="utensils-crossed"></i>
+              <span>6. Refeições (1.240)</span>
+            </button>
+            <button class="btn \${this.currentTab === 'oficinas' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('oficinas')" style="justify-content: flex-start; width: 100%;">
+              <i data-lucide="wrench"></i>
+              <span>7. Escala de Oficinas</span>
+            </button>
+
+            <div style="font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.75rem 0 0.25rem 0.5rem;">
+              Saúde & TI
+            </div>
+
             <button class="btn \${this.currentTab === 'saude' ? 'btn-primary' : 'btn-secondary'}" onclick="window.ui.setTab('saude')" style="justify-content: flex-start; width: 100%;">
               <i data-lucide="heart-pulse"></i>
               <span>Saúde & Dietas</span>
@@ -86,7 +109,7 @@ class UI {
               <h1 style="font-size: 1.25rem; font-weight: 800;">
                 \${this.getTabTitle()}
               </h1>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Integração Transversal Ativa</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">SGI Fundação Doutor Jesus — Módulo de Gestão Integrada</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -123,30 +146,30 @@ class UI {
               </div>
 
               <div class="card stat-card">
-                <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
-                  <i data-lucide="heart"></i>
-                </div>
-                <div class="stat-info">
-                  <h4>Dietas Especiais</h4>
-                  <div class="stat-value">\${stats.totalDietasEspeciais}</div>
-                  <div class="stat-subtext"><i data-lucide="utensils"></i> Restrições na Cozinha</div>
-                </div>
-              </div>
-
-              <div class="card stat-card">
                 <div class="stat-icon-wrapper" style="background: rgba(220,38,38,0.12); color: #dc2626; border-color: rgba(220,38,38,0.3);">
                   <i data-lucide="package-search"></i>
                 </div>
                 <div class="stat-info">
                   <h4>Estoque Crítico</h4>
                   <div class="stat-value">\${stats.estoqueCritico}</div>
-                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-circle"></i> Almoxarifado FEFO</div>
+                  <div class="stat-subtext" style="color: #dc2626;"><i data-lucide="alert-circle"></i> Reposição Necessária</div>
+                </div>
+              </div>
+
+              <div class="card stat-card">
+                <div class="stat-icon-wrapper" style="background: rgba(5,150,105,0.12); color: #059669; border-color: rgba(5,150,105,0.3);">
+                  <i data-lucide="gift"></i>
+                </div>
+                <div class="stat-info">
+                  <h4>Kits de Admissão</h4>
+                  <div class="stat-value">\${stats.kitsAdmissaoDisponiveis}</div>
+                  <div class="stat-subtext"><i data-lucide="check"></i> Disponíveis em Estoque</div>
                 </div>
               </div>
             </div>
 
             <!-- Content Area Based on Active Tab -->
-            \${this.renderTabContent(acolhidosFiltrados, estoque, logs)}
+            \${this.renderTabContent(acolhidosFiltrados, estoqueFiltrado, oficinas, refeicoes, logs)}
           </main>
         </div>
       </div>
@@ -169,54 +192,79 @@ class UI {
     switch (this.currentTab) {
       case 'acolhidos': return 'Macromódulo 1: Gestão dos Acolhidos & Triagem';
       case 'pti': return 'Módulo 2: Prontuário Eletrônico & PTI';
-      case 'estoque': return 'Macromódulo 2: Controle de Estoque FEFO & Kits de Admissão';
+      case 'estoque': return 'Macromódulo 2 (Módulo 5): Controle de Estoque FEFO & Almoxarifado';
+      case 'refeicoes': return 'Macromódulo 2 (Módulo 6): Gestão de Refeições (1.240 Acolhidos)';
+      case 'oficinas': return 'Macromódulo 2 (Módulo 7): Escala de Oficinas de Capacitação';
       case 'saude': return 'Gestão da Saúde & Controle de Dietas Especiais';
       case 'ti': return 'Módulo 13: TI & Logs Reativos de Auditoria';
-      default: return 'Painel Executivo — Integração Transversal entre Macromódulos';
+      default: return 'Painel Executivo — SGI Fundação Doutor Jesus';
     }
   }
 
-  renderTabContent(acolhidos, estoque, logs) {
+  renderTabContent(acolhidos, estoque, oficinas, refeicoes, logs) {
+    // TABA ESTOQUE FEFO (MACROMÓDULO 2)
     if (this.currentTab === 'estoque') {
       return `
         <div class="card">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="boxes" style="vertical-align: middle; margin-right: 0.5rem;"></i> Almoxarifado FEFO (Reflexo Automático das Admissões)</h3>
-            <span class="badge badge-info">Macromódulo 2</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+            <h3><i data-lucide="boxes" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 5: Controle de Estoque FEFO (First Expired, First Out)</h3>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary" onclick="window.ui.abrirModalNovoItemEstoque()">
+                <i data-lucide="plus-circle"></i> + Novo Insumo
+              </button>
+            </div>
           </div>
 
-          <div class="info-card" style="margin-bottom: 1rem; background: var(--bg-main); border: 1px solid var(--border-highlight);">
-            <p style="margin-bottom: 0; font-size: 0.85rem;">
-              ℹ️ <strong>Integração Ativa:</strong> A cada novo acolhido cadastrado na <strong>Triagem (Macromódulo 1)</strong>, 1 <strong>Kit de Admissão (EST-04)</strong> é deduzido automaticamente deste estoque!
-            </p>
+          <!-- Filtros de Estoque -->
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <div class="form-group" style="margin-bottom: 0; flex: 1;">
+              <input type="text" class="form-input" placeholder="Buscar por insumo..." value="\${this.termoBusca}" oninput="window.ui.buscar(this.value)">
+            </div>
+            <select class="form-select" style="width: 200px; margin-bottom: 0;" onchange="window.ui.filtrarSetorEstoque(this.value)">
+              <option value="todos">Todos os Setores</option>
+              <option value="Despensa Geral">Despensa Geral</option>
+              <option value="Cozinha Industrial">Cozinha Industrial</option>
+              <option value="Triagem / Recepção">Triagem / Recepção</option>
+            </select>
           </div>
 
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Código Item</th>
-                  <th>Descrição do Item</th>
-                  <th>Quantidade Atual</th>
-                  <th>Estoque Mínimo</th>
-                  <th>Setor Responsável</th>
-                  <th>Validade (FEFO)</th>
+                  <th>Código</th>
+                  <th>Insumo / Descrição</th>
+                  <th>Saldo Atual</th>
+                  <th>Mínimo</th>
+                  <th>Setor</th>
+                  <th>Validade (Regra FEFO)</th>
                   <th>Status</th>
+                  <th>Ações de Entrada / Saída</th>
                 </tr>
               </thead>
               <tbody>
                 \${estoque.map(e => `
                   <tr>
                     <td><strong>\${e.id}</strong></td>
-                    <td>\${e.item}</td>
-                    <td><strong style="font-size: 1.1rem; color: \${e.quantidade <= e.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${e.quantidade} u</strong></td>
-                    <td>\${e.estoqueMinimo} u</td>
+                    <td><strong>\${e.item}</strong></td>
+                    <td><strong style="font-size: 1.05rem; color: \${e.quantidade <= e.estoqueMinimo ? '#dc2626' : 'var(--text-main)'}">\${e.quantidade} \${e.unidade || 'u'}</strong></td>
+                    <td>\${e.estoqueMinimo} \${e.unidade || 'u'}</td>
                     <td>\${e.setor}</td>
-                    <td>\${e.validade}</td>
+                    <td><span class="badge badge-info">\${e.validade}</span></td>
                     <td>
                       <span class="badge \${e.quantidade <= e.estoqueMinimo ? 'badge-danger' : 'badge-success'}">
-                        \${e.quantidade <= e.estoqueMinimo ? 'Repor Urgente' : 'Normal'}
+                        \${e.quantidade <= e.estoqueMinimo ? 'Repor Urgente' : 'Ok'}
                       </span>
+                    </td>
+                    <td>
+                      <div style="display: flex; gap: 0.3rem;">
+                        <button class="btn btn-secondary btn-sm" onclick="window.ui.adicionarEstoque('\${e.id}')" title="Registrar Entrada (+)">
+                          + Reposição
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="window.ui.deduzirEstoque('\${e.id}')" title="Registrar Consumo (-)">
+                          - Consumo
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 `).join('')}
@@ -227,12 +275,73 @@ class UI {
       `;
     }
 
+    // TAB REFEIÇÕES (MACROMÓDULO 2 - MÓDULO 6)
+    if (this.currentTab === 'refeicoes') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="utensils-crossed" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 6: Gestão de Refeições (Café e Almoço para 1.240 Acolhidos)</h3>
+            <span class="badge badge-primary">Cozinha Industrial</span>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            \${refeicoes.map(r => `
+              <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-highlight);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">\${r.refeicao}</h4>
+                  <span class="badge \${r.status === 'Servido' ? 'badge-success' : 'badge-warning'}">\${r.status}</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Quantidade:</strong> \${r.quantidade} Acolhidos atendidos</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;"><strong>Cardápio do Dia:</strong> \${r.cardapio}</p>
+
+                \${r.status !== 'Servido' ? `
+                  <button class="btn btn-primary btn-sm" style="width: 100%; justify-content: center;" onclick="window.ui.confirmarRefeicaoServida('\${r.id}')">
+                    <i data-lucide="check"></i> Confirmar Refeição Servida & Baixar Estoque
+                  </button>
+                ` : `
+                  <div style="text-align: center; color: #059669; font-weight: 700; font-size: 0.85rem;">
+                    <i data-lucide="check-check" style="vertical-align: middle;"></i> Refeição Servida e Insumos Baixados no FEFO
+                  </div>
+                `}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // TAB OFICINAS (MACROMÓDULO 2 - MÓDULO 7)
+    if (this.currentTab === 'oficinas') {
+      return `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3><i data-lucide="wrench" style="vertical-align: middle; margin-right: 0.5rem;"></i> Módulo 7: Escalas de Oficinas de Capacitação</h3>
+            <span class="badge badge-info">Capacitação Profissional</span>
+          </div>
+
+          <div class="grid-2">
+            \${oficinas.map(o => `
+              <div class="card" style="background: var(--bg-main); border: 1px solid var(--border-color);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">\${o.nome}</h4>
+                  <span class="badge badge-primary">\${o.ocupadas} / \${o.vagas} Vagas</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem;"><strong>Instrutor Responsável:</strong> \${o.responsavel}</p>
+                <p style="font-size: 0.85rem; color: var(--text-main);"><strong>Atividade Principal:</strong> \${o.atividade}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // OUTRAS TABS (Saúde, TI, Acolhidos)
     if (this.currentTab === 'saude') {
       const acolhidosComDieta = window.store.getAcolhidos().filter(a => a.dieta && a.dieta !== 'Normal');
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="heart-pulse" style="vertical-align: middle; margin-right: 0.5rem;"></i> Controle de Dietas Especiais & Saúde (Reflexo da Admissão)</h3>
+            <h3><i data-lucide="heart-pulse" style="vertical-align: middle; margin-right: 0.5rem;"></i> Controle de Dietas Especiais & Saúde</h3>
             <span class="badge badge-success">Gestão da Saúde</span>
           </div>
 
@@ -268,7 +377,7 @@ class UI {
       return `
         <div class="card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-            <h3><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> Logs de Auditoria Transversal em Tempo Real (Módulo 13)</h3>
+            <h3><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 0.5rem;"></i> Logs de Auditoria do Sistema SGI (Módulo 13)</h3>
             <span class="badge badge-primary">SuperAdmin / TI</span>
           </div>
 
@@ -300,7 +409,7 @@ class UI {
       `;
     }
 
-    // Default: Tab Acolhidos / Dashboard
+    // Default Tab Acolhidos
     return `
       <div class="card">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
@@ -373,6 +482,53 @@ class UI {
         </div>
       </div>
     `;
+  }
+
+  filtrarSetorEstoque(setor) {
+    this.filtroSetorEstoque = setor;
+    this.renderApp();
+  }
+
+  adicionarEstoque(id) {
+    const qtd = prompt("Quantidade a adicionar ao estoque (+ Reposição/Doação):", "10");
+    if (qtd && !isNaN(qtd) && Number(qtd) > 0) {
+      window.store.adicionarQuantidadeEstoque(id, Number(qtd));
+      this.renderApp();
+    }
+  }
+
+  deduzirEstoque(id) {
+    const qtd = prompt("Quantidade a deduzir do estoque (- Consumo):", "1");
+    if (qtd && !isNaN(qtd) && Number(qtd) > 0) {
+      window.store.deduzirItemEstoque(id, Number(qtd));
+      this.renderApp();
+    }
+  }
+
+  confirmarRefeicaoServida(id) {
+    window.store.registrarRefeicaoServida(id);
+    this.renderApp();
+  }
+
+  abrirModalNovoItemEstoque() {
+    const item = prompt("Nome do novo insumo/produto:");
+    if (item && item.trim()) {
+      const quantidade = Number(prompt("Quantidade inicial em estoque:", "50")) || 50;
+      const estoqueMinimo = Number(prompt("Estoque mínimo de segurança:", "10")) || 10;
+      const setor = prompt("Setor (Despensa Geral / Cozinha Industrial / Triagem / Recepção):", "Despensa Geral") || "Despensa Geral";
+      const validade = prompt("Data de validade (AAAA-MM-DD):", "2026-12-31") || "2026-12-31";
+
+      window.store.addEstoqueItem({
+        item: item.trim(),
+        quantidade,
+        estoqueMinimo,
+        setor,
+        validade,
+        unidade: "unidades"
+      });
+
+      this.renderApp();
+    }
   }
 
   buscar(termo) {

@@ -1,72 +1,35 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * Store Manager - Gerenciamento de Estado Reativo & Integração Transversal entre Macromódulos
+ * Store Manager - Gerenciamento de Estado Reativo para Macromódulos 1 & 2
  */
 
 const STORAGE_KEY_ACOLHIDOS = 'sgi_fdj_acolhidos_v1';
 const STORAGE_KEY_ESTOQUE = 'sgi_fdj_estoque_v1';
+const STORAGE_KEY_REFEICOES = 'sgi_fdj_refeicoes_v1';
+const STORAGE_KEY_OFICINAS = 'sgi_fdj_oficinas_v1';
 const STORAGE_KEY_USUARIOS = 'sgi_fdj_usuarios_v1';
 const STORAGE_KEY_LOGS = 'sgi_fdj_logs_v1';
 
-// Dados Iniciais Mockados da Fundação Doutor Jesus
-const initialAcolhidos = [
-  {
-    id: "FDJ-2026-001",
-    nome: "Roberto Carlos Silva",
-    cpf: "123.456.789-00",
-    rg: "14.587.963-00",
-    status: "ativo",
-    fasePTI: 3,
-    leito: "Bloco A - Leito 12",
-    oficina: "Oficina de Elétrica",
-    origem: "Salvador / BA",
-    dataAdmissao: "2026-01-15",
-    dieta: "Normal",
-    acompanhamentoMedico: "Exame Cardiológico em dia",
-    contatoEmergencia: "(71) 98877-6655 - Esposa (Maria)"
-  },
-  {
-    id: "FDJ-2026-002",
-    nome: "Marcos Vinicius Santos",
-    cpf: "987.654.321-11",
-    rg: "12.365.478-99",
-    status: "triagem",
-    fasePTI: 1,
-    leito: "Triagem - Leito 04",
-    oficina: "Horta Orgânica",
-    origem: "Feira de Santana / BA",
-    dataAdmissao: "2026-08-20",
-    dieta: "Hipossódica (Pressão Alta)",
-    acompanhamentoMedico: "Atendimento Psicológico Semanal",
-    contatoEmergencia: "(75) 99123-4567 - Mãe (Ana)"
-  },
-  {
-    id: "FDJ-2026-003",
-    nome: "João Pedro Oliveira",
-    cpf: "456.789.123-22",
-    rg: "09.874.521-33",
-    status: "ativo",
-    fasePTI: 4,
-    leito: "Bloco C - Leito 08",
-    oficina: "Cozinha Industrial",
-    origem: "Camaçari / BA",
-    dataAdmissao: "2025-11-10",
-    dieta: "Normal",
-    acompanhamentoMedico: "Liberado / Acompanhamento MROSC",
-    contatoEmergencia: "(71) 98765-4321 - Irmão (Carlos)"
-  }
-];
-
+// Dados Iniciais do Estoque FEFO (Almoxarifado & Despensa)
 const initialEstoque = [
-  { id: "EST-01", item: "Arroz Tipo 1 (Saco 50kg)", quantidade: 85, estoqueMinimo: 20, validade: "2026-12-10", setor: "Despensa Geral" },
-  { id: "EST-02", item: "Feijão Carioca (Saco 30kg)", quantidade: 14, estoqueMinimo: 25, validade: "2026-09-15", setor: "Despensa Geral" },
-  { id: "EST-03", item: "Óleo de Soja (Caixa 24u)", quantidade: 40, estoqueMinimo: 10, validade: "2027-02-28", setor: "Cozinha Industrial" },
-  { id: "EST-04", item: "Kits de Admissão de Acolhidos", quantidade: 120, estoqueMinimo: 30, validade: "Indefinida", setor: "Triagem / Recepção" }
+  { id: "EST-01", item: "Arroz Tipo 1 (Saco 50kg)", quantidade: 85, estoqueMinimo: 20, validade: "2026-12-10", setor: "Despensa Geral", unidade: "sacos" },
+  { id: "EST-02", item: "Feijão Carioca (Saco 30kg)", quantidade: 14, estoqueMinimo: 25, validade: "2026-09-15", setor: "Despensa Geral", unidade: "sacos" },
+  { id: "EST-03", item: "Óleo de Soja (Caixa 24u)", quantidade: 40, estoqueMinimo: 10, validade: "2027-02-28", setor: "Cozinha Industrial", unidade: "caixas" },
+  { id: "EST-04", item: "Kits de Admissão de Acolhidos", quantidade: 120, estoqueMinimo: 30, validade: "Indefinida", setor: "Triagem / Recepção", unidade: "kits" },
+  { id: "EST-05", item: "Açúcar Refinado (Saco 50kg)", quantidade: 18, estoqueMinimo: 15, validade: "2026-10-30", setor: "Despensa Geral", unidade: "sacos" },
+  { id: "EST-06", item: "Café Torrado e Moído (Pacote 500g)", quantidade: 60, estoqueMinimo: 20, validade: "2026-11-20", setor: "Cozinha Industrial", unidade: "pacotes" }
 ];
 
-const initialUsuarios = [
-  { id: "USR-01", nome: "Administrador SGI", email: "admin@fundacaodrjesus.org.br", perfil: "SuperAdmin" },
-  { id: "USR-02", nome: "Triagem & Recepção", email: "triagem@fundacaodrjesus.org.br", perfil: "Recepção/Triagem" }
+const initialOficinas = [
+  { id: "OFI-01", nome: "Cozinha Industrial", responsavel: "Nutricionista Rita / Chefe João", vagas: 25, ocupadas: 18, atividade: "Preparo do Café e Almoço dos 1.240 Acolhidos" },
+  { id: "OFI-02", nome: "Horta Orgânica / Agro", responsavel: "Técnico Agrícola Marcos", vagas: 30, ocupadas: 22, atividade: "Cultivo de hortaliças, adubação e irrigação" },
+  { id: "OFI-03", nome: "Oficina de Elétrica", responsavel: "Eng. Roberto Carlos", vagas: 15, ocupadas: 12, atividade: "Manutenção da rede elétrica dos alojamentos" },
+  { id: "OFI-04", nome: "Manutenção Geral & Pintura", responsavel: "Mestre de Obras Pedro", vagas: 20, ocupadas: 14, atividade: "Reparos estruturais, pintura e serralheria" }
+];
+
+const initialRefeicoes = [
+  { id: 1, data: new Date().toISOString().split('T')[0], refeicao: "Café da Manhã", quantidade: 1240, status: "Servido", cardapio: "Café com leite, pão com manteiga e cuscuz" },
+  { id: 2, data: new Date().toISOString().split('T')[0], refeicao: "Almoço Comunitário", quantidade: 1240, status: "Em Preparo", cardapio: "Arroz, feijão carioca, frango ensopado e salada orgânica" }
 ];
 
 class Store {
@@ -75,18 +38,86 @@ class Store {
   }
 
   init() {
-    if (!localStorage.getItem(STORAGE_KEY_ACOLHIDOS)) {
-      localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(initialAcolhidos));
-    }
     if (!localStorage.getItem(STORAGE_KEY_ESTOQUE)) {
       localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(initialEstoque));
     }
-    if (!localStorage.getItem(STORAGE_KEY_USUARIOS)) {
-      localStorage.setItem(STORAGE_KEY_USUARIOS, JSON.stringify(initialUsuarios));
+    if (!localStorage.getItem(STORAGE_KEY_OFICINAS)) {
+      localStorage.setItem(STORAGE_KEY_OFICINAS, JSON.stringify(initialOficinas));
+    }
+    if (!localStorage.getItem(STORAGE_KEY_REFEICOES)) {
+      localStorage.setItem(STORAGE_KEY_REFEICOES, JSON.stringify(initialRefeicoes));
     }
     if (!localStorage.getItem(STORAGE_KEY_LOGS)) {
       localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify([]));
     }
+  }
+
+  getEstoque() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_ESTOQUE)) || [];
+  }
+
+  getEstoqueById(id) {
+    return this.getEstoque().find(e => e.id === id);
+  }
+
+  addEstoqueItem(item) {
+    const estoque = this.getEstoque();
+    const newItem = {
+      id: `EST-${String(estoque.length + 1).padStart(2, '0')}`,
+      ...item
+    };
+    estoque.unshift(newItem);
+    localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(estoque));
+    this.addLog(`Novo item adicionado ao Almoxarifado: ${newItem.item} (${newItem.quantidade} ${newItem.unidade}).`);
+    return newItem;
+  }
+
+  adicionarQuantidadeEstoque(id, quantidade) {
+    const estoque = this.getEstoque();
+    const index = estoque.findIndex(e => e.id === id);
+    if (index !== -1) {
+      estoque[index].quantidade += Number(quantidade);
+      localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(estoque));
+      this.addLog(`Entrada de Estoque (+${quantidade}): ${estoque[index].item}. Novo saldo: ${estoque[index].quantidade} u.`);
+      return estoque[index];
+    }
+    return null;
+  }
+
+  deduzirItemEstoque(itemId, quantidade = 1) {
+    const estoque = this.getEstoque();
+    const index = estoque.findIndex(e => e.id === itemId);
+    if (index !== -1 && estoque[index].quantidade >= quantidade) {
+      estoque[index].quantidade -= Number(quantidade);
+      localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(estoque));
+      this.addLog(`Saída de Estoque (-${quantidade}): ${estoque[index].item}. Saldo restante: ${estoque[index].quantidade} u.`);
+      return estoque[index];
+    }
+    return null;
+  }
+
+  getOficinas() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_OFICINAS)) || [];
+  }
+
+  getRefeicoes() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_REFEICOES)) || [];
+  }
+
+  registrarRefeicaoServida(refeicaoId) {
+    const refeicoes = this.getRefeicoes();
+    const index = refeicoes.findIndex(r => r.id === Number(refeicaoId));
+    if (index !== -1) {
+      refeicoes[index].status = "Servido";
+      localStorage.setItem(STORAGE_KEY_REFEICOES, JSON.stringify(refeicoes));
+      this.addLog(`Refeição ${refeicoes[index].refeicao} registrada como SERVIDA para os 1.240 acolhidos.`);
+      
+      // Reação no Estoque: Deduzir sacos de arroz e feijão do almoço
+      this.deduzirItemEstoque("EST-01", 2); // -2 sacos arroz
+      this.deduzirItemEstoque("EST-02", 1); // -1 saco feijão
+      return refeicoes[index];
+    }
+    return null;
   }
 
   getAcolhidos() {
@@ -97,14 +128,6 @@ class Store {
     return this.getAcolhidos().find(a => a.id === id);
   }
 
-  /**
-   * REAÇÃO TRANSVERSAL:
-   * Ao cadastrar um novo Acolhido na Triagem (Macromódulo 1):
-   * 1. Adiciona o Acolhido na lista principal.
-   * 2. Baixa AUTOMATICAMENTE 1 "Kit de Admissão de Acolhidos" no Almoxarifado (Macromódulo 2).
-   * 3. Registra o Acolhido para acompanhamento médico/dieta na Saúde.
-   * 4. Gera um Log de Auditoria do Sistema.
-   */
   addAcolhido(acolhido) {
     const acolhidos = this.getAcolhidos();
     const newAcolhido = {
@@ -118,26 +141,11 @@ class Store {
     acolhidos.unshift(newAcolhido);
     localStorage.setItem(STORAGE_KEY_ACOLHIDOS, JSON.stringify(acolhidos));
 
-    // REAÇÃO 1: Baixar Kit de Admissão no Almoxarifado (Macromódulo 2)
+    // Deduzir Kit de Admissão
     this.deduzirItemEstoque("EST-04", 1);
-
-    // REAÇÃO 2: Registrar Log de Auditoria
     this.addLog(`Novo Acolhido cadastrado na Triagem: ${newAcolhido.nome} (${newAcolhido.id}). Kit de Admissão deduzido do estoque.`);
 
     return newAcolhido;
-  }
-
-  deduzirItemEstoque(itemId, quantidade = 1) {
-    const estoque = this.getEstoque();
-    const index = estoque.findIndex(e => e.id === itemId);
-    if (index !== -1 && estoque[index].quantidade >= quantidade) {
-      estoque[index].quantidade -= quantidade;
-      localStorage.setItem(STORAGE_KEY_ESTOQUE, JSON.stringify(estoque));
-    }
-  }
-
-  getEstoque() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY_ESTOQUE)) || [];
   }
 
   updateAcolhido(id, data) {
@@ -190,6 +198,7 @@ class Store {
     const totalPTI34 = acolhidos.filter(a => a.fasePTI >= 3).length;
     const estoqueCritico = estoque.filter(e => e.quantidade <= e.estoqueMinimo).length;
     const totalDietasEspeciais = acolhidos.filter(a => a.dieta && a.dieta !== 'Normal').length;
+    const kitsAdmissaoDisponiveis = (estoque.find(e => e.id === 'EST-04') || {}).quantidade || 0;
 
     return {
       totalAtivos,
@@ -197,6 +206,7 @@ class Store {
       totalPTI34,
       estoqueCritico,
       totalDietasEspeciais,
+      kitsAdmissaoDisponiveis,
       totalRefeicoes: 1240
     };
   }
