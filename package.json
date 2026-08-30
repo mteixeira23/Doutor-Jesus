@@ -1,7 +1,7 @@
 {
-  "name": "sgi-doutor-jesus",
+  "name": "sgi-fundacao-dr-jesus",
+  "version": "1.0.5",
   "private": true,
-  "version": "1.0.0",
   "scripts": {
     "build": "echo 'Pure Static Site - No Build Required'"
   }
