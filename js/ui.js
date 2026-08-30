@@ -1,12 +1,12 @@
 /**
  * TaskFlow / SGI - Fundação Doutor Jesus
- * UI Manager - Sistema de Gestão Integrada com Todos os 13 Módulos dos 6 Macromódulos Totalmente Funcionais
+ * UI Manager - Dashboard Executivo Global Institucional & Navegação Completa dos 13 Módulos
  */
 
 class UI {
   constructor() {
     this.root = document.getElementById('root');
-    this.currentMacro = 'macro3';
+    this.currentMacro = 'home'; // 'home', 'macro1', 'macro2', 'macro3', 'macro4', 'macro5', 'macro6'
     this.currentView = 'macro3_home';
     this.activeMod8Tab = 'mod8_resumo';
     this.selectedAcolhidoId = "FDJ-2026-001";
@@ -42,81 +42,98 @@ class UI {
           
           <!-- Top Header Bar -->
           <header style="width: 100%; box-sizing: border-box; padding: 0.75rem 1.5rem; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            
+            <!-- Logo & Brand -->
             <div style="display: flex; align-items: center; gap: 1.25rem;">
-              <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.4rem; color: #dc2626; letter-spacing: -0.03em; display: flex; align-items: center; gap: 0.4rem;">
+              <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.4rem; color: #dc2626; letter-spacing: -0.03em; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;" onclick="window.ui.setMacro('home')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 Funda&ccedil;&atilde;o Dr. <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 1.05rem;">JESUS</span>
               </div>
-              <span style="color: #cbd5e1;">|</span>
-              <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">Sistema de Gest&atilde;o Integrada (SGI 13 M&oacute;dulos)</span>
             </div>
 
+            <!-- Horizontal Navigation Tabs for the 6 Macromodules -->
+            <nav style="display: flex; align-items: center; gap: 0.35rem; background: #f1f5f9; padding: 4px; border-radius: 10px; border: 1px solid #e2e8f0;">
+              <button class="btn" onclick="window.ui.setMacro('home')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'home' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'home' ? '#dc2626' : '#475569'}; box-shadow: ${this.currentMacro === 'home' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                🏠 Vis&atilde;o Geral
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro1')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro1' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro1' ? '#2563eb' : '#475569'}; box-shadow: ${this.currentMacro === 'macro1' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                1. Acolhidos
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro2')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro2' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro2' ? '#d97706' : '#475569'}; box-shadow: ${this.currentMacro === 'macro2' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                2. Almoxarifado
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro3')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro3' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro3' ? '#0284c7' : '#475569'}; box-shadow: ${this.currentMacro === 'macro3' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                3. Sa&uacute;de
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro4')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro4' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro4' ? '#16a34a' : '#475569'}; box-shadow: ${this.currentMacro === 'macro4' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                4. MROSC & Finan&ccedil;as
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro5')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro5' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro5' ? '#9333ea' : '#475569'}; box-shadow: ${this.currentMacro === 'macro5' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                5. Doa&ccedil;&otilde;es
+              </button>
+              <button class="btn" onclick="window.ui.setMacro('macro6')" style="padding: 6px 12px; border-radius: 7px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; background: ${this.currentMacro === 'macro6' ? '#ffffff' : 'transparent'}; color: ${this.currentMacro === 'macro6' ? '#475569' : '#475569'}; box-shadow: ${this.currentMacro === 'macro6' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'};">
+                6. TI & Sistema
+              </button>
+            </nav>
+
+            <!-- User Info -->
             <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem;">
               <div style="display: flex; align-items: center; gap: 0.5rem; background: #ecfdf5; color: #047857; padding: 4px 12px; border-radius: 20px; font-weight: 700; border: 1px solid #a7f3d0;">
                 <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
                 SGI Online
               </div>
               <span style="font-weight: 700; color: #2563eb; background: #eff6ff; padding: 4px 12px; border-radius: 6px; border: 1px solid #bfdbfe;">marcos.vinicius2323@...</span>
-              <button class="btn btn-outline btn-sm" onclick="window.ui.renderApp()" style="padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 600;">Atualizar</button>
             </div>
           </header>
 
-          <!-- Main Layout: Left Sidebar + Right Main Panel -->
+          <!-- Main Layout Body -->
           <div style="display: flex; flex: 1; width: 100%;">
             
-            <!-- Left Sidebar -->
-            <aside style="width: 280px; background: #ffffff; border-right: 1px solid #e2e8f0; padding: 1.25rem 0.75rem; display: flex; flex-direction: column; gap: 0.35rem; flex-shrink: 0;">
+            <!-- Left Sidebar Navigation -->
+            <aside style="width: 260px; background: #ffffff; border-right: 1px solid #e2e8f0; padding: 1.25rem 0.75rem; display: flex; flex-direction: column; gap: 0.35rem; flex-shrink: 0;">
               
               <div style="font-size: 0.65rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; padding: 0 0.75rem 0.5rem 0.75rem; letter-spacing: 0.05em;">
-                MACROM&Oacute;DULOS DO SISTEMA
+                MENU DOS MACROM&Oacute;DULOS
               </div>
 
-              <!-- Item 1 -->
+              <button class="btn" onclick="window.ui.setMacro('home')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'home' ? '#fca5a5' : 'transparent'}; background: ${this.currentMacro === 'home' ? '#fef2f2' : 'transparent'}; color: ${this.currentMacro === 'home' ? '#dc2626' : '#334155'}; cursor: pointer;">
+                🏠 Painel Executivo (Home)
+              </button>
+
               <button class="btn" onclick="window.ui.setMacro('macro1')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro1' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro1' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro1' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 1. Gest&atilde;o dos Acolhidos
               </button>
 
-              <!-- Item 2 -->
-              <button class="btn" onclick="window.ui.setMacro('macro2')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro2' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro2' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro2' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              <button class="btn" onclick="window.ui.setMacro('macro2')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro2' ? '#fde68a' : 'transparent'}; background: ${this.currentMacro === 'macro2' ? '#fffbeb' : 'transparent'}; color: ${this.currentMacro === 'macro2' ? '#b45309' : '#334155'}; cursor: pointer;">
                 2. Almoxarifado & Refei&ccedil;&otilde;es
               </button>
 
-              <!-- Item 3 -->
-              <button class="btn" onclick="window.ui.setMacro('macro3')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro3' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro3' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro3' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <button class="btn" onclick="window.ui.setMacro('macro3')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro3' ? '#bae6fd' : 'transparent'}; background: ${this.currentMacro === 'macro3' ? '#f0f9ff' : 'transparent'}; color: ${this.currentMacro === 'macro3' ? '#0369a1' : '#334155'}; cursor: pointer;">
                 3. Sa&uacute;de & Multidisciplinar
               </button>
 
-              <!-- Item 4 -->
-              <button class="btn" onclick="window.ui.setMacro('macro4')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro4' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro4' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro4' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <button class="btn" onclick="window.ui.setMacro('macro4')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro4' ? '#bbf7d0' : 'transparent'}; background: ${this.currentMacro === 'macro4' ? '#f0fdf4' : 'transparent'}; color: ${this.currentMacro === 'macro4' ? '#15803d' : '#334155'}; cursor: pointer;">
                 4. Finan&ccedil;as & MROSC
               </button>
 
-              <!-- Item 5 -->
-              <button class="btn" onclick="window.ui.setMacro('macro5')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro5' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro5' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro5' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              <button class="btn" onclick="window.ui.setMacro('macro5')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro5' ? '#e9d5ff' : 'transparent'}; background: ${this.currentMacro === 'macro5' ? '#faf5ff' : 'transparent'}; color: ${this.currentMacro === 'macro5' ? '#7e22ce' : '#334155'}; cursor: pointer;">
                 5. Doa&ccedil;&otilde;es & Voluntariado
               </button>
 
-              <!-- Item 6 -->
-              <button class="btn" onclick="window.ui.setMacro('macro6')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro6' ? '#bfdbfe' : 'transparent'}; background: ${this.currentMacro === 'macro6' ? '#eff6ff' : 'transparent'}; color: ${this.currentMacro === 'macro6' ? '#1d4ed8' : '#334155'}; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <button class="btn" onclick="window.ui.setMacro('macro6')" style="width: 100%; justify-content: flex-start; text-align: left; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: 1px solid ${this.currentMacro === 'macro6' ? '#cbd5e1' : 'transparent'}; background: ${this.currentMacro === 'macro6' ? '#f8fafc' : 'transparent'}; color: ${this.currentMacro === 'macro6' ? '#334155' : '#334155'}; cursor: pointer;">
                 6. TI & Organograma
               </button>
 
               <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
                 <div style="background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem; color: #64748b;">
                   <strong>Funda&ccedil;&atilde;o Dr. Jesus</strong><br>
-                  1.240 Acolhidos Ativos<br>
-                  Vers&atilde;o: 2026.1
+                  Capacidade: 1.240 Acolhidos<br>
+                  Status: 100% Homologado
                 </div>
               </div>
             </aside>
 
-            <!-- Main Content Container -->
+            <!-- Main Content Panel -->
             <main style="flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto;">
               ${this.renderMainAreaContent(acolhidos, acolhidoAtual, estoque, refeicoes, financeiro, doacoes, laborterapia, logs)}
             </main>
@@ -148,6 +165,112 @@ class UI {
 
   renderMainAreaContent(acolhidos, acolhidoAtual, estoque, refeicoes, financeiro, doacoes, laborterapia, logs) {
     
+    // HOME LANDING DASHBOARD EXECATIVO
+    if (this.currentMacro === 'home') {
+      return `
+        <div style="max-width: 1080px; margin: 0 auto;">
+          
+          <!-- Banner Principal -->
+          <div class="card" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; padding: 2.25rem; border-radius: 14px; margin-bottom: 2rem; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <span class="badge" style="background: rgba(220,38,38,0.2); color: #fca5a5; border: 1px solid rgba(220,38,38,0.4); margin-bottom: 0.5rem; padding: 4px 12px;">PAINEL EXECUTIVO GLOBAL SGI</span>
+                <h1 style="font-size: 1.85rem; font-weight: 900; margin: 0.25rem 0 0.5rem 0; letter-spacing: -0.02em;">SGI — Funda&ccedil;&atilde;o Doutor Jesus</h1>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin: 0; max-width: 650px;">Sistema de Gest&atilde;o Integrada cobrindo 1.240 acolhidos, 4.000 refei&ccedil;&otilde;es di&aacute;rias, Prontu&aacute;rio ANVISA, Laborterapia 240h e Recursos MROSC SJDH-BA.</p>
+              </div>
+              <button class="btn btn-primary" onclick="window.ui.setMacro('macro1')" style="padding: 12px 24px; font-size: 0.95rem; font-weight: 800; background: #dc2626; color: #fff; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(220,38,38,0.4);">
+                Iniciar Atendimento &raquo;
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Cards Indicadores Executivos -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem;">
+            
+            <div class="card" style="background: #fff; padding: 1.35rem; border-radius: 12px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.ui.setMacro('macro1')">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #2563eb;">1. ACOLHIDOS ATIVOS</span>
+                <span style="font-size: 1.2rem;">👥</span>
+              </div>
+              <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin: 0;">1.240</h2>
+              <span style="font-size: 0.75rem; color: #10b981; font-weight: 600;">25 em Triagem | Leitos 100%</span>
+            </div>
+
+            <div class="card" style="background: #fff; padding: 1.35rem; border-radius: 12px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.ui.setMacro('macro2')">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #d97706;">2. REFEI&Ccedil;&Otilde;ES / DIA</span>
+                <span style="font-size: 1.2rem;">🍲</span>
+              </div>
+              <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin: 0;">3.720</h2>
+              <span style="font-size: 0.75rem; color: #ea580c; font-weight: 600;">Caf&eacute;, Almo&ccedil;o & Janta</span>
+            </div>
+
+            <div class="card" style="background: #fff; padding: 1.35rem; border-radius: 12px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.ui.setMacro('macro3')">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #0284c7;">3. PRONTU&Aacute;RIO SA&Uacute;DE</span>
+                <span style="font-size: 1.2rem;">🩺</span>
+              </div>
+              <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin: 0;">RDC 29</h2>
+              <span style="font-size: 0.75rem; color: #0284c7; font-weight: 600;">ANVISA & Laborterapia 240h</span>
+            </div>
+
+            <div class="card" style="background: #fff; padding: 1.35rem; border-radius: 12px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.ui.setMacro('macro4')">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #16a34a;">4. SALDO MROSC (BB)</span>
+                <span style="font-size: 1.2rem;">🏦</span>
+              </div>
+              <h2 style="font-size: 1.5rem; font-weight: 900; color: #16a34a; margin: 0;">R$ 485.2k</h2>
+              <span style="font-size: 0.75rem; color: #15803d; font-weight: 600;">Conta BB 14.502-1 Segregada</span>
+            </div>
+
+          </div>
+
+          <!-- Grid dos 6 Macromódulos -->
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Selecione o Macrom&oacute;dulo para Operar:</h3>
+          
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+            
+            <div class="card" style="background: #fff; border-top: 4px solid #2563eb; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro1')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #1d4ed8; margin: 0 0 0.4rem 0;">1. Gest&atilde;o dos Acolhidos</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Triagem, Leitos Bloco A/B/C, Admiss&atilde;o RDC 29, Crach&aacute;s A4 com QR Code e Quita&ccedil;&atilde;o.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #2563eb;">Acessar M&oacute;dulos 1, 2, 3 e 4 &raquo;</span>
+            </div>
+
+            <div class="card" style="background: #fff; border-top: 4px solid #d97706; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro2')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #b45309; margin: 0 0 0.4rem 0;">2. Almoxarifado & Refei&ccedil;&otilde;es</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Estoque FEFO (Alertas Cr&iacute;ticos), 3.720 Refei&ccedil;&otilde;es/dia para 1.240 Acolhidos e Oficinas FDJ.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #d97706;">Acessar M&oacute;dulos 5, 6, 7 e 8 &raquo;</span>
+            </div>
+
+            <div class="card" style="background: #fff; border-top: 4px solid #0284c7; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro3')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #0369a1; margin: 0 0 0.4rem 0;">3. Sa&uacute;de & Multidisciplinar</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Prontu&aacute;rio 6 sub-abas, Sinais Vitais, Aprazamento Medicamentoso e Laborterapia 240h.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #0284c7;">Acessar M&oacute;dulos 8, 9 & Sa&uacute;de &raquo;</span>
+            </div>
+
+            <div class="card" style="background: #fff; border-top: 4px solid #16a34a; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro4')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #15803d; margin: 0 0 0.4rem 0;">4. Presta&ccedil;&atilde;o de Contas MROSC</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Segrega&ccedil;&atilde;o Banco do Brasil Conta MROSC 14.502-1 SJDH-BA x Caixa Geral Doa&ccedil;&otilde;es e DRE A4.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #16a34a;">Acessar M&oacute;dulos 10 e 11 &raquo;</span>
+            </div>
+
+            <div class="card" style="background: #fff; border-top: 4px solid #9333ea; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro5')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #7e22ce; margin: 0 0 0.4rem 0;">5. Doa&ccedil;&otilde;es & Voluntariado</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Registro de doadores, insumos recebidos, destina&ccedil;&atilde;o interna e pessoas focais FDJ.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #9333ea;">Acessar M&oacute;dulo 12 &raquo;</span>
+            </div>
+
+            <div class="card" style="background: #fff; border-top: 4px solid #475569; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; border-top-width: 4px; cursor: pointer;" onclick="window.ui.setMacro('macro6')">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: #334155; margin: 0 0 0.4rem 0;">6. TI & Organograma</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 1rem 0;">Administra&ccedil;&atilde;o do sistema, perfis de acesso, logs de auditoria e organograma.</p>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">Acessar M&oacute;dulo 13 &raquo;</span>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
     // MACROMÓDULO 1: GESTÃO DOS ACOLHIDOS (Módulos 1, 2, 3, 4)
     if (this.currentMacro === 'macro1') {
       return `
@@ -237,7 +360,6 @@ class UI {
             <p style="color: #64748b; font-size: 0.85rem; margin: 4px 0 0 0;">Controle de Estoque FEFO, Alertas Cr&iacute;ticos, 3.720 Refei&ccedil;&otilde;es Di&aacute;rias e Oficinas FDJ</p>
           </div>
 
-          <!-- Cards resumo -->
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
             <div class="card" style="background: #fff8f1; border: 1px solid #ffedd5; padding: 1.25rem; border-radius: 10px;">
               <span style="font-size: 0.75rem; font-weight: 700; color: #c2410c;">M&Oacute;DULO 5: ESTOQUE FEFO</span>
@@ -256,7 +378,6 @@ class UI {
             </div>
           </div>
 
-          <!-- Tabela Estoque FEFO -->
           <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">M&oacute;dulo 5: Tabela de Controle de Estoque FEFO</h3>
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
@@ -306,7 +427,6 @@ class UI {
             </button>
           </div>
 
-          <!-- Saldos Segregados -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
             <div class="card" style="background: #f0fdf4; border: 2px solid #bbf7d0; padding: 1.5rem; border-radius: 12px;">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
@@ -327,7 +447,6 @@ class UI {
             </div>
           </div>
 
-          <!-- Lançamentos Conciliados -->
           <div class="table-container card" style="background: #fff; padding: 1.5rem; border-radius: 10px; border: 1px solid #e2e8f0;">
             <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">M&oacute;dulo 10 & 11: Extrato de Lan&ccedil;amentos & Concilia&ccedil;&atilde;o MROSC</h3>
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
